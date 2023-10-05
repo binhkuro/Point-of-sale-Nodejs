@@ -1,0 +1,74 @@
+<div class="container">
+    <h2>Thông tin cá nhân</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Avatar -->
+            <img src="{{ avatarURL }}" alt="Avatar" class="img-fluid rounded-circle">
+        </div>
+        <div class="col-md-8">
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" class="form-control" value="{{ email }}" readonly>
+            </div>
+            <!-- Tên người dùng -->
+            <div class="form-group">
+                <label for="username">Tên người dùng:</label>
+                <input type="text" id="username" name="username" class="form-control" value="{{ username }}" readonly>
+            </div>
+            <!-- Mật khẩu (ẩn) -->
+            <div class="form-group">
+                <label for="password">Mật khẩu:</label>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" class="form-control" value="********" readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="showPasswordBtn">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Giới tính -->
+            <div class="form-group form-inline">
+                <label>Giới tính:</label>
+                <div class="form-check mx-2">
+                    <input type="radio" class="form-check-input" id="male" name="gender" value="Nam" disabled>
+                    <label class="form-check-label" for="male">Nam</label>
+                </div>
+                <div class="form-check mx-2">
+                    <input type="radio" class="form-check-input" id="female" name="gender" value="Nữ" disabled>
+                    <label class="form-check-label" for="female">Nữ</label>
+                </div>
+                <div class="form-check mx-2">
+                    <input type="radio" class="form-check-input" id="other" name="gender" value="Khác" disabled>
+                    <label class="form-check-label" for="other">Khác</label>
+                </div>
+            </div>
+            <!-- Số điện thoại -->
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" id="phone" name="phone" class="form-control" value="{{ phone }}" readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Xử lý hiển thị hoặc ẩn mật khẩu
+        $('#showPasswordBtn').on('click', function () {
+            var passwordInput = $('#password');
+            var icon = $(this).find('i');
+
+            if (passwordInput.attr('type') === 'password') {
+                passwordInput.attr('type', 'text');
+                icon.removeClass('fa-eye');
+                icon.addClass('fa-eye-slash');
+            } else {
+                passwordInput.attr('type', 'password');
+                icon.removeClass('fa-eye-slash');
+                icon.addClass('fa-eye');
+            }
+        });
+    });
+</script>

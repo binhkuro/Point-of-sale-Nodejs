@@ -16,6 +16,62 @@
     <script src="https://kit.fontawesome.com/a3e7be1751.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm sản phẩm bạn mong muốn" aria-label="Search" style="width: 350px;">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            <!-- Di chuyển phần tìm kiếm lên và đặt nó bên phải -->
+            <form class="form-inline my-2 my-lg-0 ml-auto">
+                <!-- Thêm liên kết cho Login và Signup -->
+                <a class="btn btn-outline-primary my-2 my-sm-0 ml-2" href="#">Login</a>
+                <a class="btn btn-outline-primary my-2 my-sm-0 ml-2" href="#">Signup</a>
+            </form>
+        </div>
+    </nav>
     {{{body}}}
+
+    {{!-- <footer class="bg-dark text-light text-center py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    &copy; 2023 Cửa hàng điện thoại di động. Tất cả các quyền được bảo lưu.
+                </div>
+            </div>
+        </div>
+    </footer> --}}
 </body>
 </html>

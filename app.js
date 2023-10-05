@@ -6,6 +6,10 @@ let cookieParser = require('cookie-parser'); // cookie
 let hbs = require('express-handlebars') 
 let session = require('express-session'); // session
 let flash = require('connect-flash'); // flash message
+let homeController = require('./controllers/HomeController');
+let detailController = require('./controllers/DetailController');
+let profileController = require('./controllers/ProfileController');
+let changepasswordController = require('./controllers/ChangePasswordController')
 
 // Import các module controller
 // ...
@@ -37,7 +41,19 @@ app.set('view engine', 'handlebars')
 
 // Điều hướng navigation
 app.get("/", (req, res) => {
-    res.render("index")
+    homeController.getHomePage(req, res);
+})
+
+app.get("/profile", (req, res) => {
+    profileController.getProfilePage(req, res);
+})
+
+app.get("/change-password", (req, res) => {
+    changepasswordController.getChangePasswordPage(req, res);
+})
+
+app.get("/detail", (req, res) => {
+    detailController.getDetailPage(req, res);
 })
 
 // Middle ware 404 error
