@@ -14,6 +14,11 @@ let profileController = require('./controllers/ProfileController');
 let changepasswordController = require('./controllers/ChangePasswordController')
 let accountController = require('./controllers/AccountController')
 let productController = require('./controllers/ProductController')
+let loginController = require('./controllers/LogindController')
+let signupController = require('./controllers/SignUpController')
+
+// Import các module controller
+// ...
 
 // Lấy dữ liệu từ file .env ra
 const PORT = process.env.PORT;
@@ -65,6 +70,13 @@ app.get("/product-management", (req, res) => {
     productController.getProductManagementPage(req, res);
 })
 
+app.get("/login", (req, res) => {
+    loginController.getLoginPage(req, res);
+})
+
+app.get("/signup", (req, res) => {
+    signupController.getSignUpPage(req, res);
+})
 
 // Middle ware 404 error
 app.use((req, res) => {

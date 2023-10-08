@@ -1,0 +1,57 @@
+<div class="container">
+    <h2>Sign Up</h2>
+    {{#if errorMessage}}
+        <div class="alert alert-danger" role="alert">{{errorMessage}}</div>
+    {{/if}}
+    {{#if successMessage}}
+        <div class="alert alert-success" role="alert">{{successMessage}}</div>
+    {{/if}}
+    <form method="POST" action="/signup">
+        <div class="form-group">
+        <label for="img">Chọn ảnh đại diện</label>
+        <input type="file" class="form-control" id="img" name="img" class="text-hide">
+        </div>
+        <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+        </div>
+        <div class="form-group">
+        <label for="name">Họ tên</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Nhập họ tên" required>
+        </div>
+        <div class="form-group form-inline">
+            <label>Giới tính:</label>
+            <div class="form-check mx-2">
+                <input type="radio" class="form-check-input" id="male" name="gender" value="Nam">
+                <label class="form-check-label" for="male">Nam</label>
+            </div>
+            <div class="form-check mx-2">
+                <input type="radio" class="form-check-input" id="female" name="gender" value="Nữ">
+                <label class="form-check-label" for="female">Nữ</label>
+            </div>
+            <div class="form-check mx-2">
+                <input type="radio" class="form-check-input" id="other" name="gender" value="Khác">
+                <label class="form-check-label" for="other">Khác</label>
+            </div>
+        </div>
+        <div class="form-group">
+        <label for="phone">Số điện thoại</label>
+        <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+        </div>
+        <div class="form-group">
+        <label for="account">Tài khoản</label>
+        <input type="text" class="form-control" id="account" name="account" placeholder="Nhập tài khoản" required>
+        </div>
+        <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu" required>
+        </div>
+        <div class="form-group">
+        <label for="password">Nhập lại mật khẩu</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Nhập lại mật khẩu" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Đăng ký</button>
+        <p>Bạn đã có tài khoản <a href="/login">Đăng nhập</a></p> 
+        </div>
+    </form>
+</div>
