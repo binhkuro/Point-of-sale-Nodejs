@@ -6,13 +6,14 @@ let cookieParser = require('cookie-parser'); // cookie
 let hbs = require('express-handlebars') 
 let session = require('express-session'); // session
 let flash = require('connect-flash'); // flash message
+
+// Import các module controller
 let homeController = require('./controllers/HomeController');
 let detailController = require('./controllers/DetailController');
 let profileController = require('./controllers/ProfileController');
 let changepasswordController = require('./controllers/ChangePasswordController')
-
-// Import các module controller
-// ...
+let accountController = require('./controllers/AccountController')
+let productController = require('./controllers/ProductController')
 
 // Lấy dữ liệu từ file .env ra
 const PORT = process.env.PORT;
@@ -55,6 +56,15 @@ app.get("/change-password", (req, res) => {
 app.get("/detail", (req, res) => {
     detailController.getDetailPage(req, res);
 })
+
+app.get("/account-management", (req, res) => {
+    accountController.getAccountManagementPage(req, res);
+})
+
+app.get("/product-management", (req, res) => {
+    productController.getProductManagementPage(req, res);
+})
+
 
 // Middle ware 404 error
 app.use((req, res) => {
