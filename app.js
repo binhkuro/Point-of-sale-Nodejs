@@ -10,6 +10,8 @@ let homeController = require('./controllers/HomeController');
 let detailController = require('./controllers/DetailController');
 let profileController = require('./controllers/ProfileController');
 let changepasswordController = require('./controllers/ChangePasswordController')
+let loginController = require('./controllers/LogindController')
+let signupController = require('./controllers/SignUpController')
 
 // Import các module controller
 // ...
@@ -54,6 +56,14 @@ app.get("/change-password", (req, res) => {
 
 app.get("/detail", (req, res) => {
     detailController.getDetailPage(req, res);
+})
+
+app.get("/login", (req, res) => {
+    loginController.getLoginPage(req, res);
+})
+
+app.get("/signup", (req, res) => {
+    signupController.getSignUpPage(req, res);
 })
 
 // Middle ware 404 error
