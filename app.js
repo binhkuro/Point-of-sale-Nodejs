@@ -14,8 +14,11 @@ let profileController = require('./controllers/ProfileController');
 let changepasswordController = require('./controllers/ChangePasswordController')
 let accountController = require('./controllers/AccountController')
 let productController = require('./controllers/ProductController')
-let loginController = require('./controllers/LogindController')
+let loginController = require('./controllers/LoginController')
 let signupController = require('./controllers/SignUpController')
+let staffPaymentController = require('./controllers/StaffPaymentController')
+let paymentHistoryController = require('./controllers/PaymentHistoryController')
+let detailOrderController = require('./controllers/DetailOrderController')
 
 // Import các module controller
 // ...
@@ -48,6 +51,18 @@ app.set('view engine', 'handlebars')
 // Điều hướng navigation
 app.get("/", (req, res) => {
     homeController.getHomePage(req, res);
+})
+
+app.get("/staff-payment", (req, res) => {
+    staffPaymentController.getStaffPaymentPage(req, res);
+})
+
+app.get("/payment-history", (req, res) => {
+    paymentHistoryController.getPaymentHistoryPage(req, res);
+})
+
+app.get("/detail-order", (req, res) => {
+    detailOrderController.getDetailOrderPage(req, res);
 })
 
 app.get("/profile", (req, res) => {

@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Sign Up</h2>
+    <h2>Đăng ký</h2>
     {{#if errorMessage}}
         <div class="alert alert-danger" role="alert">{{errorMessage}}</div>
     {{/if}}
@@ -8,16 +8,16 @@
     {{/if}}
     <form method="POST" action="/signup">
         <div class="form-group">
-        <label for="img">Chọn ảnh đại diện</label>
-        <input type="file" class="form-control" id="img" name="img" class="text-hide">
+            <label for="img">Chọn ảnh đại diện</label>
+            <input type="file" class="form-control-file" id="img" name="img">
         </div>
         <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required>
         </div>
         <div class="form-group">
-        <label for="name">Họ tên</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Nhập họ tên" required>
+            <label for="name">Họ tên</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập họ tên" required>
         </div>
         <div class="form-group form-inline">
             <label>Giới tính:</label>
@@ -35,23 +35,22 @@
             </div>
         </div>
         <div class="form-group">
-        <label for="phone">Số điện thoại</label>
-        <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+            <label for="phone">Số điện thoại</label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
         </div>
         <div class="form-group">
-        <label for="account">Tài khoản</label>
-        <input type="text" class="form-control" id="account" name="account" placeholder="Nhập tài khoản" required>
+            <label for="account">Tài khoản</label>
+            <input type="text" class="form-control" id="account" name="account" placeholder="Nhập tài khoản" required>
         </div>
         <div class="form-group">
-        <label for="password">Mật khẩu</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu" required>
+            <label for="password">Mật khẩu</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu" required>
         </div>
         <div class="form-group">
-        <label for="password">Nhập lại mật khẩu</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Nhập lại mật khẩu" required>
+            <label for="password-confirm">Nhập lại mật khẩu</label>
+            <input type="password" class="form-control" id="password-confirm" name="password-confirm" placeholder="Nhập lại mật khẩu" required>
         </div>
         <button type="submit" class="btn btn-primary">Đăng ký</button>
-        <p>Bạn đã có tài khoản <a href="/login">Đăng nhập</a></p> 
-        </div>
+        <p>Bạn đã có tài khoản? <a href="/login">Đăng nhập</a></p>
     </form>
 </div>
