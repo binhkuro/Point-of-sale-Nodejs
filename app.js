@@ -19,6 +19,7 @@ let signupController = require('./controllers/SignUpController')
 let staffPaymentController = require('./controllers/StaffPaymentController')
 let paymentHistoryController = require('./controllers/PaymentHistoryController')
 let detailOrderController = require('./controllers/DetailOrderController')
+let productPaymentController = require('./controllers/ProductPaymentController')
 
 // Import các module controller
 // ...
@@ -51,6 +52,10 @@ app.set('view engine', 'handlebars')
 // Điều hướng navigation
 app.get("/", (req, res) => {
     homeController.getHomePage(req, res);
+})
+
+app.get("/product-payment", (req, res) => {
+    productPaymentController.getProductPaymentPage(req, res);
 })
 
 app.get("/staff-payment", (req, res) => {

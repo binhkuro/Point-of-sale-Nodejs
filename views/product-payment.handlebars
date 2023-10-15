@@ -1,0 +1,83 @@
+<form method="POST" action="/product-payment"></form>
+    <div class="container">
+        <h2>Thanh toán</h2>
+        <div class="">
+            <div class="form-group">
+                <input type="search" id="mySearch" placeholder="Nhập tên hoặc barcode" class="form-control">
+            </div>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Tổng tiền</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Iphone 15 Pro</td>
+                        <td>5</td>
+                        <td>30</td>
+                        <td>150</td>
+                        <td>
+                            <button onclick="deleteProduct()" class="btn btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Iphone 14 Pro</td>
+                        <td>5</td>
+                        <td>30</td>
+                        <td>150</td>
+                        <td>
+                            <button class="btn btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Iphone 13 Pro</td>
+                        <td>5</td>
+                        <td>30</td>
+                        <td>150</td>
+                        <td>
+                            <button class="btn btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-left: 90%;">Thanh toán</button>
+    </div>
+</form>
+
+{{!-- Modal xác nhận xóa sản phẩm --}}
+<div class="modal fade" id="modalDelete">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">XÓA SẢN PHẨM</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Xác nhận xóa sản phẩm...
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Xóa</button>
+        </div>
+        
+      </div>
+    </div>
+</div>
+{{! -- Mượn productManagement test xóa --}}
+<script src="/js/productManagement.js"></script>
