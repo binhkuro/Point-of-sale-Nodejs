@@ -9,7 +9,6 @@ let flash = require('connect-flash'); // flash message
 
 // Import các module controller
 let homeController = require('./controllers/HomeController');
-let detailController = require('./controllers/DetailController');
 let profileController = require('./controllers/ProfileController');
 let changepasswordController = require('./controllers/ChangePasswordController')
 let accountController = require('./controllers/AccountController')
@@ -20,6 +19,7 @@ let staffPaymentController = require('./controllers/StaffPaymentController')
 let paymentHistoryController = require('./controllers/PaymentHistoryController')
 let detailOrderController = require('./controllers/DetailOrderController')
 let productPaymentController = require('./controllers/ProductPaymentController')
+let invoiceController = require('./controllers/InvoiceController')
 
 // Import các module controller
 // ...
@@ -78,10 +78,6 @@ app.get("/change-password", (req, res) => {
     changepasswordController.getChangePasswordPage(req, res);
 })
 
-app.get("/detail", (req, res) => {
-    detailController.getDetailPage(req, res);
-})
-
 app.get("/account-management", (req, res) => {
     accountController.getAccountManagementPage(req, res);
 })
@@ -96,6 +92,10 @@ app.get("/login", (req, res) => {
 
 app.get("/signup", (req, res) => {
     signupController.getSignUpPage(req, res);
+})
+
+app.get("/invoice", (req, res) => {
+    invoiceController.getInvoicePage(req, res);
 })
 
 // Middle ware 404 error

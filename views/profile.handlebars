@@ -3,13 +3,13 @@
     <div class="row">
         <div class="col-md-4">
             <!-- Avatar -->
-            <img src="{{ avatarURL }}" alt="Avatar" class="img-fluid rounded-circle">
+            <img src="/img/default-avatar.png" alt="Avatar" class="img-fluid rounded-circle">
         </div>
         <div class="col-md-8">
             <!-- Email -->
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" id="email" name="email" class="form-control" value="{{ email }}" readonly>
+                <input type="email" id="email" name="email" class="form-control" value="{{ email }}" readonly>
             </div>
             <!-- Tên người dùng -->
             <div class="form-group">
@@ -47,10 +47,8 @@
             <!-- Số điện thoại -->
             <div class="form-group">
                 <label for="phone">Số điện thoại:</label>
-                <input type="text" id="phone" name="phone" class="form-control" value="{{ phone }}" readonly>
+                <input type="text" id="phone" name="phone" class="form-control" value="{{ phone }}" readonly maxlength="10">
             </div>
-            <!-- Button "Chỉnh sửa" -->
-            <button class="btn btn-info" id="edit" type="button">Chỉnh sửa</button>
         </div>
     </div>
 </div>

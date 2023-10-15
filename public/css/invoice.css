@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh
+}
+
+#bill {
+    background-color: #eeeeee;
+}
+
+input {
+    outline: none;
+    border: none;
+    background-color: #eeeeee;
+}

@@ -1,6 +1,7 @@
-<form method="POST" action="/staff-payment">
-    <div class="container">
-        <h2>Quản lý khách hàng</h2>
+<div class="container-fluid">
+    <h2>Quản lý khách hàng</h2>
+
+    <form method="POST" action="/staff-payment">
         <div class="row">
             <div class="col-md-8">
                 <!-- Số điện thoại -->
@@ -39,7 +40,7 @@
                     <input type="file" class="form-control-file" id="img" name="img">
                 </div>
                 <!-- Button "Thêm" -->
-                <button class="btn btn-warning" id="payment" type="button">Thêm</button>
+                <input class="btn btn-warning" id="payment" type="submit" value="Thêm">
             </div>
             <div class="col-md-4">
                 <div class="col-md-4">
@@ -47,39 +48,36 @@
                     <img src="{{ avatarURL }}" alt="Avatar" class="img-fluid rounded-circle">
                 </div>
             </div>
-            <div class="row">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Giới tính</th>
-                            <th>Số điện thoại</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td>Trần Thị B</td>
-                            <td>tran.thi.b@example.com</td>
-                            <td>Nữ</td>
-                            <td>0987654321</td>
-                            <td>
-                                <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal">Cập nhật</button>
-                                <button class="btn btn-danger">Xóa</button>
-                                <button class="btn btn-danger"><a href="/payment-history" style="color: white; text-decoration: none;">Xem lịch sử mua hàng</a></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>    
         </div>
+    </form>
 
-        
-    </div>
-</form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>Giới tính</th>
+                <th>Số điện thoại</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2</td>
+                <td>Trần Thị B</td>
+                <td>tran.thi.b@example.com</td>
+                <td>Nữ</td>
+                <td>0987654321</td>
+                <td>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal">Cập nhật</button>
+                    <button class="btn btn-danger">Xóa</button>
+                    <button class="btn btn-danger"><a href="/payment-history" style="color: white; text-decoration: none;">Xem lịch sử mua hàng</a></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
