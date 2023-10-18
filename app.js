@@ -1,5 +1,6 @@
 // Import các package
 let express = require('express')
+let bodyParser = require("body-parser");
 let mongoose = require("mongoose"); // giúp tương tác database
 require("dotenv").config(); // giúp tương tác file .env
 let cookieParser = require('cookie-parser'); // cookie
@@ -20,6 +21,7 @@ let paymentHistoryController = require('./controllers/PaymentHistoryController')
 let detailOrderController = require('./controllers/DetailOrderController')
 let productPaymentController = require('./controllers/ProductPaymentController')
 let invoiceController = require('./controllers/InvoiceController')
+let linkValidateLoginController = require('./controllers/LinkValidateLoginController')
 
 // Import các module controller
 // ...
@@ -93,6 +95,8 @@ app.get("/login", (req, res) => {
 app.get("/signup", (req, res) => {
     signupController.getSignUpPage(req, res);
 })
+
+app.post("/signup", linkValidateLoginController.sendLinkLogin);
 
 app.get("/invoice", (req, res) => {
     invoiceController.getInvoicePage(req, res);

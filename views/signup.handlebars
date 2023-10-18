@@ -1,11 +1,5 @@
 <div class="container">
     <h2>Đăng ký</h2>
-    {{#if errorMessage}}
-        <div class="alert alert-danger" role="alert">{{errorMessage}}</div>
-    {{/if}}
-    {{#if successMessage}}
-        <div class="alert alert-success" role="alert">{{successMessage}}</div>
-    {{/if}}
     <form method="POST" action="/signup">
         <div class="form-group">
             <label for="img">Chọn ảnh đại diện</label>
@@ -50,7 +44,23 @@
             <label for="password-confirm">Nhập lại mật khẩu</label>
             <input type="password" class="form-control" id="password-confirm" name="password-confirm" placeholder="Nhập lại mật khẩu" required>
         </div>
-        <button type="submit" class="btn btn-primary">Đăng ký</button>
+        <button type="submit" class="btn btn-primary" id="signup">Đăng ký</button>
         <p>Bạn đã có tài khoản? <a href="/login">Đăng nhập</a></p>
     </form>
+
+    {{#if message}}
+        <div class="alert alert-success">{{message}}</div>
+    {{/if}}
+
+    {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+    {{/if}}
 </div>
+
+<script>
+    setTimeout(function() {
+        document.querySelectorAll('.alert-success, .alert-danger').forEach(function(element) {
+            element.style.display = 'none';
+        });
+    }, 3000); // Thời gian 3 giây (3000 ms)
+</script>
