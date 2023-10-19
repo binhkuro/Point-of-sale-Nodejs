@@ -9,7 +9,7 @@ function deleteProduct() {
 function detailProduct(image, barcode, name, catalog, importPrice, salePrice, creationDate) {
     $("#modalDetailProductTitle").html('Thông tin sản phẩm ' + name);
 
-    $("#modalDetailProductImage").attr('src', '/uploads/' + image);
+    $("#modalDetailProductImage").attr('src', '/uploads/products/' + image);
     $("#modalDetailProductBarcode").html('<b>BARCODE: </b>' + barcode);
     $("#modalDetailProductName").html('<b>Tên sản phẩm: </b>' + name);
     $("#modalDetailProductCatalog").html('<b>Danh mục: </b>' + catalog);

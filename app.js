@@ -21,9 +21,6 @@ let detailOrderController = require('./controllers/DetailOrderController')
 let productPaymentController = require('./controllers/ProductPaymentController')
 let invoiceController = require('./controllers/InvoiceController')
 
-// Import các module controller
-// ...
-
 // Lấy dữ liệu từ file .env ra
 const PORT = process.env.PORT;
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
@@ -71,7 +68,7 @@ app.get("/detail-order", (req, res) => {
 })
 
 app.get("/profile", (req, res) => {
-    profileController.getProfilePage(req, res);
+    accountController.getProfilePage(req, res);
 })
 
 app.get("/change-password", (req, res) => {
@@ -98,6 +95,18 @@ app.get("/invoice", (req, res) => {
     invoiceController.getInvoicePage(req, res);
 })
 
+app.post("/signup", (req, res) => {
+    accountController.addAccount(req, res);
+})
+
+app.post("/profile", (req, res) => {
+    accountController.changeProfilePicture(req, res);
+})
+
+app.post("/login", (req, res) => {
+    accountController.findAccount(req, res);
+})
+
 // Middle ware 404 error
 app.use((req, res) => {
     res.status(404) 
@@ -111,17 +120,15 @@ app.use((err, req, res, next) => {
     res.render('500')
 })
 
-app.listen(PORT); // Tạo server trên cổng 8080
-
-// // Kết nối tới database ()
-// mongoose.connect(CONNECTION_STRING, { 
-//     useNewUrlParser: true, 
-//     useUnifiedTopology: true 
-// })
-// .then(() => {
-//     console.log('Database connected');
-//     app.listen(PORT); // Tạo server trên cổng 8080
-// })
-// .catch((error) => {
-//     console.log('Error connecting to database');
-// });
+// Kết nối tới database ()
+mongoose.connect(CONNECTION_STRING, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+})
+.then(() => {
+    console.log('Database connected');
+    app.listen(PORT); // Tạo server trên cổng 8080
+})
+.catch((error) => {
+    console.log('Error connecting to database');
+});
