@@ -1,20 +1,25 @@
-let mongoose = require("mongoose");
 let Account = require("../models/account");
+let mailController = require('./MailController')
 
 function getAccountManagementPage(req, res) {
     res.render('accountManagement');
 }
 
 // Đăng ký
-function addAccount(req, res) {
+async function addAccount(req, res) {
     // Kiểm tra tính hợp lệ của dữ liệu
     if(req.body.email === "" || req.body.fullname === "") {
         req.flash("error", "Vui lòng không bỏ trống thông tin");
         return res.render("signup", {error: req.flash("error"), email: req.body.email, fullname: req.body.fullname});
     }
         
-    if(!isEmail(req.body.email)) {
+    if(!mailController.isEmail(req.body.email)) {
         req.flash("error", "Email không hợp lệ");
+        return res.render("signup", {error: req.flash("error"), email: req.body.email, fullname: req.body.fullname});
+    }
+
+    if((await mailController.checkEmailExistence(req.body.email)) === false) {
+        req.flash("error", "Địa chỉ email không tồn tại");
         return res.render("signup", {error: req.flash("error"), email: req.body.email, fullname: req.body.fullname});
     }
 
@@ -30,7 +35,12 @@ function addAccount(req, res) {
 
     account.save()
     .then(newAccount => {
-        req.flash("success", "Đăng ký tài khoản thành công");
+        // Gửi email
+        let subject = "Xác thực tài khoản";
+        let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+        mailController.sendMail(req.body.email, subject, content);
+                    
+        req.flash("success", "Đăng ký tài khoản thành công. Vui lòng kiểm tra email của bạn.");
         res.render("signup", {success: req.flash("success")});
     })
     .catch(error => {
@@ -82,11 +92,6 @@ function getProfilePage(req, res) {
 // Cập nhật avatar
 function changeProfilePicture(req, res) {
 
-}
-
-function isEmail(email) {
-    const regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-    return regex.test(email);
 }
 
 module.exports = {
