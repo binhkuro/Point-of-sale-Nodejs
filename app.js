@@ -38,8 +38,6 @@ app.use(session({ // session
     saveUninitialized: true,
 }));
 app.use(flash()) // flash message
-let multiparty = require('multiparty') // upload file
-let fsx = require('fs-extra'); // upload file
 app.engine('handlebars', hbs.engine({
     defaultLayout: 'main', 
                            
@@ -68,22 +66,37 @@ app.get("/detail-order", (req, res) => {
 })
 
 app.get("/profile", (req, res) => {
+    if(!req.session.email)
+        return res.redirect("/login");
+
     accountController.getProfilePage(req, res);
 })
 
 app.get("/change-password", (req, res) => {
+    if(!req.session.email)
+        return res.redirect("/login");
+
     changepasswordController.getChangePasswordPage(req, res);
 })
 
 app.get("/account-management", (req, res) => {
+    if(!req.session.email || req.session.email !== "admin@gmail.com")
+        return res.redirect("/login");
+
     accountController.getAccountManagementPage(req, res);
 })
 
 app.get("/product-management", (req, res) => {
+    if(!req.session.email || req.session.email !== "admin@gmail.com")
+        return res.redirect("/login");
+
     productController.getProductManagementPage(req, res);
 })
 
 app.get("/login", (req, res) => {
+    if(req.session.email)
+        delete req.session.email;    
+
     loginController.getLoginPage(req, res);
 })
 
@@ -107,6 +120,10 @@ app.post("/login", (req, res) => {
     accountController.findAccount(req, res);
 })
 
+app.put("/change-password", (req, res) => {
+    accountController.changePassword(req, res);
+})
+
 // Middle ware 404 error
 app.use((req, res) => {
     res.status(404) 
@@ -126,7 +143,10 @@ mongoose.connect(CONNECTION_STRING, {
     useUnifiedTopology: true 
 })
 .then(() => {
+    accountController.initData();
+
     console.log('Database connected');
+
     app.listen(PORT); // Tạo server trên cổng 8080
 })
 .catch((error) => {

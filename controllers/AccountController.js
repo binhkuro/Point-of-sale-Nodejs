@@ -1,5 +1,8 @@
 let Account = require("../models/account");
 let mailController = require('./MailController')
+let multiparty = require('multiparty') // upload file
+let fsx = require('fs-extra'); // upload file
+const path = require('path');
 
 function getAccountManagementPage(req, res) {
     res.render('accountManagement');
@@ -85,13 +88,126 @@ function getProfilePage(req, res) {
         email: req.session.email,
     })
     .then(account => {
-        res.render("profile", {email: account.email, fullname: account.fullname, profilePicture: account.profilePicture})
+        let options = {
+            email: account.email, 
+            fullname: account.fullname, 
+            profilePicture: account.profilePicture, 
+            success: req.flash("success"), 
+            error: req.flash("error")
+        };
+
+        res.render("profile", options)
     })
 }
 
 // Cập nhật avatar
 function changeProfilePicture(req, res) {
+    let form = new multiparty.Form()
 
+    form.parse(req, (error, data, files) => {
+        if (error) {
+            req.flash("error", "Thay đổi ảnh thất bại.")
+            return res.redirect('profile')
+        }
+        
+        let file = files.file[0];
+        
+        // Validate file
+        if(file.size > 1048576) {
+            req.flash("error", "Không chấp nhận ảnh có kích thước lớn hơn 1MB.")
+            return res.redirect('profile')
+        }
+
+        // Đổi tên file là username + extension
+        let newFileName = (req.session.email).split("@")[0] + path.extname(file.originalFilename);
+
+        // Lưu file đã được upload vào server
+        let tempPath = file.path;
+        let savePath = path.join(__dirname, "../public/uploads/avatars/", newFileName);
+
+        fsx.copy(tempPath, savePath, (err) => {
+            if (err) {
+                req.flash("error", "Thay đổi ảnh thất bại.")
+                return res.redirect('profile')
+            }
+        });
+
+        // Cập nhật lại giá trị của profilePicture trong database    
+        Account.updateOne({email: req.session.email}, {$set: {profilePicture: newFileName}}, { new: true })
+        .then(updatedAccount => {
+            if (!updatedAccount) 
+                req.flash("error", "Thay đổi ảnh thất bại.")
+            else 
+                req.flash("success", "Thay đổi ảnh thành công.")
+                
+            res.redirect('profile')
+        })
+        .catch(error => {
+            req.flash("error", "Thay đổi ảnh thất bại.")
+            res.redirect('profile')
+        });
+    })
+}
+
+// Đổi mật khẩu
+function changePassword(req, res) {
+    Account.findOne({
+        email: req.session.email,
+    })
+    .then(async account => {
+        let currentPassword = req.body.currentPassword;
+        let newPassword = req.body.newPassword;
+        let confirmPassword = req.body.confirmPassword;
+
+        if(currentPassword === "" || newPassword === "" || confirmPassword === "")
+            req.flash("error", "Vui lòng không bỏ trống thông tin")
+        else if(currentPassword !== account.password)
+            req.flash("error", "Mật khẩu hiện tại không chính xác");
+        else if(newPassword !== confirmPassword)
+            req.flash("error", "Nhập lại mật khẩu mới không chính xác");
+        else {
+            // Cập nhật lại mật khẩu mới trong database    
+            await Account.updateOne({email: req.session.email}, {$set: {password: newPassword}}, { new: true })
+            .then(updatedAccount => {
+                if (!updatedAccount) 
+                    req.flash("error", "Đổi mật khẩu thất bại.")
+                else 
+                    req.flash("success", "Đổi mật khẩu thành công. Vui lòng đăng nhập lại."); 
+            })
+            .catch(error => {
+                req.flash("error", "Đổi mật khẩu thất bại.")
+            });
+        }
+            
+        let options = {
+            currentPassword: currentPassword, 
+            newPassword: newPassword, 
+            confirmPassword: confirmPassword, 
+            error: req.flash("error"),
+            success: req.flash("success")
+        };
+    
+        res.json(options)
+    })
+}
+
+// Khởi tạo 1 số dữ liệu mẫu để chạy chương trình
+async function initData() {
+    // Trước khi khởi tạo dữ liệu mẫu thì ta cần xóa các dữ liệu hiện có
+    await Account.deleteMany()
+
+    // Tài khoản admin
+    let account = new Account({
+        email: "admin@gmail.com", 
+        password: "admin",
+        fullname: "Administrator",
+        profilePicture: "default-avatar.png",
+        activateStatus: 1,
+        isNewUser: 0,
+        lockedStatus: 0
+    });
+
+    await account.save()
 }
 
 module.exports = {
@@ -99,5 +215,7 @@ module.exports = {
     addAccount,
     getProfilePage,
     changeProfilePicture,
-    findAccount
+    findAccount,
+    changePassword,
+    initData
 };

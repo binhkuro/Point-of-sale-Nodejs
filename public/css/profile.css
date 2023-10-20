@@ -1,0 +1,26 @@
+.image-container img {
+    height: 300px;
+}
+
+#email, #fullname {
+    cursor: not-allowed;
+}
+
+/* Khi hover lên bức ảnh thì hiện button thay đổi ảnh */
+#btnChooseFile {
+    display: none;
+}
+
+.image-container {
+    position: relative;
+}
+
+.image-container:hover #btnChooseFile {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
