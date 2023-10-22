@@ -4,8 +4,19 @@ let multiparty = require('multiparty') // upload file
 let fsx = require('fs-extra'); // upload file
 const path = require('path');
 
+//Load user lên trang quản lí mà chưa lên
 function getAccountManagementPage(req, res) {
-    res.render('accountManagement');
+    Account.find({})
+    .then(account => {
+        let options = {
+            fullname: account.fullname, 
+            profilePicture: account.profilePicture, 
+            lockedStatus: account.lockedStatus,
+            success: req.flash("success"), 
+            error: req.flash("error")
+        };
+    res.render('accountManagement',options);
+    })
 }
 
 // Đăng ký
