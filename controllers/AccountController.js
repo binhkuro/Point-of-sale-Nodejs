@@ -4,18 +4,14 @@ let multiparty = require('multiparty') // upload file
 let fsx = require('fs-extra'); // upload file
 const path = require('path');
 
-//Load user lên trang quản lí mà chưa lên
+// Load user lên trang quản lí
 function getAccountManagementPage(req, res) {
-    Account.find({})
-    .then(account => {
-        let options = {
-            fullname: account.fullname, 
-            profilePicture: account.profilePicture, 
-            lockedStatus: account.lockedStatus,
-            success: req.flash("success"), 
-            error: req.flash("error")
-        };
-    res.render('accountManagement',options);
+    Account.find()
+    .lean() // convert Mongoose Object Array thành Javascript Object Array
+    .then(accounts => {
+        // Lọc ra các account mà không phải là admin
+        let accountsNotAdmin = accounts.filter(a => a.email !== "admin@gmail.com");
+        res.render('accountManagement', {accounts: accountsNotAdmin});
     })
 }
 
