@@ -217,10 +217,20 @@ async function initData() {
     await account.save()
 }
 
+//Load profile user theo id tại trang quản lí
+function getProfileIDPage(req, res) {
+    Account.findById(req.params.id)
+    .then(accounts => {
+        res.render("profileid", accounts)
+    })
+    
+}
+
 module.exports = {
     getAccountManagementPage,
     addAccount,
     getProfilePage,
+    getProfileIDPage,
     changeProfilePicture,
     findAccount,
     changePassword,

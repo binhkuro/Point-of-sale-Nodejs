@@ -108,6 +108,10 @@ app.get("/invoice", (req, res) => {
     invoiceController.getInvoicePage(req, res);
 })
 
+app.get("/:id", (req, res) => {
+    accountController.getProfileIDPage(req, res);
+})
+
 app.post("/signup", (req, res) => {
     accountController.addAccount(req, res);
 })
