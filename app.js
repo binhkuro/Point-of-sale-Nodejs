@@ -39,8 +39,23 @@ app.use(session({ // session
 }));
 app.use(flash()) // flash message
 app.engine('handlebars', hbs.engine({
-    defaultLayout: 'main', 
-                           
+    defaultLayout: 'main',
+    helpers: {
+        getLockedStatus: function(email, lockedStatus) {
+            if(lockedStatus - 0 === 1)
+                return `
+                <button class="btn btn-danger" onclick="lockUser('${email}')">
+                    <i class="fa-solid fa-lock"></i>          
+                </button>
+            `;
+
+            return `
+                    <button class="btn btn-success" onclick="lockUser('${email}')">
+                        <i class="fa-solid fa-lock-open"></i>          
+                    </button>
+                `;
+        }
+    }                   
 }))
 app.set('view engine', 'handlebars')
 
@@ -72,6 +87,13 @@ app.get("/profile", (req, res) => {
     accountController.getProfilePage(req, res);
 })
 
+app.get("/profileid/:email", (req, res) => {
+    if(!req.session.email || req.session.email !== "admin@gmail.com")
+        return res.redirect("/login");
+
+    accountController.getProfileByEmail(req, res);
+})
+
 app.get("/change-password", (req, res) => {
     if(!req.session.email)
         return res.redirect("/login");
@@ -80,8 +102,8 @@ app.get("/change-password", (req, res) => {
 })
 
 app.get("/account-management", (req, res) => {
-    if(!req.session.email || req.session.email !== "admin@gmail.com")
-        return res.redirect("/login");
+    // if(!req.session.email || req.session.email !== "admin@gmail.com")
+    //     return res.redirect("/login");
 
     accountController.getAccountManagementPage(req, res);
 })
@@ -108,10 +130,6 @@ app.get("/invoice", (req, res) => {
     invoiceController.getInvoicePage(req, res);
 })
 
-app.get("/:id", (req, res) => {
-    accountController.getProfileIDPage(req, res);
-})
-
 app.post("/signup", (req, res) => {
     accountController.addAccount(req, res);
 })
@@ -126,6 +144,14 @@ app.post("/login", (req, res) => {
 
 app.put("/change-password", (req, res) => {
     accountController.changePassword(req, res);
+})
+
+app.put("/lock-user", (req, res) => {
+    accountController.lockUser(req, res);
+})
+
+app.post("/resend-email", (req, res) => {
+    accountController.resendEmail(req, res);
 })
 
 // Middle ware 404 error

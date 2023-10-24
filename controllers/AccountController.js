@@ -215,24 +215,88 @@ async function initData() {
     });
 
     await account.save()
+
+    // Tài khoản admin
+    let account2 = new Account({
+        email: "nghiem7755@gmail.com", 
+        password: "asd",
+        fullname: "asd",
+        profilePicture: "default-avatar.png",
+        activateStatus: 1,
+        isNewUser: 0,
+        lockedStatus: 0
+    });
+
+    await account2.save()
 }
 
-//Load profile user theo id tại trang quản lí
-function getProfileIDPage(req, res) {
-    Account.findById(req.params.id)
-    .then(accounts => {
-        res.render("profileid", accounts)
+// Load profile user theo id tại trang quản lí
+function getProfileByEmail(req, res) {
+    Account.findOne({
+        email: req.params.email,
     })
-    
+    .then(account => {
+        let options = {
+            email: account.email, 
+            fullname: account.fullname, 
+            profilePicture: account.profilePicture, 
+            success: req.flash("success"), 
+            error: req.flash("error")
+        };
+
+        res.render("profileid", options)
+    })
+}
+
+function lockUser(req, res) {
+    Account.findOne({
+        email: req.body.email,
+    })
+    .then(async account => {
+        let updatedField;
+
+        if(account.lockedStatus === 0) {
+            updatedField = {
+                $set: {
+                    lockedStatus: 1
+                }
+            }
+        }
+        else {
+            updatedField = {
+                $set: {
+                    lockedStatus: 0
+                }
+            }
+        }
+
+        await Account.updateOne({email: req.body.email}, updatedField, { new: true })
+        .then(updatedAccount => {
+            res.end();
+        })
+    })
+}
+
+function resendEmail(req, res) {
+    let email = req.body.email;
+
+    // Gửi email
+    let subject = "Xác thực tài khoản";
+    let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+    mailController.sendMail(email, subject, content);
+
+    res.end();
 }
 
 module.exports = {
     getAccountManagementPage,
     addAccount,
     getProfilePage,
-    getProfileIDPage,
+    getProfileByEmail,
     changeProfilePicture,
     findAccount,
     changePassword,
-    initData
+    initData,
+    lockUser,
+    resendEmail
 };
