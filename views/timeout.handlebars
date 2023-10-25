@@ -1,0 +1,16 @@
+<div class="container">
+    <h2>Oops! Link đã hết thời hạn</h2>
+    <form method="POST" action="/timeout" novalidate>
+        <input type="email" name="email" id="email" value="{{email}}" hidden>
+        <button class="btn btn-light"><a href="/">Về trang chủ</button>
+        <button type="submit" class="btn btn-primary">Gửi lại mail</button>
+    </form>
+
+    {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+    {{/if}}
+
+    {{#if success}}
+        <div class="alert alert-success">{{success}}</div>
+    {{/if}}
+</div>

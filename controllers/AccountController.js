@@ -46,10 +46,20 @@ async function addAccount(req, res) {
     account.save()
     .then(newAccount => {
         // Gửi email
+        let email = req.body.email;
         let subject = "Xác thực tài khoản";
-        let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
-        mailController.sendMail(req.body.email, subject, content);
-                    
+        const emailSentTime = Math.floor(new Date().getTime() / 1000);
+        const currentTime = emailSentTime + 60000;
+        // Tính khoảng thời gian đã trôi qua
+        const timeElapsed = currentTime - emailSentTime;
+
+        if (timeElapsed > 60000) {
+            let content = `<a href="${process.env.APP_URL}/timeout?email=${email}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+            mailController.sendMail(email, subject, content);
+        } else {
+            let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+            mailController.sendMail(email, subject, content);
+        }
         req.flash("success", "Đăng ký tài khoản thành công. Vui lòng kiểm tra email của bạn.");
         res.render("signup", {success: req.flash("success")});
     })
@@ -279,11 +289,19 @@ function lockUser(req, res) {
 
 function resendEmail(req, res) {
     let email = req.body.email;
-
-    // Gửi email
     let subject = "Xác thực tài khoản";
-    let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
-    mailController.sendMail(email, subject, content);
+    const emailSentTime = Math.floor(new Date().getTime() / 1000);
+    const currentTime = emailSentTime + 60000;
+    // Tính khoảng thời gian đã trôi qua
+    const timeElapsed = currentTime - emailSentTime;
+
+    if (timeElapsed > 60000) {
+        let content = `<a href="${process.env.APP_URL}/timeout?email=${email}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+        mailController.sendMail(email, subject, content);
+    } else {
+        let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+        mailController.sendMail(email, subject, content);
+    }
 
     res.end();
 }

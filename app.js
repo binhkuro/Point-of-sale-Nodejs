@@ -15,6 +15,7 @@ let accountController = require('./controllers/AccountController')
 let productController = require('./controllers/ProductController')
 let loginController = require('./controllers/LoginController')
 let signupController = require('./controllers/SignUpController')
+let timeOutController = require('./controllers/TimeOutController')
 let staffPaymentController = require('./controllers/StaffPaymentController')
 let paymentHistoryController = require('./controllers/PaymentHistoryController')
 let detailOrderController = require('./controllers/DetailOrderController')
@@ -132,6 +133,14 @@ app.get("/invoice", (req, res) => {
 
 app.post("/signup", (req, res) => {
     accountController.addAccount(req, res);
+})
+
+app.get("/timeout", (req, res) => {
+    timeOutController.getTimeOutPage(req, res);
+})
+
+app.post("/timeout", (req, res) => {
+    timeOutController.resendEmail(req, res);
 })
 
 app.post("/profile", (req, res) => {
