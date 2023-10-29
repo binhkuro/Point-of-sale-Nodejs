@@ -21,6 +21,7 @@ let paymentHistoryController = require('./controllers/PaymentHistoryController')
 let detailOrderController = require('./controllers/DetailOrderController')
 let productPaymentController = require('./controllers/ProductPaymentController')
 let invoiceController = require('./controllers/InvoiceController')
+let changepwdlogController = require('./controllers/ChangePwdLogController')
 
 // Lấy dữ liệu từ file .env ra
 const PORT = process.env.PORT;
@@ -102,6 +103,13 @@ app.get("/change-password", (req, res) => {
     changepasswordController.getChangePasswordPage(req, res);
 })
 
+app.get("/changepwd_logout", (req, res) => {
+    if(!req.session.email)
+        return res.redirect("/login");
+
+    changepwdlogController.getChangePwdLogPage(req, res);
+})
+
 app.get("/account-management", (req, res) => {
     // if(!req.session.email || req.session.email !== "admin@gmail.com")
     //     return res.redirect("/login");
@@ -153,6 +161,10 @@ app.post("/login", (req, res) => {
 
 app.put("/change-password", (req, res) => {
     accountController.changePassword(req, res);
+})
+
+app.put("/changepwd_logout", (req, res) => {
+    accountController.changePwdNoPassOld(req, res);
 })
 
 app.put("/lock-user", (req, res) => {

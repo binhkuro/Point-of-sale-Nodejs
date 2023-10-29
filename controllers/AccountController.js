@@ -84,9 +84,13 @@ function findAccount(req, res) {
         password: password
     })
     .then(account => {
-        if(account) { // tìm thấy
+        if(account && account.isNewUser === 0) { // tìm thấy
             req.session.email = username + "@gmail.com";
-            res.redirect("/profile")
+            res.redirect("/")
+        }
+        else if(account && account.isNewUser === 1){
+            req.session.email = username + "@gmail.com";
+            res.redirect("changepwd_logout")
         }
         else {
             req.flash("error", "Tài khoản hoặc mật khẩu không chính xác")
@@ -238,9 +242,21 @@ async function initData() {
     });
 
     await account2.save()
+
+    let account3 = new Account({
+        email: "anhtri000@gmail.com", 
+        password: "asd1",
+        fullname: "asd1",
+        profilePicture: "default-avatar.png",
+        activateStatus: 1,
+        isNewUser: 1,
+        lockedStatus: 0
+    });
+
+    await account3.save()
 }
 
-// Load profile user theo id tại trang quản lí
+// Load profile user theo email tại trang quản lí
 function getProfileByEmail(req, res) {
     Account.findOne({
         email: req.params.email,
@@ -306,6 +322,67 @@ function resendEmail(req, res) {
     res.end();
 }
 
+// Đổi mật khẩu không cần pass cũ và cập nhật isNewUser
+function changePwdNoPassOld(req, res) {
+    Account.findOne({
+        email: req.session.email,
+    })
+    .then(async account => {
+        let currentPassword = account.password;
+        let newPassword = req.body.newPassword;
+        let confirmPassword = req.body.confirmPassword;
+
+        if(newPassword === "" || confirmPassword === "")
+            req.flash("error", "Vui lòng không bỏ trống thông tin")
+        else if(newPassword !== confirmPassword)
+            req.flash("error", "Nhập lại mật khẩu mới không chính xác");
+        else {
+            // Cập nhật lại mật khẩu mới trong database    
+            await Account.updateOne({email: req.session.email}, {$set: {password: newPassword}}, { new: true })
+            .then(updatedAccount => {
+                if (!updatedAccount) 
+                    req.flash("error", "Đổi mật khẩu thất bại.")
+                else 
+                    req.flash("success", "Đổi mật khẩu thành công. Vui lòng đăng nhập lại."); 
+            })
+            .catch(error => {
+                req.flash("error", "Đổi mật khẩu thất bại.")
+            });
+
+            // Cập nhật lại isNewUser trong database    
+            // Account.findOne({
+            //     email: req.body.email,
+            // })
+            // .then(async account => {
+            //     let updatedField;
+        
+            //     if(account.isNewUser === 1) {
+            //         updatedField = {
+            //             $set: {
+            //                 isNewUser: 0
+            //             }
+            //         }
+            //     }
+        
+            //     await Account.updateOne({email: req.body.email}, updatedField, { new: true })
+            //     .then(updatedAccount => {
+            //         res.end();
+            //     })
+            // })
+        }
+            
+        let options = {
+            currentPassword: currentPassword, 
+            newPassword: newPassword, 
+            confirmPassword: confirmPassword, 
+            error: req.flash("error"),
+            success: req.flash("success")
+        };
+    
+        res.json(options)
+    })
+}
+
 module.exports = {
     getAccountManagementPage,
     addAccount,
@@ -316,5 +393,6 @@ module.exports = {
     changePassword,
     initData,
     lockUser,
-    resendEmail
+    resendEmail,
+    changePwdNoPassOld
 };
