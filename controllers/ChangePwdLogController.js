@@ -1,7 +1,15 @@
-function getChangePwdLogPage(req, res) {
+let Account = require("../models/account");
 
-    // Render giao diện "changepassword.handlebars" và truyền dữ liệu sản phẩm nếu có
-    res.render('changepwd_logout'); // 'changepassword' là tên tệp .handlebars cho giao diện đổi mật khẩu
+function getChangePwdLogPage(req, res) {    
+    Account.findOne({
+        email: req.session.email
+    })
+    .then(account => {
+        if(account.isNewUser === 1)
+            res.render('changepwd_logout');
+        else
+            res.redirect('/login');
+    })
 }
 
 // Xuất hàm xử lý "getChangePasswordPage" để có thể sử dụng trong tệp khác

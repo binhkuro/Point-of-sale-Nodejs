@@ -247,17 +247,17 @@ async function initData() {
 
     await account.save()
 
-    // let account2 = new Account({
-    //     email: "nghiem7755@gmail.com", 
-    //     password: "asd",
-    //     fullname: "asd",
-    //     profilePicture: "default-avatar.png",
-    //     activateStatus: 1,
-    //     isNewUser: 0,
-    //     lockedStatus: 0
-    // });
+    let account2 = new Account({
+        email: "nghiem7755@gmail.com", 
+        password: "nghiem7755",
+        fullname: "asd",
+        profilePicture: "default-avatar.png",
+        activateStatus: 0,
+        isNewUser: 1,
+        lockedStatus: 0
+    });
 
-    // await account2.save()
+    await account2.save()
 
     let account3 = new Account({
         email: "anhtri000@gmail.com", 
@@ -347,14 +347,24 @@ function changePwdNoPassOld(req, res) {
         let currentPassword = account.password;
         let newPassword = req.body.newPassword;
         let confirmPassword = req.body.confirmPassword;
+        let isNewUser = account.isNewUser;
 
         if(newPassword === "" || confirmPassword === "")
             req.flash("error", "Vui lòng không bỏ trống thông tin")
         else if(newPassword !== confirmPassword)
             req.flash("error", "Nhập lại mật khẩu mới không chính xác");
         else {
-            // Cập nhật lại mật khẩu mới trong database    
-            await Account.updateOne({email: req.session.email}, {$set: {password: newPassword}}, { new: true })
+            let updatedField;
+    
+            updatedField = {
+                $set: {
+                    isNewUser: 0,
+                    password: newPassword
+                }
+            }
+
+            // Cập nhật lại mật khẩu mới và isNewUser trong database    
+            await Account.updateOne({email: req.session.email}, updatedField, { new: true })
             .then(updatedAccount => {
                 if (!updatedAccount) 
                     req.flash("error", "Đổi mật khẩu thất bại.")
@@ -364,15 +374,13 @@ function changePwdNoPassOld(req, res) {
             .catch(error => {
                 req.flash("error", "Đổi mật khẩu thất bại.")
             });
-
-            // Cập nhật lại isNewUser trong database  
-            await Account.updateOne({email: req.session.email}, {$set: {isNewUser: 0}}, { new: true })
         }
             
         let options = {
             currentPassword: currentPassword, 
             newPassword: newPassword, 
-            confirmPassword: confirmPassword, 
+            confirmPassword: confirmPassword,
+            isNewUser: isNewUser, 
             error: req.flash("error"),
             success: req.flash("success")
         };
