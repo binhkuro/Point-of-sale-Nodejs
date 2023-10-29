@@ -127,8 +127,8 @@ app.get("/product-management", (req, res) => {
 app.get("/login", (req, res) => {
     if(req.session.email)
         delete req.session.email;    
-
-    loginController.getLoginPage(req, res);
+    
+    res.render('login', {token: req.query.token});
 })
 
 app.get("/signup", (req, res) => {

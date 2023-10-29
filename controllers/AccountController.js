@@ -3,6 +3,7 @@ let mailController = require('./MailController')
 let multiparty = require('multiparty') // upload file
 let fsx = require('fs-extra'); // upload file
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 // Load user lên trang quản lí
 function getAccountManagementPage(req, res) {
@@ -57,7 +58,7 @@ async function addAccount(req, res) {
             let content = `<a href="${process.env.APP_URL}/timeout?email=${email}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
             mailController.sendMail(email, subject, content);
         } else {
-            let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+            let content = `<a href="${process.env.APP_URL}/login?token=${bcrypt.hashSync(email, 3)}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
             mailController.sendMail(email, subject, content);
         }
         req.flash("success", "Đăng ký tài khoản thành công. Vui lòng kiểm tra email của bạn.");
@@ -79,23 +80,39 @@ function findAccount(req, res) {
         return res.render("login", {error: req.flash("error"), username: username, password: password})
     }
 
+    let email = username + "@gmail.com";
+
     Account.findOne({
-        email: username + "@gmail.com",
+        email: email,
         password: password
     })
-    .then(account => {
-        if(account && account.isNewUser === 0) { // tìm thấy
-            req.session.email = username + "@gmail.com";
-            res.redirect("/")
-        }
-        else if(account && account.isNewUser === 1){
-            req.session.email = username + "@gmail.com";
-            res.redirect("changepwd_logout")
-        }
-        else {
+    .then(async account => {
+        if(!account) {
             req.flash("error", "Tài khoản hoặc mật khẩu không chính xác")
-            res.render("login", {error: req.flash("error"), username: username, password: password})
+            return res.render("login", {error: req.flash("error"), username: username, password: password, token: req.body.token})
         }
+
+        // User chưa kích hoạt tài khoản
+        if(account.activateStatus === 0) {
+            // Người dùng KHÔNG truy cập trang login thông qua đường link trong email
+            if(!req.body.token || !bcrypt.compareSync(email, req.body.token)) {
+                req.flash("error", "Vui lòng nhấn vào đường link được gửi đến email của bạn.")
+                return res.render("login", {error: req.flash("error")})
+            }
+
+            await Account.updateOne({email: email}, {$set: {activateStatus: 1}}, { new: true })
+
+            req.session.email = email;
+            return res.redirect("changepwd_logout")
+        }
+
+        req.session.email = email;
+
+        // user mới
+        if(account.isNewUser === 1)
+            return res.redirect("changepwd_logout")
+        
+        res.redirect("/")
     })
     .catch(error => {
         req.flash("error", "Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại sau.")
@@ -230,18 +247,17 @@ async function initData() {
 
     await account.save()
 
-    // Tài khoản admin
-    let account2 = new Account({
-        email: "nghiem7755@gmail.com", 
-        password: "asd",
-        fullname: "asd",
-        profilePicture: "default-avatar.png",
-        activateStatus: 1,
-        isNewUser: 0,
-        lockedStatus: 0
-    });
+    // let account2 = new Account({
+    //     email: "nghiem7755@gmail.com", 
+    //     password: "asd",
+    //     fullname: "asd",
+    //     profilePicture: "default-avatar.png",
+    //     activateStatus: 1,
+    //     isNewUser: 0,
+    //     lockedStatus: 0
+    // });
 
-    await account2.save()
+    // await account2.save()
 
     let account3 = new Account({
         email: "anhtri000@gmail.com", 
@@ -315,7 +331,7 @@ function resendEmail(req, res) {
         let content = `<a href="${process.env.APP_URL}/timeout?email=${email}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
         mailController.sendMail(email, subject, content);
     } else {
-        let content = `<a href="${process.env.APP_URL}/login"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+        let content = `<a href="${process.env.APP_URL}/login?token=${bcrypt.hashSync(email, 3)}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
         mailController.sendMail(email, subject, content);
     }
 
@@ -349,26 +365,8 @@ function changePwdNoPassOld(req, res) {
                 req.flash("error", "Đổi mật khẩu thất bại.")
             });
 
-            // Cập nhật lại isNewUser trong database    
-            // Account.findOne({
-            //     email: req.body.email,
-            // })
-            // .then(async account => {
-            //     let updatedField;
-        
-            //     if(account.isNewUser === 1) {
-            //         updatedField = {
-            //             $set: {
-            //                 isNewUser: 0
-            //             }
-            //         }
-            //     }
-        
-            //     await Account.updateOne({email: req.body.email}, updatedField, { new: true })
-            //     .then(updatedAccount => {
-            //         res.end();
-            //     })
-            // })
+            // Cập nhật lại isNewUser trong database  
+            await Account.updateOne({email: req.session.email}, {$set: {isNewUser: 0}}, { new: true })
         }
             
         let options = {
