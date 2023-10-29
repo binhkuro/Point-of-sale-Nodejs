@@ -46,21 +46,8 @@ async function addAccount(req, res) {
 
     account.save()
     .then(newAccount => {
-        // Gửi email
-        let email = req.body.email;
-        let subject = "Xác thực tài khoản";
-        const emailSentTime = Math.floor(new Date().getTime() / 1000);
-        const currentTime = emailSentTime + 60000;
-        // Tính khoảng thời gian đã trôi qua
-        const timeElapsed = currentTime - emailSentTime;
-
-        if (timeElapsed > 60000) {
-            let content = `<a href="${process.env.APP_URL}/timeout?email=${email}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
-            mailController.sendMail(email, subject, content);
-        } else {
-            let content = `<a href="${process.env.APP_URL}/login?token=${bcrypt.hashSync(email, 3)}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
-            mailController.sendMail(email, subject, content);
-        }
+        resendEmail(req, res);
+        
         req.flash("success", "Đăng ký tài khoản thành công. Vui lòng kiểm tra email của bạn.");
         res.render("signup", {success: req.flash("success")});
     })
@@ -247,17 +234,17 @@ async function initData() {
 
     await account.save()
 
-    let account2 = new Account({
-        email: "nghiem7755@gmail.com", 
-        password: "nghiem7755",
-        fullname: "asd",
-        profilePicture: "default-avatar.png",
-        activateStatus: 0,
-        isNewUser: 1,
-        lockedStatus: 0
-    });
+    // let account2 = new Account({
+    //     email: "nghiem7755@gmail.com", 
+    //     password: "nghiem7755",
+    //     fullname: "asd",
+    //     profilePicture: "default-avatar.png",
+    //     activateStatus: 0,
+    //     isNewUser: 1,
+    //     lockedStatus: 0
+    // });
 
-    await account2.save()
+    // await account2.save()
 
     let account3 = new Account({
         email: "anhtri000@gmail.com", 
@@ -334,8 +321,6 @@ function resendEmail(req, res) {
         let content = `<a href="${process.env.APP_URL}/login?token=${bcrypt.hashSync(email, 3)}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
         mailController.sendMail(email, subject, content);
     }
-
-    res.end();
 }
 
 // Đổi mật khẩu không cần pass cũ và cập nhật isNewUser

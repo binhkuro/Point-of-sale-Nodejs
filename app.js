@@ -173,6 +173,7 @@ app.put("/lock-user", (req, res) => {
 
 app.post("/resend-email", (req, res) => {
     accountController.resendEmail(req, res);
+    res.end();
 })
 
 // Middle ware 404 error
