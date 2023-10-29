@@ -331,14 +331,29 @@ function changePwdNoPassOld(req, res) {
         let currentPassword = account.password;
         let newPassword = req.body.newPassword;
         let confirmPassword = req.body.confirmPassword;
+        let isNewUser = account.isNewUser;
 
         if(newPassword === "" || confirmPassword === "")
             req.flash("error", "Vui lòng không bỏ trống thông tin")
         else if(newPassword !== confirmPassword)
             req.flash("error", "Nhập lại mật khẩu mới không chính xác");
         else {
+            // Cập nhật lại isNewUser trong database              
+            let updatedField;
+    
+            if(account.isNewUser === 1) {
+                //console.log(account.isNewUser),
+                updatedField = {
+                    $set: {
+                        isNewUser: 0,
+                        password: newPassword
+                    }
+                }
+            }
+           //console.log(updatedField),
+
             // Cập nhật lại mật khẩu mới trong database    
-            await Account.updateOne({email: req.session.email}, {$set: {password: newPassword}}, { new: true })
+            await Account.updateOne({email: req.session.email}, updatedField, { new: true })
             .then(updatedAccount => {
                 if (!updatedAccount) 
                     req.flash("error", "Đổi mật khẩu thất bại.")
@@ -349,32 +364,14 @@ function changePwdNoPassOld(req, res) {
                 req.flash("error", "Đổi mật khẩu thất bại.")
             });
 
-            // Cập nhật lại isNewUser trong database    
-            // Account.findOne({
-            //     email: req.body.email,
-            // })
-            // .then(async account => {
-            //     let updatedField;
-        
-            //     if(account.isNewUser === 1) {
-            //         updatedField = {
-            //             $set: {
-            //                 isNewUser: 0
-            //             }
-            //         }
-            //     }
-        
-            //     await Account.updateOne({email: req.body.email}, updatedField, { new: true })
-            //     .then(updatedAccount => {
-            //         res.end();
-            //     })
-            // })
+            
         }
             
         let options = {
             currentPassword: currentPassword, 
             newPassword: newPassword, 
-            confirmPassword: confirmPassword, 
+            confirmPassword: confirmPassword,
+            isNewUser: isNewUser, 
             error: req.flash("error"),
             success: req.flash("success")
         };
