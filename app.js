@@ -118,8 +118,8 @@ app.get("/account-management", (req, res) => {
 })
 
 app.get("/product-management", (req, res) => {
-    if(!req.session.email || req.session.email !== "admin@gmail.com")
-        return res.redirect("/login");
+    // if(!req.session.email || req.session.email !== "admin@gmail.com")
+    //     return res.redirect("/login");
 
     productController.getProductManagementPage(req, res);
 })
@@ -196,6 +196,7 @@ mongoose.connect(CONNECTION_STRING, {
 })
 .then(() => {
     accountController.initData();
+    productController.initData();
 
     console.log('Database connected');
 
