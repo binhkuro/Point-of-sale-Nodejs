@@ -6,7 +6,7 @@ const path = require('path');
 async function getProductManagementPage(req, res) {
     try {
         const products = await Product.find().lean();
-        res.render('product-management', { products });
+        res.render('product-management', { products, success: req.flash("success"), error: req.flash("error") });
     } catch (error) {
         res.status(500).send("Đã xảy ra lỗi khi lấy dữ liệu sản phẩm từ cơ sở dữ liệu.");
     }
@@ -48,49 +48,140 @@ async function addProduct(req, res) {
     form.parse(req, async (error, data, files) => {
         if (error) {
             console.log("Error File upload: " + error);
+            const products = await Product.find().lean();
             req.flash("error", "Đã xảy ra lỗi khi xử lý upload file");
-            return res.render('product-management', { error: req.flash("error") });
+            return res.render("product-management", { error : req.flash("error"), products });
         }
 
-        if (!data.barcode || !data.productName || !data.importPrice || !files.file || files.file.length === 0 || data.barcode[0] === '' || data.productName[0] === "" || data.importPrice[0] === "" || files.file[0].originalFilename === '') {
+        if (data.barcode[0] === '' || data.productName[0] === '' || data.importPrice[0] <= 0 || data.retailPrice[0] <= 0 || data.category[0] === '' || data.creationDate[0] === '' || files.image[0].originalFilename === '') {
+            const products = await Product.find().lean();
             req.flash("error", "Vui lòng nhập đầy đủ thông tin và chọn file ảnh.");
-            return res.render('product-management', { error: req.flash("error") });
+            return res.render("product-management", { error : req.flash("error"), products });
         }
 
         try {
-            let file = files.file[0];
+            let file = files.image[0];
             let tempPath = file.path;
-            let savePath = __dirname + "/public/uploads/" + file.originalFilename;
+            let savePath = path.join(__dirname, "../public/uploads/products", file.originalFilename);
 
             await fsx.copy(tempPath, savePath);
+
+            let formattedDate = formatDate(data.creationDate[0]);
 
             let product = new Product({
                 barcode: data.barcode[0],
                 productName: data.productName[0],
-                importPrice: data.importPrice[0],
-                retailPrice: data.retailPrice[0],
+                importPrice: data.importPrice - 0, // Conversion to float
+                retailPrice: data.retailPrice - 0, // Conversion to float
                 category: data.category[0],
-                creationDate: data.creationDate[0],
+                creationDate: formattedDate,
                 image: file.originalFilename
             });
 
             product.save()
                 .then(newProduct => {
                     req.flash("success", "Thêm sản phẩm thành công.");
-                    res.render("product-management", { success: req.flash("success") });
+                    return res.redirect("/product-management");
                 })
                 .catch(error => {
                     req.flash("error", "Sản phẩm này đã tồn tại hoặc có lỗi khi lưu.");
-                    res.render("product-management", { error: req.flash("error") });
+                    res.redirect("/product-management");
                 });
         } catch (error) {
             req.flash("error", "Đã xảy ra lỗi khi xử lý thêm sản phẩm.");
+            return res.redirect("/product-management");
         }
     });
+}
+
+async function editProduct(req, res) {
+    let form = new multiparty.Form();
+
+    form.parse(req, async (error, data, files) => {
+        if (error) {
+            console.log("Error File upload: " + error);
+            const products = await Product.find().lean();
+            req.flash("error", "Đã xảy ra lỗi khi xử lý upload file");
+            return res.render("product-management", { error : req.flash("error"), products });
+        }
+
+        if (data.barcode[0] === '' || data.productName[0] === '' || data.importPrice[0] <= 0 || data.retailPrice[0] <= 0 || data.category[0] === '' || data.creationDate[0] === '') {
+            const products = await Product.find().lean();
+            req.flash("error", "Vui lòng nhập đầy đủ thông tin.");
+            return res.render("product-management", { error : req.flash("error"), products });
+        }
+
+        try {
+            let product = await Product.findById(data.productId[0]);
+
+            if (!product) {
+                req.flash("error", "Không tìm thấy sản phẩm để chỉnh sửa.");
+                return res.redirect("/product-management");
+            }
+
+            // Kiểm tra và cập nhật dữ liệu sản phẩm
+            product.barcode = data.barcode[0];
+            product.productName = data.productName[0];
+            product.importPrice = data.importPrice - 0; // Chuyển đổi sang dạng số
+            product.retailPrice = data.retailPrice - 0; // Chuyển đổi sang dạng số
+            product.category = data.category[0];
+            product.creationDate = formatDate(data.creationDate[0]);
+
+            if (files.image && files.image[0].originalFilename !== '') {
+                let file = files.image[0];
+                let tempPath = file.path;
+                let savePath = path.join(__dirname, "../public/uploads/products", file.originalFilename);
+
+                await fsx.copy(tempPath, savePath);
+                product.image = file.originalFilename;
+            }
+
+            await product.save();
+
+            req.flash("success", "Sửa sản phẩm thành công.");
+            return res.redirect("/product-management");
+        } catch (error) {
+            req.flash("error", "Đã xảy ra lỗi khi chỉnh sửa sản phẩm.");
+            return res.redirect("/product-management");
+        }
+    });
+}
+
+async function deleteProduct(req, res) {
+    try {
+        const barcode = req.body.barcode;
+        if (!barcode) {
+            req.flash("error", "Không có barcode sản phẩm cần xóa.");
+            return res.redirect("/product-management");
+        }
+
+        const product = await Product.findById(barcode);
+
+        if (!product) {
+            req.flash("error", "Không tìm thấy sản phẩm để xóa.");
+            return res.redirect("/product-management");
+        }
+
+        // Xóa sản phẩm từ cơ sở dữ liệu
+        await Product.findByIdAndRemove(barcode);
+
+        req.flash("success", "Xóa sản phẩm thành công.");
+        return res.redirect("/product-management");
+    } catch (error) {
+        req.flash("error", "Đã xảy ra lỗi khi xóa sản phẩm.");
+        return res.redirect("/product-management");
+    }
+}
+
+function formatDate(inputDate) {
+    const parts = inputDate.split('-');
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
 }
 
 module.exports = {
     getProductManagementPage,
     initData,
     addProduct,
+    editProduct,
+    deleteProduct
 };

@@ -56,6 +56,10 @@ app.engine('handlebars', hbs.engine({
                         <i class="fa-solid fa-lock-open"></i>          
                     </button>
                 `;
+        },
+        
+        eq: function (value1, value2, options) {
+            return value1 === value2;
         }
     }                   
 }))

@@ -5,38 +5,38 @@
         <div class="row">
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="barcode">Barcode:</label>
-                <input type="text" class="form-control" placeholder="VD: 91238129" id="barcode" name="barcode">
+                <input value="{{barcode}}" type="text" class="form-control" placeholder="VD: 91238129" id="barcode" name="barcode">
             </div>
 
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="productName">Tên sản phẩm:</label>
-                <input type="text" class="form-control" placeholder="VD: Iphone 15" id="productName" name="productName">
+                <input value="{{name}}" type="text" class="form-control" placeholder="VD: Iphone 15" id="productName" name="productName">
             </div>
 
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="category">Danh mục:</label>
                 <select name="category" class="custom-select" id="category">
-                    <option selected value="Phone">Điện thoại</option>
-                    <option value="Tablet">Máy tính bảng</option>
-                    <option value="Watch">Đồng hồ thông minh</option>
-                    <option value="Adapter">Cục sạc</option>
-                    <option value="Cable">Dây sạc</option>
-                </select>        
+                    <option value="Phone" {{#if (eq category "Phone")}}selected{{/if}}>Điện thoại</option>
+                    <option value="Tablet" {{#if (eq category "Tablet")}}selected{{/if}}>Máy tính bảng</option>
+                    <option value="Watch" {{#if (eq category "Watch")}}selected{{/if}}>Đồng hồ thông minh</option>
+                    <option value="Adapter" {{#if (eq category "Adapter")}}selected{{/if}}>Cục sạc</option>
+                    <option value="Cable" {{#if (eq category "Cable")}}selected{{/if}}>Dây sạc</option>
+                </select>
             </div>
 
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="importPrice">Giá nhập:</label>
-                <input type="number" class="form-control" id="importPrice" name="importPrice" min="0">
+                <input value="{{importPrice}}" type="number" class="form-control" id="importPrice" name="importPrice" min="0">
             </div>
 
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="retailPrice">Giá bán:</label>
-                <input type="number" class="form-control" id="retailPrice" name="retailPrice" min="0">
+                <input value="{{retailPrice}}" type="number" class="form-control" id="retailPrice" name="retailPrice" min="0">
             </div>
 
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="creationDate">Ngày tạo:</label>
-                <input type="date" class="form-control" id="creationDate" name="creationDate" value="2023-10-08">
+                <input value="{{creationDate}}" type="date" class="form-control" id="creationDate" name="creationDate">
             </div>
 
             <div class="container-fluid">
@@ -52,11 +52,11 @@
     </form>
 
     {{#if error}}
-        <div class="alert alert-danger">{{error}}</div>
+        <div class="alert alert-danger" id="errorAlert" style="margin-top: 15px;">{{error}}</div>
     {{/if}}
 
     {{#if success}}
-        <div class="alert alert-success">{{success}}</div>
+        <div class="alert alert-success" id="successAlert" style="margin-top: 15px;">{{success}}</div>
     {{/if}}
 
     <div class="table-responsive mt-3">
@@ -227,5 +227,23 @@
       </div>
     </div>
 </div>
+
+<script>
+    // Ẩn thông báo lỗi sau 3 giây
+    var errorAlert = document.getElementById('errorAlert');
+    if (errorAlert) {
+        setTimeout(function() {
+            errorAlert.style.display = 'none';
+        }, 3000);
+    }
+
+    // Ẩn thông báo thành công sau 3 giây
+    var successAlert = document.getElementById('successAlert');
+    if (successAlert) {
+        setTimeout(function() {
+            successAlert.style.display = 'none';
+        }, 3000);
+    }
+</script>
 
 <script src="/js/productManagement.js"></script>
