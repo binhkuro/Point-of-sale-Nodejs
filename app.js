@@ -124,6 +124,10 @@ app.get("/product-management", (req, res) => {
     productController.getProductManagementPage(req, res);
 })
 
+app.post("/product-management", (req, res) => {
+    productController.addProduct(req, res);
+})
+
 app.get("/login", (req, res) => {
     if(req.session.email)
         delete req.session.email;    

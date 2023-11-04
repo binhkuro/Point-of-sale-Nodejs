@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/productManagement.css">
 
 <div class="container-fluid">
-    <form action="#" method="post">
+    <form action="/product-management" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="barcode">Barcode:</label>
@@ -51,6 +51,14 @@
         <input type="reset" class="btn btn-outline-secondary" id="reset" value="Hủy">
     </form>
 
+    {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+    {{/if}}
+
+    {{#if success}}
+        <div class="alert alert-success">{{success}}</div>
+    {{/if}}
+
     <div class="table-responsive mt-3">
         <table class="table table-striped table-hover text-center">
             <thead>
@@ -67,50 +75,22 @@
             </thead>
 
             <tbody>
-                {{!-- Dùng #each trong handlebars để đọc sản phẩm trong database ở đây. --}}
-                {{!-- Bên dưới là dữ liệu mẫu không liên quan đến database --}}
+            {{#each products}}
                 <tr>
-                    <td><img src="/uploads/products/iphone15.png"></td>
-                    <td>123456789</td>
-                    <td>Iphone 15 Pro</td>
-                    <td>Điện thoại</td>
-                    <td>30.000.000đ</td>
-                    <td>35.000.000đ</td>
-                    <td>01/10/2023</td>
+                    <td><img src="/uploads/products/{{image}}"></td>
+                    <td>{{barcode}}</td>
+                    <td>{{productName}}</td>
+                    <td>{{category}}</td>
+                    <td>{{importPrice}}đ</td>
+                    <td>{{retailPrice}}đ</td>
+                    <td>{{creationDate}}</td>
                     <td>
-                        <button class="btn btn-secondary" onclick="detailProduct('iphone15.png', '123456789', 'Iphone 15 Pro', 'Điện thoại', 30000000, 35000000, '01/10/2023')"><i class="fa-solid fa-circle-info"></i></button>
+                        <button class="btn btn-secondary" onclick="detailProduct('{{products.image}}', '{{products.barcode}}', '{{products.productName}}', '{{products.category}}', {{products.importPrice}}, {{products.retailPrice}}, '{{products.creationDate}}')"><i class="fa-solid fa-circle-info"></i></button>
                         <button class="btn btn-warning" onclick="updateProduct()"><i class="fa-solid fa-pen"></i></button>
                         <button class="btn btn-danger" onclick="deleteProduct()"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
-                <tr>
-                    <td><img src="/uploads/products/ipadair7.png"></td>
-                    <td>1654892213</td>
-                    <td>Ipad Air 7</td>
-                    <td>Máy tính bảng</td>
-                    <td>22.000.000đ</td>
-                    <td>38.000.000đ</td>
-                    <td>08/10/2023</td>
-                    <td>
-                        <button class="btn btn-secondary" onclick="detailProduct('ipadair7.png', '1654892213', 'Ipad Air 7', 'Máy tính bảng', 22000000, 38000000, '08/10/2023')"><i class="fa-solid fa-circle-info"></i></button>
-                        <button class="btn btn-warning" onclick="updateProduct()"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn btn-danger" onclick="deleteProduct()"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="/uploads/products/iphone14.png"></td>
-                    <td>5564893213</td>
-                    <td>Iphone 13 Pro</td>
-                    <td>Điện thoại</td>
-                    <td>11.000.000đ</td>
-                    <td>25.000.000đ</td>
-                    <td>18/10/2023</td>
-                    <td>
-                        <button class="btn btn-secondary" onclick="detailProduct('iphone14.png', '5564893213', 'Iphone 13 Pro', 'Điện thoại', 11000000, 25000000, '18/10/2023')"><i class="fa-solid fa-circle-info"></i></button>
-                        <button class="btn btn-warning" onclick="updateProduct()"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn btn-danger" onclick="deleteProduct()"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
+            {{/each}}
             </tbody>
         </table>
     </div>
@@ -216,7 +196,7 @@
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cập nhật</button>
+          <button type="button" class="btn btn-outline-warning" data-dismiss="modal" onclick="updateProduct()">Cập nhật</button>
         </div>
         
       </div>
@@ -241,7 +221,7 @@
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Xóa</button>
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal" onclick="deleteProduct()">Xóa</button>
         </div>
         
       </div>
