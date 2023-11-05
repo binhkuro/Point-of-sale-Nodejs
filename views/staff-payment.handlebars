@@ -7,74 +7,54 @@
                 <!-- Số điện thoại -->
                 <div class="form-group">
                     <label for="phone">Số điện thoại:</label>
-                    <input type="text" id="phone" name="phone" class="form-control" value="{{ phone }}" readonly>
-                </div>
-                <!-- Email -->
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" class="form-control" value="{{ email }}" readonly>
+                    <input type="text" id="phone" name="phone" class="form-control" value="{{phone}}">
                 </div>
                 <!-- Tên người dùng -->
                 <div class="form-group">
-                    <label for "username">Tên người dùng:</label>
-                    <input type="text" id="username" name="username" class="form-control" value="{{ username }}" readonly>
+                    <label for "username">Họ và tên:</label>
+                    <input type="text" id="fullname" name="fullname" class="form-control" value="{{fullname}}">
                 </div>
-                <!-- Giới tính -->
-                <div class="form-group form-inline">
-                    <label>Giới tính:</label>
-                    <div class="form-check mx-2">
-                        <input type="radio" class="form-check-input" id="male" name="gender" value="Nam" disabled>
-                        <label class="form-check-label" for="male">Nam</label>
-                    </div>
-                    <div class="form-check mx-2">
-                        <input type="radio" class="form-check-input" id="female" name="gender" value="Nữ" disabled>
-                        <label class="form-check-label" for="female">Nữ</label>
-                    </div>
-                    <div class="form-check mx-2">
-                        <input type="radio" class="form-check-input" id="other" name="gender" value="Khác" disabled>
-                        <label class="form-check-label" for="other">Khác</label>
-                    </div>
-                </div>
+                <!-- Địa chỉ -->
                 <div class="form-group">
-                    <label for="img">Chọn ảnh đại diện</label>
-                    <input type="file" class="form-control-file" id="img" name="img">
+                    <label for "username">Địa chỉ:</label>
+                    <input type="text" id="address" name="address" class="form-control" value="{{address}}">
                 </div>
                 <!-- Button "Thêm" -->
                 <input class="btn btn-warning" id="payment" type="submit" value="Thêm">
             </div>
-            <div class="col-md-4">
-                <div class="col-md-4">
-                    <!-- Avatar -->
-                    <img src="{{ avatarURL }}" alt="Avatar" class="img-fluid rounded-circle">
-                </div>
-            </div>
         </div>
     </form>
+
+    {{#if error}}
+        <div class="alert alert-danger" id="errorAlert" style="margin-top: 15px;">{{error}}</div>
+    {{/if}}
+
+    {{#if success}}
+        <div class="alert alert-success" id="successAlert" style="margin-top: 15px;">{{success}}</div>
+    {{/if}}
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Họ và tên</th>
-                <th>Email</th>
-                <th>Giới tính</th>
                 <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
                 <th>Thao tác</th>
             </tr>
         </thead>
         <tbody>
+        {{#each customer}}
             <tr>
-                <td>2</td>
-                <td>Trần Thị B</td>
-                <td>tran.thi.b@example.com</td>
-                <td>Nữ</td>
-                <td>0987654321</td>
+                <td>{{fullname}}</td>
+                <td>{{phone}}</td>
+                <td>{{address}}</td>
                 <td>
                     <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal">Cập nhật</button>
                     <button class="btn btn-danger">Xóa</button>
                     <button class="btn btn-danger"><a href="/payment-history" style="color: white; text-decoration: none;">Xem lịch sử mua hàng</a></button>
                 </td>
             </tr>
+        {{/each}}
         </tbody>
     </table>
 </div>
@@ -95,20 +75,12 @@
                     <input type="text" id="updateName" name="updateName" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="updateEmail">Email:</label>
-                    <input type="text" id="updateEmail" name="updateEmail" class="form-control">
-                </div>
-                <div class="form-group"> <!-- Sửa đoạn này -->
-                    <label for="updateGender">Giới tính:</label>
-                    <select id="updateGender" name="updateGender" class="form-control">
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="updatePhone">Số điện thoại:</label>
                     <input type="text" id="updatePhone" name="updatePhone" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="updatePhone">Địa chỉ:</label>
+                    <input type="text" id="updateAddress" name="updateAddress" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">

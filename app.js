@@ -78,6 +78,10 @@ app.get("/staff-payment", (req, res) => {
     staffPaymentController.getStaffPaymentPage(req, res);
 })
 
+app.post("/staff-payment", (req, res) => {
+    staffPaymentController.addCustomer(req, res);
+})
+
 app.get("/payment-history", (req, res) => {
     paymentHistoryController.getPaymentHistoryPage(req, res);
 })
@@ -209,6 +213,7 @@ mongoose.connect(CONNECTION_STRING, {
 .then(() => {
     accountController.initData();
     productController.initData();
+    staffPaymentController.initData();
 
     console.log('Database connected');
 
