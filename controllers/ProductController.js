@@ -138,33 +138,32 @@ async function editProduct(req, res) {
             console.log("Error File upload: " + error);
             const products = await Product.find().lean();
             req.flash("error", "Đã xảy ra lỗi khi xử lý upload file");
-            return res.render("product-management", { error : req.flash("error"), products });
+            return res.render("product-management", { error: req.flash("error"), products });
         }
 
         if (data.barcode[0] === '' || data.productName[0] === '' || data.importPrice[0] <= 0 || data.retailPrice[0] <= 0 || data.category[0] === '' || data.creationDate[0] === '') {
-            const products = await Product.find().lean();
             req.flash("error", "Vui lòng nhập đầy đủ thông tin.");
-            return res.render("product-management", { error : req.flash("error"), products });
+            return res.redirect("/product-management");
         }
 
         try {
-            let product = await Product.findById(data.productId[0]);
+            const barcode = data.barcode[0]; 
+
+            let product = await Product.findOne({ barcode }).exec();
 
             if (!product) {
                 req.flash("error", "Không tìm thấy sản phẩm để chỉnh sửa.");
                 return res.redirect("/product-management");
             }
 
-            // Kiểm tra và cập nhật dữ liệu sản phẩm
-            product.barcode = data.barcode[0];
             product.productName = data.productName[0];
-            product.importPrice = data.importPrice - 0; // Chuyển đổi sang dạng số
-            product.retailPrice = data.retailPrice - 0; // Chuyển đổi sang dạng số
+            product.importPrice = data.importPrice[0] - 0;
+            product.retailPrice = data.retailPrice[0] - 0;
             product.category = data.category[0];
             product.creationDate = formatDate(data.creationDate[0]);
 
-            if (files.image && files.image[0].originalFilename !== '') {
-                let file = files.image[0];
+            let file = files.image[0];
+            if (file.originalFilename !== "") {
                 let tempPath = file.path;
                 let savePath = path.join(__dirname, "../public/uploads/products", file.originalFilename);
 
@@ -174,8 +173,8 @@ async function editProduct(req, res) {
 
             await product.save();
 
-            req.flash("success", "Sửa sản phẩm thành công.");
-            return res.redirect("/product-management");
+            req.flash("success", "Chỉnh sửa sản phẩm thành công.");
+            return res.render("product-management", { product });
         } catch (error) {
             req.flash("error", "Đã xảy ra lỗi khi chỉnh sửa sản phẩm.");
             return res.redirect("/product-management");
@@ -187,8 +186,6 @@ async function deleteProduct(req, res) {
     try {
         const barcode = req.body.barcode;
         
-        console.log(barcode);
-
         const deletedProduct = await Product.findOneAndDelete({ barcode });
 
         if (deletedProduct) {

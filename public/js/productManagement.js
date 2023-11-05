@@ -1,24 +1,52 @@
 let deletedBarcode;
+let updatedImage;
 
 $(".custom-file-input").on("change", function () {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
-function updateProduct() {
+function confirmUpdateProduct(barcode, productName, category, importPrice, retailPrice) {
+    $('#updatedBarcode').val(barcode);
+    $('#updatedProductName').val(productName);
+    $('#updatedCategory').val(category);
+    $('#updatedImportPrice').val(importPrice);
+    $('#updatedRetailPrice').val(retailPrice);
     $("#modalUpdate").modal("show");
 }
 
+function updateProduct() {
+    const formData = new FormData();
+    const imageFile = document.getElementById('updatedImage').files[0];
+
+    formData.append('image', imageFile);
+    formData.append('barcode', document.getElementById('updatedBarcode').value);
+    formData.append('productName', document.getElementById('updatedProductName').value);
+    formData.append('category', document.getElementById('updatedCategory').value);
+    formData.append('importPrice', document.getElementById('updatedImportPrice').value);
+    formData.append('retailPrice', document.getElementById('updatedRetailPrice').value);
+    formData.append('creationDate', document.getElementById('updatedCreationDate').value);
+
+    fetch('/edit-product', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            alert('Có lỗi xảy ra khi cập nhật sản phẩm.');
+        }
+    })
+    .catch(error => {
+        alert('Có lỗi xảy ra khi cập nhật sản phẩm.', error);
+    });
+}
+
 function confirmDeleteProduct(barcode) {
-    if (/^\d+$/.test(barcode)) {
-        // Proceed if the barcode is entirely numeric
-        $("#modalDelete").modal("show");
-        deletedBarcode = barcode;
-    } else {
-        // Proceed even if the barcode is not entirely numeric
-        $("#modalDelete").modal("show");
-        deletedBarcode = barcode;
-    }
+    $("#modalDelete").modal("show");
+
+    deletedBarcode = barcode;
 }
 
 function deleteProduct() {
