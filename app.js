@@ -1,27 +1,27 @@
 // Import các package
-let express = require('express')
-let mongoose = require("mongoose"); // giúp tương tác database
+const express = require('express')
+const mongoose = require("mongoose"); // giúp tương tác database
 require("dotenv").config(); // giúp tương tác file .env
-let cookieParser = require('cookie-parser'); // cookie
-let hbs = require('express-handlebars') 
-let session = require('express-session'); // session
-let flash = require('connect-flash'); // flash message
+const cookieParser = require('cookie-parser'); // cookie
+const hbs = require('express-handlebars') 
+const session = require('express-session'); // session
+const flash = require('connect-flash'); // flash message
 
 // Import các module controller
-let homeController = require('./controllers/HomeController');
-let profileController = require('./controllers/ProfileController');
-let changepasswordController = require('./controllers/ChangePasswordController')
-let accountController = require('./controllers/AccountController')
-let productController = require('./controllers/ProductController')
-let loginController = require('./controllers/LoginController')
-let signupController = require('./controllers/SignUpController')
-let timeOutController = require('./controllers/TimeOutController')
-let staffPaymentController = require('./controllers/StaffPaymentController')
-let paymentHistoryController = require('./controllers/PaymentHistoryController')
-let detailOrderController = require('./controllers/DetailOrderController')
-let productPaymentController = require('./controllers/ProductPaymentController')
-let invoiceController = require('./controllers/InvoiceController')
-let changepwdlogController = require('./controllers/ChangePwdLogController')
+const homeController = require('./controllers/HomeController');
+const profileController = require('./controllers/ProfileController');
+const changepasswordController = require('./controllers/ChangePasswordController')
+const accountController = require('./controllers/AccountController')
+const productController = require('./controllers/ProductController')
+const loginController = require('./controllers/LoginController')
+const signupController = require('./controllers/SignUpController')
+const timeOutController = require('./controllers/TimeOutController')
+const staffPaymentController = require('./controllers/StaffPaymentController')
+const paymentHistoryController = require('./controllers/PaymentHistoryController')
+const detailOrderController = require('./controllers/DetailOrderController')
+const productPaymentController = require('./controllers/ProductPaymentController')
+const invoiceController = require('./controllers/InvoiceController')
+const changepwdlogController = require('./controllers/ChangePwdLogController')
 
 // Lấy dữ liệu từ file .env ra
 const PORT = process.env.PORT;
@@ -43,7 +43,7 @@ app.use(flash()) // flash message
 app.engine('handlebars', hbs.engine({
     defaultLayout: 'main',
     helpers: {
-        getLockedStatus: function(email, lockedStatus) {
+        getLockedStatus: (email, lockedStatus) => {
             if(lockedStatus - 0 === 1)
                 return `
                 <button class="btn btn-danger" onclick="lockUser('${email}')">
@@ -58,8 +58,12 @@ app.engine('handlebars', hbs.engine({
                 `;
         },
         
-        eq: function (value1, value2, options) {
+        eq: (value1, value2, options) => {
             return value1 === value2;
+        },
+
+        formatPrice: (price) => {
+            return price.toLocaleString('vi-VN'); 
         }
     }                   
 }))

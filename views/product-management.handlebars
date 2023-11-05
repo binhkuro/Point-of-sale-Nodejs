@@ -16,11 +16,11 @@
             <div class="form-group col-lg-4 col-md-6 col-12">
                 <label for="category">Danh mục:</label>
                 <select name="category" class="custom-select" id="category">
-                    <option value="Phone" {{#if (eq category "Phone")}}selected{{/if}}>Điện thoại</option>
-                    <option value="Tablet" {{#if (eq category "Tablet")}}selected{{/if}}>Máy tính bảng</option>
-                    <option value="Watch" {{#if (eq category "Watch")}}selected{{/if}}>Đồng hồ thông minh</option>
-                    <option value="Adapter" {{#if (eq category "Adapter")}}selected{{/if}}>Cục sạc</option>
-                    <option value="Cable" {{#if (eq category "Cable")}}selected{{/if}}>Dây sạc</option>
+                    <option value="Điện thoại" {{#if (eq category "Điện thoại")}}selected{{/if}}>Điện thoại</option>
+                    <option value="Máy tính bảng" {{#if (eq category "Máy tính bảng")}}selected{{/if}}>Máy tính bảng</option>
+                    <option value="Đồng hồ thông minh" {{#if (eq category "Đồng hồ thông minh")}}selected{{/if}}>Đồng hồ thông minh</option>
+                    <option value="Cục sạc" {{#if (eq category "Cục sạc")}}selected{{/if}}>Cục sạc</option>
+                    <option value="Dây sạc" {{#if (eq category "Dây sạc")}}selected{{/if}}>Dây sạc</option>
                 </select>
             </div>
 
@@ -81,8 +81,8 @@
                     <td>{{barcode}}</td>
                     <td>{{productName}}</td>
                     <td>{{category}}</td>
-                    <td>{{importPrice}}đ</td>
-                    <td>{{retailPrice}}đ</td>
+                    <td>{{formatPrice importPrice}}đ</td>
+                    <td>{{formatPrice retailPrice}}đ</td>
                     <td>{{creationDate}}</td>
                     <td>
                         <button class="btn btn-secondary" onclick="detailProduct('{{image}}', '{{barcode}}', '{{productName}}', '{{category}}', {{importPrice}}, {{retailPrice}}, '{{creationDate}}')"><i class="fa-solid fa-circle-info"></i></button>
@@ -162,11 +162,11 @@
                 <div class="form-group col-md-6 col-12">
                     <label for="updatedCategory">Danh mục:</label>
                     <select name="updatedCategory" class="custom-select" id="updatedCategory">
-                        <option selected value="Phone">Điện thoại</option>
-                        <option value="Tablet">Máy tính bảng</option>
-                        <option value="Watch">Đồng hồ thông minh</option>
-                        <option value="Adapter">Cục sạc</option>
-                        <option value="Cable">Dây sạc</option>
+                        <option selected value="Điện thoại">Điện thoại</option>
+                        <option value="Máy tính bảng">Máy tính bảng</option>
+                        <option value="Đồng hồ thông minh">Đồng hồ thông minh</option>
+                        <option value="Cục sạc">Cục sạc</option>
+                        <option value="Dây sạc">Dây sạc</option>
                     </select>        
                 </div>
 

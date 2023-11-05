@@ -13,7 +13,7 @@ let productSchema = new Schema({
     productName: String,
     importPrice: Number, // int || double đều được
     retailPrice: Number,
-    category: String, // Phone, Tablet, Watch, Adapter (cục sạc), Cable (dây sạc)
+    category: String, // Điện thoại, Máy tính bảng, Đồng hồ thông minh, Củ sạc, Dây sạc
     creationDate: String, // dd/mm/yyyy -> ngày sản phẩm được sản xuất chứ không phải ngày ta tạo sản phẩm lưu lên web
     image: String // đường dẫn đến file hình ảnh
 });

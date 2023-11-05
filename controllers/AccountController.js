@@ -99,7 +99,10 @@ function findAccount(req, res) {
         if(account.isNewUser === 1)
             return res.redirect("changepwd_logout")
         
-        res.redirect("/")
+        if(email === "admin@gmail.com")
+            res.redirect("/product-management")
+        else
+            res.redirect("/")
     })
     .catch(error => {
         req.flash("error", "Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại sau.")

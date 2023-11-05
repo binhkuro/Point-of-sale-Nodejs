@@ -1,115 +1,58 @@
-<!-- Banner -->
-<div class="jumbotron">
-    <h1 class="display-4">Cửa hàng di động</h1>
-    <p class="lead">Chúng tôi cung cấp những sản phẩm điện thoại di động hàng đầu với giá cả hợp lý.</p>
-    <hr class="my-4">
-    <p>Khám phá các sản phẩm mới nhất của chúng tôi và tận hưởng trải nghiệm mua sắm tuyệt vời!</p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Xem sản phẩm</a>
-</div>
+<link rel="stylesheet" href="/css/index.css">
 
-<!-- Sản phẩm nổi bật -->
 <div class="container">
-    <h2 class="my-4">Sản phẩm nổi bật</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">This is a primary list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">This is a secondary list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-danger">This is a danger list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-warning">This is a warning list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-info">This is a info list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-light">This is a light list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-dark">This is a dark list group item</a>
+    <div class="row mt-5">
+        {{#each products}}
+            <div class="col-lg-3 col-md-4 col-12 item" onclick="detailProduct(this)">
+                <img src="/uploads/products/{{image}}">
+                <p>{{productName}}</p>
+                <p class="text-danger">{{formatPrice retailPrice}}đ</p>
+                {{!-- Những phần bị ẩn đi này sẽ được hiển thị trong modal chi tiết --}}
+                <p class="d-none">{{barcode}}</p>
+                <p class="d-none">{{category}}</p>
+                <p class="d-none">{{creationDate}}</p>
             </div>
-        </div>
-        <div class="col-md-8"> 
-            <div class="row">
-                <!-- Sản phẩm 1 -->
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 1.jpg" class="card-img-top" alt="Sản phẩm 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại XYZ</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 1.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Sản phẩm 2 -->
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 2.jpg" class="card-img-top" alt="Sản phẩm 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại ABC</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 2.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Sản phẩm 3 -->
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 3.jpg" class="card-img-top" alt="Sản phẩm 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại DEF</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 3.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 4.jpg" class="card-img-top" alt="Sản phẩm 4">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại GHI</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 4.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 5.jpg" class="card-img-top" alt="Sản phẩm 5">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại GHI</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 5.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 6.jpg" class="card-img-top" alt="Sản phẩm 6">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại GHI</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 6.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 7.jpg" class="card-img-top" alt="Sản phẩm 7">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại GHI</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 7.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-4">
-                        <img src="sản phẩm 8.jpg" class="card-img-top" alt="Sản phẩm 8">
-                        <div class="card-body">
-                            <h5 class="card-title">Điện thoại GHI</h5>
-                            <p class="card-text">Mô tả ngắn về sản phẩm 8.</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{/each}}
     </div>
 </div>
+
+{{!-- Modal xem chi tiết sản phẩm --}}
+<div class="modal fade" id="modalDetail">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header bg-dark">
+          <h4 class="modal-title w-100 text-center text-light" id="modalDetailProductTitle"></h4>
+          <button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body bg-dark">
+            <div class="row py-3">
+                <div class="col-4">
+                    <img src="" id="modalDetailProductImage">
+                </div>
+
+                <div class="col-8">
+                    <div id="modalDetailProductInfo">
+                        <h4 id="modalDetailProductBarcode"></h4>
+                        <p id="modalDetailProductName"></p>
+                        <p id="modalDetailProductCategory"></p>
+                        <p id="modalDetailProductImportPrice"></p>
+                        <p id="modalDetailProductRetailPrice"></p>
+                        <p id="modalDetailProductCreationDate"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer bg-dark">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+    
+      </div>
+    </div>
+</div>
+
+<script src="/js/index.js"></script>

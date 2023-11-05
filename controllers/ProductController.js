@@ -22,7 +22,7 @@ async function initData() {
         productName: "Iphone 15 Pro Max 256Gb",
         importPrice: 20000000,
         retailPrice: 30000000,
-        category: "Phone",
+        category: "Điện thoại",
         creationDate: "03/08/2023",
         image: "iphone15.png"
     });
@@ -31,15 +31,51 @@ async function initData() {
 
     let product2 = new Product({
         barcode: "11111111", 
-        productName: "Iphone 14 Pro 128Gb",
+        productName: "Ipad Air 7",
         importPrice: 15000000,
         retailPrice: 22000000,
-        category: "Tablet",
+        category: "Máy tính bảng",
         creationDate: "15/12/2022",
         image: "ipadair7.png"
     });
 
     await product2.save()
+
+    let product3 = new Product({
+        barcode: "33333333", 
+        productName: "Iphone 14 Pro 128Gb",
+        importPrice: 15000000,
+        retailPrice: 22000000,
+        category: "Điện thoại",
+        creationDate: "15/12/2022",
+        image: "iphone14.png"
+    });
+
+    await product3.save()
+
+    let product4 = new Product({
+        barcode: "44444444", 
+        productName: "Iphone 15 Pro 64Gb",
+        importPrice: 15000000,
+        retailPrice: 22000000,
+        category: "Điện thoại",
+        creationDate: "15/12/2022",
+        image: "iphone15.png"
+    });
+
+    await product4.save()
+
+    let product5 = new Product({
+        barcode: "55555555", 
+        productName: "Iphone 14 Pro 1Tb",
+        importPrice: 15000000,
+        retailPrice: 22000000,
+        category: "Điện thoại",
+        creationDate: "15/12/2022",
+        image: "iphone14.png"
+    });
+
+    await product5.save()
 }
 
 async function addProduct(req, res) {
