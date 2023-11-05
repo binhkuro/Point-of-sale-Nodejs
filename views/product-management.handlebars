@@ -85,9 +85,9 @@
                     <td>{{retailPrice}}đ</td>
                     <td>{{creationDate}}</td>
                     <td>
-                        <button class="btn btn-secondary" onclick="detailProduct('{{products.image}}', '{{products.barcode}}', '{{products.productName}}', '{{products.category}}', {{products.importPrice}}, {{products.retailPrice}}, '{{products.creationDate}}')"><i class="fa-solid fa-circle-info"></i></button>
+                        <button class="btn btn-secondary" onclick="detailProduct('{{image}}', '{{barcode}}', '{{productName}}', '{{category}}', {{importPrice}}, {{retailPrice}}, '{{creationDate}}')"><i class="fa-solid fa-circle-info"></i></button>
                         <button class="btn btn-warning" onclick="updateProduct()"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn btn-danger" onclick="deleteProduct()"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn btn-danger" onclick="confirmDeleteProduct('{{barcode}}')"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             {{/each}}

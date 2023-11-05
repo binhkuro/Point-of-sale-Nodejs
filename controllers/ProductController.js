@@ -150,26 +150,24 @@ async function editProduct(req, res) {
 async function deleteProduct(req, res) {
     try {
         const barcode = req.body.barcode;
-        if (!barcode) {
-            req.flash("error", "Không có barcode sản phẩm cần xóa.");
-            return res.redirect("/product-management");
+        
+        console.log(barcode);
+
+        const deletedProduct = await Product.findOneAndDelete({ barcode });
+
+        if (deletedProduct) {
+            const products = await Product.find().lean();
+
+            req.flash("success", "Xóa sản phẩm thành công.");
+            res.render('product-management', { success: req.flash('message'), products });
+        } else {
+            req.flash("error", "Không thể xóa sản phẩm. Sản phẩm không tồn tại.");
+            res.redirect('/product-management');
         }
-
-        const product = await Product.findById(barcode);
-
-        if (!product) {
-            req.flash("error", "Không tìm thấy sản phẩm để xóa.");
-            return res.redirect("/product-management");
-        }
-
-        // Xóa sản phẩm từ cơ sở dữ liệu
-        await Product.findByIdAndRemove(barcode);
-
-        req.flash("success", "Xóa sản phẩm thành công.");
-        return res.redirect("/product-management");
     } catch (error) {
-        req.flash("error", "Đã xảy ra lỗi khi xóa sản phẩm.");
-        return res.redirect("/product-management");
+        console.error('Error deleting product:', error);
+        req.flash("error", "Lỗi trong quá trình xóa sản phẩm.");
+        res.redirect('/product-management');
     }
 }
 
