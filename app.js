@@ -136,6 +136,10 @@ app.post("/product-management", (req, res) => {
     productController.addProduct(req, res);
 })
 
+app.post("/edit-product", (req, res) => {
+    productController.editProduct(req, res);
+})
+
 app.post("/delete-product", (req, res) => {
     productController.deleteProduct(req, res);
 })
