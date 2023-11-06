@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <h2>Quản lý khách hàng</h2>
 
-    <form method="POST" action="/staff-payment">
+    {{!-- <form method="POST" action="/staff-payment">
         <div class="row">
             <div class="col-md-8">
                 <!-- Số điện thoại -->
@@ -31,7 +31,7 @@
 
     {{#if success}}
         <div class="alert alert-success" id="successAlert" style="margin-top: 15px;">{{success}}</div>
-    {{/if}}
+    {{/if}} --}}
 
     <table class="table table-striped">
         <thead>
@@ -49,8 +49,8 @@
                 <td>{{phone}}</td>
                 <td>{{address}}</td>
                 <td>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal">Cập nhật</button>
-                    <button class="btn btn-danger">Xóa</button>
+                    {{!-- <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal">Cập nhật</button>
+                    <button class="btn btn-danger">Xóa</button> --}}
                     <button class="btn btn-danger"><a href="/payment-history" style="color: white; text-decoration: none;">Xem lịch sử mua hàng</a></button>
                 </td>
             </tr>
@@ -59,7 +59,7 @@
     </table>
 </div>
 
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+{{!-- <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -89,4 +89,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

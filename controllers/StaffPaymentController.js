@@ -15,7 +15,7 @@ async function getStaffPaymentPage(req, res) {
 async function addCustomer(req, res) {
     if(req.body.phone === "" || req.body.fullname === "" || req.body.address === "") {
         req.flash("error", "Vui lòng không bỏ trống thông tin");
-        return res.render("staff-payment", {error: req.flash("error"), phone: req.body.phone, fullname: req.body.fullname, address: req.body.address});
+        return res.render("product-payment", {error: req.flash("error"), phone: req.body.phone, fullname: req.body.fullname, address: req.body.address});
     }
 
     let customer = new Customer({
@@ -26,12 +26,12 @@ async function addCustomer(req, res) {
 
     customer.save()
     .then(newCustomer => {
-        req.flash("success", "Thêm người dùng thành công.");
-        return res.redirect("/staff-payment");
+        req.flash("success", "Thanh toán thành công và in hóa đơn");//sau load sản phẩm lên thì chuyển trang in hóa đơn luôn
+        res.render("product-payment", {success: req.flash("success")});
     })
     .catch(error => {
-        req.flash("error", "Người dùng đã tồn tại");
-        res.redirect("/staff-payment");
+        req.flash("error", "Người dùng đã tồn tại");//tồn tại rồi thì in hóa đơn luôn
+        res.render("product-payment", {error: req.flash("error"), email: req.body.email, fullname: req.body.fullname, address: req.body.address});
     });
 }
 

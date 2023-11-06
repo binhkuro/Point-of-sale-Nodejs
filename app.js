@@ -82,7 +82,7 @@ app.get("/staff-payment", (req, res) => {
     staffPaymentController.getStaffPaymentPage(req, res);
 })
 
-app.post("/staff-payment", (req, res) => {
+app.post("/product-payment", (req, res) => {
     staffPaymentController.addCustomer(req, res);
 })
 
