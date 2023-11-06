@@ -2,16 +2,19 @@ let deletedBarcode;
 let updatedImage;
 
 $(".custom-file-input").on("change", function () {
-    var fileName = $(this).val().split("\\").pop();
+    let fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
-function confirmUpdateProduct(barcode, productName, category, importPrice, retailPrice) {
+function confirmUpdateProduct(image, barcode, productName, category, importPrice, retailPrice, creationDate) {
+    $("#updatedImage").siblings(".custom-file-label").addClass("selected").html(image);
     $('#updatedBarcode').val(barcode);
     $('#updatedProductName').val(productName);
     $('#updatedCategory').val(category);
     $('#updatedImportPrice').val(importPrice);
     $('#updatedRetailPrice').val(retailPrice);
+    // Chuyển creationDate sang yyyy-mm-dd
+    $('#updatedCreationDate').val(creationDate);
     $("#modalUpdate").modal("show");
 }
 

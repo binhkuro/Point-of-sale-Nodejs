@@ -26,8 +26,7 @@ async function addCustomer(req, res) {
 
     customer.save()
     .then(newCustomer => {
-        req.flash("success", "Thanh toán thành công và in hóa đơn");//sau load sản phẩm lên thì chuyển trang in hóa đơn luôn
-        res.render("product-payment", {success: req.flash("success")});
+        res.redirect("invoice");
     })
     .catch(error => {
         req.flash("error", "Người dùng đã tồn tại");//tồn tại rồi thì in hóa đơn luôn

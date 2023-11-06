@@ -10,7 +10,10 @@ let productSchema = new Schema({
         unique: true, // Đảm bảo rằng giá trị barcode là duy nhất
         index: true,  // Tạo một index trên trường barcode để tối ưu tìm kiếm
     },
-    productName: String,
+    productName: {
+        type: String,
+        index: true  // Tạo một index trên trường barcode để tối ưu tìm kiếm
+    },
     importPrice: Number, // int || double đều được
     retailPrice: Number,
     category: String, // Điện thoại, Máy tính bảng, Đồng hồ thông minh, Củ sạc, Dây sạc

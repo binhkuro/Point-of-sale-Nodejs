@@ -44,21 +44,23 @@
 
                     <tr>
                         <td>Khách đưa:</td>
-                        <td>22.000.000đ</td>
+                        <td><input type="number" min="0"/></td>
                     </tr>
 
                     <tr>
                         <td>Trả khách:</td>
-                        <td>1.000.000đ</td>
+                        <td>chỗ này lấy kháh đưa - tổng hóa đơn</td>
                     </tr>
 
                     <tr>
                         <td></td>
-                        <td><button id="printInvoice" class="btn btn-outline-secondary">IN HÓA ĐƠN</button></td>
+                        <td><button onclick="printInvoice()" id="printInvoice" class="btn btn-outline-secondary">IN HÓA ĐƠN</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </body>
+
+<script src="/js/invoice.js"></script>
 </html>
