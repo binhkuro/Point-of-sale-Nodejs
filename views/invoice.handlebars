@@ -15,41 +15,44 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a3e7be1751.js" crossorigin="anonymous"></script>
 
+    <!-- HTML to PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js"></script>
+
     <link rel="stylesheet" href="/css/invoice.css">
 </head>
 <body>
     <div class="container">
-        <div class="rounded shadow-lg" id="bill">
+        <div class="rounded shadow-lg w-75" id="bill">
             <table class="table table-borderless">
                 <tbody>
                     <tr>
                         <td>Số điện thoại KH:</td>
-                        <td><input autocomplete="off" type="text" id="phone" placeholder="Nhập số điện thoại" name="phone" maxlength="10"/></td>
+                        <td><input autocomplete="off" type="text" id="phone" placeholder="Nhập số điện thoại" name="phone" maxlength="10" oninput="getCustomerInfo()"/></td>
                     </tr>
 
                     <tr>
                         <td>Họ tên KH:</td>
-                        <td><input type="text" id="name" name="name" readonly value="chỗ này hiện dựa trên sđt"/></td>
+                        <td id="fullname"></td>
                     </tr>
 
                     <tr>
                         <td>Địa chỉ KH:</td>
-                        <td><input type="text" id="address" name="address" readonly value="chỗ này hiện dựa trên sđt"/></td>
+                        <td id="address"></td>
                     </tr>
 
                     <tr>
                         <td>Tổng hóa đơn:</td>
-                        <td>21.000.000đ</td>
+                        <td id="totalPrice">21.000.000đ</td>
                     </tr>
 
                     <tr>
                         <td>Khách đưa:</td>
-                        <td><input type="number" min="0"/></td>
+                        <td><input autocomplete="off" type="text" id="priceGivenByCustomer" placeholder="Nhập số tiền khách đưa" name="priceGivenByCustomer"  oninput="calculateExcessPrice()"/></td>
                     </tr>
 
                     <tr>
                         <td>Trả khách:</td>
-                        <td>chỗ này lấy kháh đưa - tổng hóa đơn</td>
+                        <td id="excessPrice"></td>
                     </tr>
 
                     <tr>

@@ -22,6 +22,7 @@ const detailOrderController = require('./controllers/DetailOrderController')
 const productPaymentController = require('./controllers/ProductPaymentController')
 const invoiceController = require('./controllers/InvoiceController')
 const changepwdlogController = require('./controllers/ChangePwdLogController')
+const customerController = require('./controllers/CustomerController')
 
 // Lấy dữ liệu từ file .env ra
 const PORT = process.env.PORT;
@@ -160,7 +161,7 @@ app.get("/signup", (req, res) => {
 })
 
 app.get("/invoice", (req, res) => {
-    invoiceController.getInvoicePage(req, res);
+    res.render('invoice', {layout: null});
 })
 
 app.post("/signup", (req, res) => {
@@ -198,6 +199,10 @@ app.put("/lock-user", (req, res) => {
 app.post("/resend-email", (req, res) => {
     accountController.resendEmail(req, res);
     res.end();
+})
+
+app.get("/customer/:phone", (req, res) => {
+    customerController.findCustomer(req, res);
 })
 
 // Middle ware 404 error
