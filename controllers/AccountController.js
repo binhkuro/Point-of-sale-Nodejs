@@ -326,6 +326,18 @@ function resendEmail(req, res) {
     }
 }
 
+function getChangePwdLogPage(req, res) {    
+    Account.findOne({
+        email: req.session.email
+    })
+    .then(account => {
+        if(account.isNewUser === 1)
+            res.render('changepwd_logout');
+        else
+            res.redirect('/login');
+    })
+}
+
 // Đổi mật khẩu không cần pass cũ và cập nhật isNewUser
 function changePwdNoPassOld(req, res) {
     Account.findOne({
@@ -388,5 +400,6 @@ module.exports = {
     initData,
     lockUser,
     resendEmail,
-    changePwdNoPassOld
+    changePwdNoPassOld,
+    getChangePwdLogPage
 };

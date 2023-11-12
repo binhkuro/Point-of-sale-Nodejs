@@ -8,20 +8,9 @@ const session = require('express-session'); // session
 const flash = require('connect-flash'); // flash message
 
 // Import các module controller
-const homeController = require('./controllers/HomeController');
-const profileController = require('./controllers/ProfileController');
-const changepasswordController = require('./controllers/ChangePasswordController')
 const accountController = require('./controllers/AccountController')
 const productController = require('./controllers/ProductController')
-const loginController = require('./controllers/LoginController')
-const signupController = require('./controllers/SignUpController')
 const timeOutController = require('./controllers/TimeOutController')
-const staffPaymentController = require('./controllers/StaffPaymentController')
-const paymentHistoryController = require('./controllers/PaymentHistoryController')
-const detailOrderController = require('./controllers/DetailOrderController')
-const productPaymentController = require('./controllers/ProductPaymentController')
-const invoiceController = require('./controllers/InvoiceController')
-const changepwdlogController = require('./controllers/ChangePwdLogController')
 const customerController = require('./controllers/CustomerController')
 
 // Lấy dữ liệu từ file .env ra
@@ -72,27 +61,27 @@ app.set('view engine', 'handlebars')
 
 // Điều hướng navigation
 app.get("/", (req, res) => {
-    homeController.getHomePage(req, res);
+    productController.getHomePage(req, res);
 })
 
 app.get("/product-payment", (req, res) => {
-    productPaymentController.getProductPaymentPage(req, res);
+    res.render('product-payment');
 })
 
 app.get("/staff-payment", (req, res) => {
-    staffPaymentController.getStaffPaymentPage(req, res);
+    customerController.getStaffPaymentPage(req, res);
 })
 
 app.post("/product-payment", (req, res) => {
-    staffPaymentController.addCustomer(req, res);
+    customerController.addCustomer(req, res);
 })
 
 app.get("/payment-history", (req, res) => {
-    paymentHistoryController.getPaymentHistoryPage(req, res);
+    res.render('payment-history');
 })
 
 app.get("/detail-order", (req, res) => {
-    detailOrderController.getDetailOrderPage(req, res);
+    res.render('detail-order');
 })
 
 app.get("/profile", (req, res) => {
@@ -113,14 +102,14 @@ app.get("/change-password", (req, res) => {
     if(!req.session.email)
         return res.redirect("/login");
 
-    changepasswordController.getChangePasswordPage(req, res);
+    res.render('changepassword');
 })
 
 app.get("/changepwd_logout", (req, res) => {
     if(!req.session.email)
         return res.redirect("/login");
 
-    changepwdlogController.getChangePwdLogPage(req, res);
+    accountController.getChangePwdLogPage(req, res);
 })
 
 app.get("/account-management", (req, res) => {
@@ -157,7 +146,7 @@ app.get("/login", (req, res) => {
 })
 
 app.get("/signup", (req, res) => {
-    signupController.getSignUpPage(req, res);
+    res.render('signup');
 })
 
 app.get("/invoice", (req, res) => {
@@ -208,14 +197,14 @@ app.get("/customer/:phone", (req, res) => {
 // Middle ware 404 error
 app.use((req, res) => {
     res.status(404) 
-    res.render('404')
+    res.render('404', {layout: null})
 })
 
 // Middle ware 500 error
 app.use((err, req, res, next) => {
     console.error(err.message) 
     res.status(500)
-    res.render('500')
+    res.render('500', {layout: null})
 })
 
 // Kết nối tới database ()
@@ -226,7 +215,7 @@ mongoose.connect(CONNECTION_STRING, {
 .then(() => {
     accountController.initData();
     productController.initData();
-    staffPaymentController.initData();
+    customerController.initData();
 
     console.log('Database connected');
 

@@ -4,12 +4,13 @@ let fsx = require('fs-extra'); // upload file
 const path = require('path');
 
 async function getProductManagementPage(req, res) {
-    try {
-        const products = await Product.find().lean();
-        res.render('product-management', { products, success: req.flash("success"), error: req.flash("error") });
-    } catch (error) {
-        res.status(500).send("Đã xảy ra lỗi khi lấy dữ liệu sản phẩm từ cơ sở dữ liệu.");
-    }
+    let products = await getProducts();
+    res.render('product-management', { products, success: req.flash("success"), error: req.flash("error") });
+}
+
+async function getHomePage(req, res) {
+    let products = await getProducts();
+    res.render('index', { products });
 }
 
 // Khởi tạo 1 số dữ liệu mẫu để chạy chương trình
@@ -209,8 +210,18 @@ function formatDate(inputDate) {
     return `${parts[2]}/${parts[1]}/${parts[0]}`;
 }
 
+async function getProducts() {
+    try {
+        let products = await Product.find().lean();
+        return products;
+    } catch (error) {
+        throw new Error("Đã xảy ra lỗi khi lấy dữ liệu từ cơ sở dữ liệu.");
+    }
+}
+
 module.exports = {
     getProductManagementPage,
+    getHomePage,
     initData,
     addProduct,
     editProduct,
