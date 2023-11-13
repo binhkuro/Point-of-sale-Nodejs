@@ -1,39 +1,38 @@
 <form method="POST" action="/payment-history"></form>
     <div class="container">
-        <div class="row">
-            <h2>Quản lý lịch sử đơn hàng</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Tổng tiền</th>
-                        <th>Số tiền đã trả</th>
-                        <th>Số tiền được hoàn</th>
-                        <th>Ngày mua</th>
-                        <th>Số lượng</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>$100.00</td>
-                        <td>$120.00</td>
-                        <td>$20.00</td>
-                        <td>2023-10-11</td>
-                        <td>5</td>
-                        <td>
-                            <button class="btn btn-danger"><a href="/detail-order" style="color: white; text-decoration: none;">Chi tiết</a></button>
-                        </td>
-                    </tr>
-                    <!-- Thêm dữ liệu đơn hàng khác tại đây -->
-                </tbody>
-            </table>
-        </div>
+        <h2>Quản lý lịch sử đơn hàng</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Tổng tiền</th>
+                    <th>Số tiền đã trả</th>
+                    <th>Số tiền được hoàn</th>
+                    <th>Ngày mua</th>
+                    <th>Số lượng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each orders}}
+                <tr>
+                    <td>{{orderId}}</td>
+                    <td>{{totalPrice}}</td>
+                    <td>{{priceGivenByCustomer}}</td>
+                    <td>{{excessPrice}}</td>
+                    <td>{{dateOfPurchase}}</td>
+                    <td>{{totalAmount}}</td>
+                    <td>
+                        <button class="btn btn-danger"><a href="/detail-order" style="color: white; text-decoration: none;">Chi tiết</a></button>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
     </div>
 </form>
 
-<!-- Modal cập nhật -->
+{{!-- <!-- Modal cập nhật -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -72,4 +71,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

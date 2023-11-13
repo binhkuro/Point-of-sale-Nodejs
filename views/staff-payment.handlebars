@@ -1,38 +1,5 @@
-<div class="container-fluid">
+<div class="container">
     <h2>Quản lý khách hàng</h2>
-
-    {{!-- <form method="POST" action="/staff-payment">
-        <div class="row">
-            <div class="col-md-8">
-                <!-- Số điện thoại -->
-                <div class="form-group">
-                    <label for="phone">Số điện thoại:</label>
-                    <input type="text" id="phone" name="phone" class="form-control" value="{{phone}}">
-                </div>
-                <!-- Tên người dùng -->
-                <div class="form-group">
-                    <label for "username">Họ và tên:</label>
-                    <input type="text" id="fullname" name="fullname" class="form-control" value="{{fullname}}">
-                </div>
-                <!-- Địa chỉ -->
-                <div class="form-group">
-                    <label for "username">Địa chỉ:</label>
-                    <input type="text" id="address" name="address" class="form-control" value="{{address}}">
-                </div>
-                <!-- Button "Thêm" -->
-                <input class="btn btn-warning" id="payment" type="submit" value="Thêm">
-            </div>
-        </div>
-    </form>
-
-    {{#if error}}
-        <div class="alert alert-danger" id="errorAlert" style="margin-top: 15px;">{{error}}</div>
-    {{/if}}
-
-    {{#if success}}
-        <div class="alert alert-success" id="successAlert" style="margin-top: 15px;">{{success}}</div>
-    {{/if}} --}}
-
     <table class="table table-striped">
         <thead>
             <tr>
@@ -49,44 +16,10 @@
                 <td>{{phone}}</td>
                 <td>{{address}}</td>
                 <td>
-                    {{!-- <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal">Cập nhật</button>
-                    <button class="btn btn-danger">Xóa</button> --}}
-                    <button class="btn btn-danger"><a href="/payment-history" style="color: white; text-decoration: none;">Xem lịch sử mua hàng</a></button>
+                    <button class="btn btn-danger"><a href="/payment-history/{{phone}}" style="color: white; text-decoration: none;">Xem lịch sử mua hàng</a></button>
                 </td>
             </tr>
         {{/each}}
         </tbody>
     </table>
 </div>
-
-{{!-- <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Cập nhật thông tin khách hàng</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Thêm các trường cập nhật thông tin ở đây -->
-                <div class="form-group">
-                    <label for="updateName">Họ và tên:</label>
-                    <input type="text" id="updateName" name="updateName" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="updatePhone">Số điện thoại:</label>
-                    <input type="text" id="updatePhone" name="updatePhone" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="updatePhone">Địa chỉ:</label>
-                    <input type="text" id="updateAddress" name="updateAddress" class="form-control">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" id="updateCustomerButton">Lưu thay đổi</button>
-            </div>
-        </div>
-    </div>
-</div> --}}

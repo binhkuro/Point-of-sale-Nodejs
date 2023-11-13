@@ -10,6 +10,8 @@ const flash = require('connect-flash'); // flash message
 // Import các module controller
 const accountController = require('./controllers/AccountController')
 const productController = require('./controllers/ProductController')
+const orderController = require('./controllers/OrderController')
+const orderDetailController = require('./controllers/OrderDetailController')
 const timeOutController = require('./controllers/TimeOutController')
 const customerController = require('./controllers/CustomerController')
 
@@ -194,6 +196,18 @@ app.get("/customer/:phone", (req, res) => {
     customerController.findCustomer(req, res);
 })
 
+app.get("/payment-history", (req, res) => {
+    orderController.getOrderHistory(req, res);
+})
+
+app.get("/payment-history/:phone", (req, res) => {
+    orderController.getOrderHistoryByPhone(req, res);
+})
+
+app.get("/detail-order", (req, res) => {
+    orderDetailController.getOrderDetail(req, res);
+})
+
 // Middle ware 404 error
 app.use((req, res) => {
     res.status(404) 
@@ -216,6 +230,8 @@ mongoose.connect(CONNECTION_STRING, {
     accountController.initData();
     productController.initData();
     customerController.initData();
+    orderController.initData();
+    orderDetailController.initData();
 
     console.log('Database connected');
 

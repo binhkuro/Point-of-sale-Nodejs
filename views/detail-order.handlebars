@@ -1,40 +1,25 @@
 <div class="container">
-    <div class="row">
-        <h2>Danh sách sản phẩm trong lịch sử giao dịch</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Barcode</th>
-                    <th>Sản phẩm</th>
-                    <th>Đơn giá</th>
-                    <th>Số lượng</th>
-                    <th>Tổng tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>1</th>
-                    <td>Sản phẩm 1</td>
-                    <td>$10.00</td>
-                    <td>2</td>
-                    <td>20.00</td>
-                </tr>
-                <tr>
-                    <th>1</th>
-                    <td>Sản phẩm 1</td>
-                    <td>$10.00</td>
-                    <td>2</td>
-                    <td>20.00</td>
-                </tr>
-                <tr>
-                    <th>1</th>
-                    <td>Sản phẩm 1</td>
-                    <td>$10.00</td>
-                    <td>2</td>
-                    <td>20.00</td>
-                </tr>
-                <!-- Thêm sản phẩm khác tại đây -->
-            </tbody>
-        </table>
-    </div>
+    <h2>Danh sách sản phẩm trong lịch sử giao dịch</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Barcode</th>
+                <th>Sản phẩm</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each orderdetails}}
+            <tr>
+                <th>{{barcode}}</th>
+                <td>{{productName}}</td>
+                <td>{{price}}</td>
+                <td>{{amount}}</td>
+                <td>{{totalPrice}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
 </div>
