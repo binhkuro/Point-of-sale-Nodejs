@@ -4,6 +4,7 @@ async function getOrderDetail(req, res) {
     let orderdetails = await getOrderDetails();
     res.render('detail-order', { orderdetails, success: req.flash("success"), error: req.flash("error") });
 }
+
 async function getOrderDetails() {
     try {
         let orderdetails = await OrderDetail.find().lean();

@@ -4,6 +4,7 @@ async function getOrderHistory(req, res) {
     let orders = await getOrders();
     res.render('payment-history', { orders, success: req.flash("success"), error: req.flash("error") });
 }
+
 async function getOrders() {
     try {
         let orders = await Order.find().lean();

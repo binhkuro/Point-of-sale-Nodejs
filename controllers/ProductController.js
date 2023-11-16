@@ -1,4 +1,5 @@
 let Product = require("../models/product");
+let OrderDetail = require("../models/orderdetail");
 let multiparty = require('multiparty') // upload file
 let fsx = require('fs-extra'); // upload file
 const path = require('path');
@@ -185,15 +186,26 @@ async function editProduct(req, res) {
 
 async function deleteProduct(req, res) {
     try {
-        const barcode = req.body.barcode;
+        let barcode = req.body.barcode;
+        let products;
+
+        // Kiểm tra xem sản phẩm có từng được mua rồi hay không
+        let orderDetail = await OrderDetail.findOne({barcode: barcode});
+
+        if (orderDetail) {
+            products = await Product.find().lean();
+
+            req.flash("error", "Không thể xóa sản phẩm này vì đã được mua trước đó.");
+            return res.render('product-management', { error: req.flash('error'), products });
+        }
         
-        const deletedProduct = await Product.findOneAndDelete({ barcode });
+        let deletedProduct = await Product.findOneAndDelete({ barcode });
 
         if (deletedProduct) {
-            const products = await Product.find().lean();
+            products = await Product.find().lean();
 
             req.flash("success", "Xóa sản phẩm thành công.");
-            res.render('product-management', { success: req.flash('message'), products });
+            res.render('product-management', { success: req.flash('success'), products });
         } else {
             req.flash("error", "Không thể xóa sản phẩm. Sản phẩm không tồn tại.");
             res.redirect('/product-management');

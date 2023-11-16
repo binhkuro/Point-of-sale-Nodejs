@@ -78,14 +78,6 @@ app.post("/product-payment", (req, res) => {
     customerController.addCustomer(req, res);
 })
 
-app.get("/payment-history", (req, res) => {
-    res.render('payment-history');
-})
-
-app.get("/detail-order", (req, res) => {
-    res.render('detail-order');
-})
-
 app.get("/profile", (req, res) => {
     if(!req.session.email)
         return res.redirect("/login");
