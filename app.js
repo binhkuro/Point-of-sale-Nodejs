@@ -143,6 +143,10 @@ app.get("/signup", (req, res) => {
     res.render('signup');
 })
 
+app.get("/payment", (req, res) => {
+    res.render('payment');
+})
+
 app.get("/invoice", (req, res) => {
     res.render('invoice', {layout: null});
 })
