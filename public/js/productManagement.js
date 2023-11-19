@@ -6,6 +6,15 @@ $(".custom-file-input").on("change", function () {
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
+function convertDateFormat(inputDate) {
+    var parts = inputDate.split('/');
+    if (parts.length === 3) {
+        return parts[2] + '-' + parts[1] + '-' + parts[0];
+    } else {
+        return inputDate;
+    }
+}
+
 function confirmUpdateProduct(image, barcode, productName, category, importPrice, retailPrice, creationDate) {
     $("#updatedImage").siblings(".custom-file-label").addClass("selected").html(image);
     $('#updatedBarcode').val(barcode);
@@ -14,7 +23,7 @@ function confirmUpdateProduct(image, barcode, productName, category, importPrice
     $('#updatedImportPrice').val(importPrice);
     $('#updatedRetailPrice').val(retailPrice);
     // Chuyển creationDate sang yyyy-mm-dd
-    $('#updatedCreationDate').val(creationDate);
+    $('#updatedCreationDate').val(convertDateFormat(creationDate));
     $("#modalUpdate").modal("show");
 }
 

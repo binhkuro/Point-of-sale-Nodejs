@@ -66,6 +66,10 @@ app.get("/", (req, res) => {
     productController.getHomePage(req, res);
 })
 
+app.post('/search-product', (req, res) => {
+    productController.searchProduct(req, res);
+})
+
 app.get("/product-payment", (req, res) => {
     res.render('product-payment');
 })

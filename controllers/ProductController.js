@@ -231,11 +231,28 @@ async function getProducts() {
     }
 }
 
+async function searchProduct(req, res) {
+    try {
+        const barcode = req.body.barcode;
+        let results;
+
+        if (!barcode || barcode.trim() === '') {
+            return res.json([]);
+        } else {
+            results = await Product.find({ barcode: { $regex: barcode, $options: 'i' } }).lean();
+        }
+        res.json(results);
+    } catch (error) {
+        res.status(500).json({ error: "Đã xảy ra lỗi khi tìm kiếm sản phẩm." });
+    }
+}
+
 module.exports = {
     getProductManagementPage,
     getHomePage,
     initData,
     addProduct,
     editProduct,
-    deleteProduct
+    deleteProduct,
+    searchProduct
 };
