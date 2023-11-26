@@ -12,6 +12,17 @@ async function addCustomer(req, res) {
         address: req.body.address
     });
 
+    if(customer.fullname === "Không tìm thấy khách hàng" || customer.address === "Không tìm thấy khách hàng" || customer.fullname === "" || customer.address === "") {
+        req.flash("error", "Thông tin khách hàng không hợp lệ");
+        return res.render("product-payment", { error: req.flash("error") });
+    }
+
+    const existingCustomer = await Customer.findOne({ phone: req.body.phone });
+
+    if (existingCustomer) {
+        return res.redirect("invoice");
+    }
+
     customer.save()
     .then(newCustomer => {
         res.redirect("invoice");

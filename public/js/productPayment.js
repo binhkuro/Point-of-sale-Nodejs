@@ -1,37 +1,37 @@
+let phone = document.getElementById("phone");
+let fullname = document.getElementById("fullname");
+let address = document.getElementById("address");
+
+async function getCustomerInfo() {
+    phone.value = phone.value.replace(/\D/g, '');
+
+    if (phone.value.length === 10) {
+        try {
+            const response = await fetch("/customer/" + phone.value);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const json = await response.json();
+            fullname.value = json.fullname;
+            address.value = json.address;
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    } else {
+        fullname.value = "";
+        address.value = "";
+    }
+}
+
 function checkout() {
     // Tạo Order và các OrderDetail
     // fetch
 
     // Kiểm tra khách hàng đã tồn tại hay chưa. Nếu chưa thì tạo mới
-     // fetch
-     
-}
+    // fetch
 
-let phone = document.getElementById("phone");
-let fullname = document.getElementById("fullname");
-let address = document.getElementById("address");
-
-function getCustomerInfo() {
-    phone.value = phone.value.replace(/\D/g, '');
-
-    if (phone.value.length === 10) {
-        fetch("/customer/" + phone.value)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(json => {
-                fullname.value = json.fullname;
-                address.value = json.address;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    } else {
-        fullname.value = "";
-        address.value = "";
+    if (fullname.value === "Không tìm thấy khách hàng" || address.value === "Không tìm thấy khách hàng" || fullname.value === "Không tìm thấy khách hàng" || address.value === "") {
+        alert("Thông tin hóa đơn không hợp lệ!");
     }
 }
 
