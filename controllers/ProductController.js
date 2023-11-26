@@ -1,4 +1,6 @@
 let Product = require("../models/product");
+let Customer = require("../models/customer");
+let Order = require("../models/order");
 let OrderDetail = require("../models/orderdetail");
 let multiparty = require('multiparty') // upload file
 let fsx = require('fs-extra'); // upload file
@@ -247,6 +249,53 @@ async function searchProduct(req, res) {
     }
 }
 
+async function handlePayment(req, res) {
+    try {
+        const currentDate = new Date();
+        const phone = req.body.phone;
+        const formattedDate = `${currentDate.getDate()}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+        const formattedOrderId = `${currentDate.getDate()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${phone}`;
+
+        if (req.body.phone === "" || req.body.fullname === "" || req.body.address === "") {
+            throw new Error("Vui lòng không bỏ trống thông tin");
+        }
+
+        const existingCustomer = await Customer.findOne({ phone: req.body.phone });
+
+        if (existingCustomer) {
+            existingCustomer.fullname = req.body.fullname;
+            existingCustomer.address = req.body.address;
+            await existingCustomer.save();
+        } else {
+            const newCustomer = new Customer({
+                phone: req.body.phone,
+                fullname: req.body.fullname,
+                address: req.body.address
+            });
+            await newCustomer.save();
+        }
+
+        if (req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
+            throw new Error("Thông tin khách hàng không hợp lệ");
+        }
+
+        const order = new Order({
+            orderId: formattedOrderId,
+            customerPhone: req.body.phone,
+            totalPrice: req.body.totalAmountInput,
+            priceGivenByCustomer: 0,
+            excessPrice: 0,
+            dateOfPurchase: formattedDate,
+            totalAmount: req.body.totalQuantityInput
+        });
+        await order.save();
+        res.redirect("invoice");
+    } catch (error) {
+        req.flash("error", error.message);
+        res.render("product-payment", { error: req.flash("error") });
+    }
+}
+
 module.exports = {
     getProductManagementPage,
     getHomePage,
@@ -254,5 +303,6 @@ module.exports = {
     addProduct,
     editProduct,
     deleteProduct,
-    searchProduct
+    searchProduct,
+    handlePayment
 };

@@ -24,12 +24,6 @@ async function getCustomerInfo() {
 }
 
 function checkout() {
-    // Tạo Order và các OrderDetail
-    // fetch
-
-    // Kiểm tra khách hàng đã tồn tại hay chưa. Nếu chưa thì tạo mới
-    // fetch
-
     if (fullname.value === "Không tìm thấy khách hàng" || address.value === "Không tìm thấy khách hàng" || fullname.value === "Không tìm thấy khách hàng" || address.value === "") {
         alert("Thông tin hóa đơn không hợp lệ!");
     }
@@ -180,13 +174,22 @@ function preventNegativeInput(event) {
 }
 
 function updateTotalAmount() {
-    totalAmount = 0;
+    var totalAmount = 0;
+    var totalQuantity = 0;
+
     $('#productTableBody tr').each(function () {
-        var totalForRow = parseFloat($(this).find('td:eq(5)').text());
+        var quantity = parseInt($(this).find('td:eq(3) input').val()) || 0;
+        var totalForRow = parseFloat($(this).find('td:eq(5)').text()) || 0;
+
         if (!isNaN(totalForRow)) {
             totalAmount += totalForRow;
+            totalQuantity += quantity;
         }
     });
 
     $('p#totalAmount').text('Tổng tiền: ' + totalAmount);
+
+    $('#totalAmountInput').val(totalAmount);
+
+    $('#totalQuantityInput').val(totalQuantity);
 }

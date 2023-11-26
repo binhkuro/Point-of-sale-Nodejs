@@ -79,7 +79,7 @@ app.get("/staff-payment", (req, res) => {
 })
 
 app.post("/product-payment", (req, res) => {
-    customerController.addCustomer(req, res);
+    productController.handlePayment(req, res);
 })
 
 app.get("/profile", (req, res) => {
