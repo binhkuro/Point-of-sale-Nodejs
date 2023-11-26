@@ -7,6 +7,34 @@ function checkout() {
      
 }
 
+let phone = document.getElementById("phone");
+let fullname = document.getElementById("fullname");
+let address = document.getElementById("address");
+
+function getCustomerInfo() {
+    phone.value = phone.value.replace(/\D/g, '');
+
+    if (phone.value.length === 10) {
+        fetch("/customer/" + phone.value)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(json => {
+                fullname.value = json.fullname;
+                address.value = json.address;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    } else {
+        fullname.value = "";
+        address.value = "";
+    }
+}
+
 var totalAmount = 0;
 
 $(document).ready(function () {

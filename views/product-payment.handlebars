@@ -35,18 +35,20 @@
         <p id="totalAmount">Tổng tiền: 0</p>
 
         <!-- Số điện thoại -->
-        <div class="form-group">
+       <div class="form-group">
             <label for="phone">Số điện thoại:</label>
-            <input type="text" id="phone" name="phone" class="form-control" value="{{phone}}">
+            <input autocomplete="off" type="text" id="phone" class="form-control" placeholder="Nhập số điện thoại" name="phone" maxlength="10" value="{{phone}}" oninput="getCustomerInfo()"/>
         </div>
+
         <!-- Tên người dùng -->
         <div class="form-group">
-            <label for "username">Họ và tên:</label>
+            <label for="fullname">Họ và tên:</label>
             <input type="text" id="fullname" name="fullname" class="form-control" value="{{fullname}}">
         </div>
+
         <!-- Địa chỉ -->
         <div class="form-group">
-            <label for "username">Địa chỉ:</label>
+            <label for="address">Địa chỉ:</label>
             <input type="text" id="address" name="address" class="form-control" value="{{address}}">
         </div>
         <button type="submit" class="btn btn-primary" onclick="checkout()">Thanh toán</button>
