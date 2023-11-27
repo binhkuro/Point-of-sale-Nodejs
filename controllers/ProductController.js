@@ -254,10 +254,11 @@ async function handlePayment(req, res) {
         const currentDate = new Date();
         const phone = req.body.phone;
         const formattedDate = `${currentDate.getDate()}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-        const formattedOrderId = `${currentDate.getDate()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${phone}`;
+        const formattedOrderId = `${currentDate.getDate()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${(currentDate.getHours()).toString().padStart(2, '0')}${(currentDate.getMinutes()).toString().padStart(2, '0')}${(currentDate.getSeconds()).toString().padStart(2, '0')}${phone}`;
 
-        if (req.body.phone === "" || req.body.fullname === "" || req.body.address === "") {
-            throw new Error("Vui lòng không bỏ trống thông tin");
+        if(req.body.phone === "" || req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
+            req.flash("error", "Thông tin khách hàng không hợp lệ");
+            return res.render("product-payment", { error: req.flash("error") });
         }
 
         const existingCustomer = await Customer.findOne({ phone: req.body.phone });
@@ -273,10 +274,6 @@ async function handlePayment(req, res) {
                 address: req.body.address
             });
             await newCustomer.save();
-        }
-
-        if (req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
-            throw new Error("Thông tin khách hàng không hợp lệ");
         }
 
         const order = new Order({

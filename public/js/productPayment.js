@@ -24,7 +24,7 @@ async function getCustomerInfo() {
 }
 
 function checkout() {
-    if (fullname.value === "Không tìm thấy khách hàng" || address.value === "Không tìm thấy khách hàng" || fullname.value === "Không tìm thấy khách hàng" || address.value === "") {
+    if (phone === "" || fullname.value === "Không tìm thấy khách hàng" || address.value === "Không tìm thấy khách hàng" || fullname.value === "Không tìm thấy khách hàng" || address.value === "") {
         alert("Thông tin hóa đơn không hợp lệ!");
     }
 }

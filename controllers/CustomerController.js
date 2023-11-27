@@ -1,9 +1,9 @@
 let Customer = require("../models/customer");
 
 async function addCustomer(req, res) {
-    if(req.body.phone === "" || req.body.fullname === "" || req.body.address === "") {
-        req.flash("error", "Vui lòng không bỏ trống thông tin");
-        return res.render("product-payment", {error: req.flash("error"), phone: req.body.phone, fullname: req.body.fullname, address: req.body.address});
+    if(req.body.phone === "" || req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
+        req.flash("error", "Thông tin khách hàng không hợp lệ");
+        return res.render("product-payment", { error: req.flash("error") });
     }
 
     let customer = new Customer({
@@ -11,11 +11,6 @@ async function addCustomer(req, res) {
         fullname: req.body.fullname,
         address: req.body.address
     });
-
-    if(customer.fullname === "Không tìm thấy khách hàng" || customer.address === "Không tìm thấy khách hàng" || customer.fullname === "" || customer.address === "") {
-        req.flash("error", "Thông tin khách hàng không hợp lệ");
-        return res.render("product-payment", { error: req.flash("error") });
-    }
 
     const existingCustomer = await Customer.findOne({ phone: req.body.phone });
 

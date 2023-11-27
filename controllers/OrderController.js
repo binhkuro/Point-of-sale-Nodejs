@@ -69,11 +69,11 @@ async function addOrder(req, res) {
     let currentDate = new Date();
     let phone = req.body.phone;
     let formattedDate = `${currentDate.getDate()}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-    let formattedOrderId = `${currentDate.getDate()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${phone}`;
+    let formattedOrderId = `${currentDate.getDate()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${(currentDate.getHours()).toString().padStart(2, '0')}${(currentDate.getMinutes()).toString().padStart(2, '0')}${(currentDate.getSeconds()).toString().padStart(2, '0')}${phone}`;
 
-    if(req.body.phone === "" || req.body.fullname === "" || req.body.address === "") {
-        req.flash("error", "Vui lòng không bỏ trống thông tin");
-        return res.render("product-payment", {error: req.flash("error"), phone: req.body.phone, fullname: req.body.fullname, address: req.body.address});
+    if(req.body.phone === "" || req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
+        req.flash("error", "Thông tin khách hàng không hợp lệ");
+        return res.render("product-payment", { error: req.flash("error") });
     }
 
     let order = new Order({
@@ -85,16 +85,6 @@ async function addOrder(req, res) {
         dateOfPurchase: formattedDate,
         totalAmount: req.body.totalQuantityInput
     });
-
-    if(order.customerPhone === "") {
-        req.flash("error", "Thông tin khách hàng không hợp lệ");
-        return res.render("product-payment", { error: req.flash("error") });
-    }
-
-    if(req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
-        req.flash("error", "Thông tin khách hàng không hợp lệ");
-        return res.render("product-payment", { error: req.flash("error") });
-    }
 
     order.save()
     .then(newOrder => {
