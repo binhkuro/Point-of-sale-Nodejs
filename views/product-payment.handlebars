@@ -56,8 +56,16 @@
             <label for="address">Địa chỉ:</label>
             <input type="text" id="address" name="address" class="form-control" value="{{address}}">
         </div>
+
+        <input type="hidden" id="productTable" name="productTable">
+
         <button type="submit" class="btn btn-primary" onclick="checkout()">Thanh toán</button>
         
+        {{#if error}}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+        {{/if}}
     </form>
 </div>
 

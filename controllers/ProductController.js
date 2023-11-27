@@ -256,7 +256,7 @@ async function handlePayment(req, res) {
         const formattedDate = `${currentDate.getDate()}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
         const formattedOrderId = `${currentDate.getDate()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${(currentDate.getHours()).toString().padStart(2, '0')}${(currentDate.getMinutes()).toString().padStart(2, '0')}${(currentDate.getSeconds()).toString().padStart(2, '0')}${phone}`;
 
-        if(req.body.phone === "" || req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
+        if (req.body.phone === "" || req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
             req.flash("error", "Thông tin khách hàng không hợp lệ");
             return res.render("product-payment", { error: req.flash("error") });
         }
@@ -286,9 +286,37 @@ async function handlePayment(req, res) {
             totalAmount: req.body.totalQuantityInput
         });
         await order.save();
+
+        const productTable = await req.body.productTable;
+        const parsedProductTable = JSON.parse(productTable);
+
+        if (parsedProductTable.length === 0) {
+            req.flash("error", "Chưa có sản phẩm trong giỏ hàng");
+            return res.render("product-payment", { error: req.flash("error") });
+        }
+
+        let orderDetails = [];
+        let counter = 1;
+
+        for (const product of parsedProductTable) {
+            const uniqueFormattedOrderId = `${formattedOrderId}${counter.toString().padStart(3, '0')}`;
+
+            const orderDetail = new OrderDetail({
+                orderId: uniqueFormattedOrderId,
+                barcode: product.barcode,
+                productName: product.productName,
+                price: product.retailPrice,
+                amount: product.quantity,
+                totalPrice: product.total
+            });
+            orderDetails.push(orderDetail);
+            counter++;
+        }
+
+        await OrderDetail.insertMany(orderDetails);
         res.redirect("invoice");
     } catch (error) {
-        req.flash("error", error.message);
+        req.flash("error", "Không thể thanh toán hóa đơn");
         res.render("product-payment", { error: req.flash("error") });
     }
 }

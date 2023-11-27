@@ -192,4 +192,25 @@ function updateTotalAmount() {
     $('#totalAmountInput').val(totalAmount);
 
     $('#totalQuantityInput').val(totalQuantity);
+
+    var productTable = [];
+    $('#productTableBody tr').each(function () {
+        var barcode = $(this).find('td:eq(0)').text();
+        var productName = $(this).find('td:eq(2)').text();
+        var quantity = parseInt($(this).find('td:eq(3) input').val()) || 0;
+        var retailPrice = parseFloat($(this).find('td:eq(4)').text()) || 0;
+        var total = parseFloat($(this).find('td:eq(5)').text()) || 0;
+
+        if (!isNaN(total)) {
+            productTable.push({
+                barcode: barcode,
+                productName: productName,
+                quantity: quantity,
+                retailPrice: retailPrice,
+                total: total
+            });
+        }
+    });
+
+    $('#productTable').val(JSON.stringify(productTable));
 }
