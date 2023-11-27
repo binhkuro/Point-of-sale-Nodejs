@@ -200,9 +200,9 @@ app.get("/payment-history", (req, res) => {
     orderController.getOrderHistory(req, res);
 })
 
-app.get("/payment-history/:phone", (req, res) => {
-    orderController.getOrderHistoryByPhone(req, res);
-})
+// app.get("/payment-history/:phone", (req, res) => {
+//     orderController.getOrderHistoryByPhone(req, res);
+// })
 
 app.get("/detail-order", (req, res) => {
     orderDetailController.getOrderDetail(req, res);
