@@ -64,11 +64,11 @@ input[type="text"], input[type="email"]{
 	font-family: 'Quicksand', sans-serif;
 }
 input[type="text"]{
-	background: url("../img/user.png") no-repeat 360px 5px;
+	background: url("../img/name.png") no-repeat 360px 5px;
 	background-size: 25px;
 }
 input[type="email"] {
-	background: url("../img/e-mail.png") no-repeat 360px 5px;
+	background: url("../img/email.png") no-repeat 360px 5px;
 	background-size: 25px;
 }
 input[type="submit"] {
@@ -123,4 +123,8 @@ label {
 }
 input[type="checkbox"] {
     margin: 3px 13px 3px 4px;
+}
+
+a, a:hover {
+	color: #537b35;
 }
