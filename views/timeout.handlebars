@@ -1,9 +1,10 @@
 <div class="container">
     <h2>Oops! Link đã hết thời hạn</h2>
     <form method="POST" action="/timeout" novalidate>
-        <input type="email" name="email" id="email" value="{{email}}" hidden>
-        <button class="btn btn-light"><a href="/">Về trang chủ</button>
-        <button type="submit" class="btn btn-primary">Gửi lại mail</button>
+        <label for="email">Vui lòng nhập địa chỉ email của bạn để gửi lại:</label>
+        <input type="email" name="email" id="email" value="{{email}}" required>
+        <button class="btn btn-light"><a href="/">Về trang chủ</a></button>
+        <button type="submit" class="btn btn-primary">Gửi lại email</button>
     </form>
 
     {{#if error}}

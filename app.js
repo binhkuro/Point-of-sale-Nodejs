@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser'); // cookie
 const hbs = require('express-handlebars') 
 const session = require('express-session'); // session
 const flash = require('connect-flash'); // flash message
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // Import các module controller
 const accountController = require('./controllers/AccountController')
@@ -137,11 +139,39 @@ app.post("/delete-product", (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-    if(req.session.email)
-        delete req.session.email;    
-    
-    res.render('login', {token: req.query.token});
-})
+    if (req.session.email) {
+        delete req.session.email;
+    }
+
+    const token = req.query.token;
+    const hashedEmail = req.query.hashedEmail;
+
+    // Kiểm tra xem token và hashedEmail có được cung cấp hay không
+    if (!token || !hashedEmail) {
+        return res.render('login'); // Hiển thị trang đăng nhập mà không có dữ liệu liên quan đến token
+    }
+
+    // Xác thực token
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                // Token đã hết hạn
+                return res.render('timeout'); // Hiển thị trang thông báo hết thời gian
+            } else {
+                // Token không hợp lệ vì lý do khác
+                return res.render('404');
+            }
+        }
+
+        // Kiểm tra sự tương đồng giữa hash của email và hashedEmail từ đường link
+        if (!bcrypt.compareSync(decoded.email, hashedEmail)) {
+            return res.status(401).send('Xác thực không thành công');
+        }
+
+        // Token và xác thực thành công, tiếp tục xử lý đăng nhập
+        res.render('login', { token });
+    });
+});
 
 app.get("/signup", (req, res) => {
     res.render('signup');
@@ -159,12 +189,9 @@ app.post("/signup", (req, res) => {
     accountController.addAccount(req, res);
 })
 
-app.get("/timeout", (req, res) => {
-    timeOutController.getTimeOutPage(req, res);
-})
-
 app.post("/timeout", (req, res) => {
     timeOutController.resendEmail(req, res);
+    res.end();
 })
 
 app.post("/profile", (req, res) => {

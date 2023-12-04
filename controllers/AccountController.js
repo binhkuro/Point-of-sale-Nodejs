@@ -3,6 +3,7 @@ let mailController = require('./MailController')
 let multiparty = require('multiparty') // upload file
 let fsx = require('fs-extra'); // upload file
 const path = require('path');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 // Load user lên trang quản lí
@@ -312,18 +313,16 @@ function lockUser(req, res) {
 function resendEmail(req, res) {
     let email = req.body.email;
     let subject = "Xác thực tài khoản";
-    const emailSentTime = Math.floor(new Date().getTime() / 1000);
-    const currentTime = emailSentTime + 60000;
-    // Tính khoảng thời gian đã trôi qua
-    const timeElapsed = currentTime - emailSentTime;
 
-    if (timeElapsed > 60000) {
-        let content = `<a href="${process.env.APP_URL}/timeout?email=${email}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
-        mailController.sendMail(email, subject, content);
-    } else {
-        let content = `<a href="${process.env.APP_URL}/login?token=${bcrypt.hashSync(email, 3)}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
-        mailController.sendMail(email, subject, content);
-    }
+    // Tạo token với thời gian hết hạn là 60 giây
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: 5 });
+
+    // Sử dụng bcrypt để tạo hash của email, bạn có thể sử dụng cách khác nếu muốn
+    const hashedEmail = bcrypt.hashSync(email, 3);
+
+    // Tạo đường link với token và hash của email
+    let content = `<a href="${process.env.APP_URL}/login?token=${token}&hashedEmail=${hashedEmail}"> Vui lòng nhấn vào đây để hoàn tất thủ tục tài khoản</a>`;
+    mailController.sendMail(email, subject, content);	
 }
 
 function getChangePwdLogPage(req, res) {    
