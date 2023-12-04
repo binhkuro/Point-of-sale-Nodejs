@@ -1,5 +1,65 @@
+.card{
+    border:none;
+
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    cursor:pointer;
+    background-color: #f5f8f2;
+}
+
+.card:before{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#c5f2a2;
+    transform:scaleY(1);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:after{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#537b35;
+    transform:scaleY(0);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:hover::after{
+    transform:scaleY(1);
+}
+
+
+.fonts{
+    font-size:11px;
+}
+
+a, a:hover {
+	color: #537b35;
+}
+
+h2 {
+    color: #537b35;
+    text-align: center;
+}
+
+label{
+    color: #537b35;
+}
+
 .image-container img {
-    height: 300px;
+    height: 200px;
 }
 
 #email, #fullname {
@@ -13,6 +73,7 @@
 
 .image-container {
     position: relative;
+    text-align: center;
 }
 
 .image-container:hover #btnChooseFile {
