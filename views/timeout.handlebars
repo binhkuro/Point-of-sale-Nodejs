@@ -1,17 +1,6 @@
 <div class="container">
-    <h2>Oops! Link đã hết thời hạn</h2>
+    <h2>Oops! Link xác thực đã hết thời hạn. Vui lòng liên hệ với admin để gửi lại mail xác thực</h2>
     <form method="POST" action="/timeout" novalidate>
-        <label for="email">Vui lòng nhập địa chỉ email của bạn để gửi lại:</label>
-        <input type="email" name="email" id="email" value="{{email}}" required>
         <button class="btn btn-light"><a href="/">Về trang chủ</a></button>
-        <button type="submit" class="btn btn-primary">Gửi lại email</button>
     </form>
-
-    {{#if error}}
-        <div class="alert alert-danger">{{error}}</div>
-    {{/if}}
-
-    {{#if success}}
-        <div class="alert alert-success">{{success}}</div>
-    {{/if}}
 </div>

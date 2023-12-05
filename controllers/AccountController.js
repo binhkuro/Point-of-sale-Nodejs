@@ -315,7 +315,7 @@ function resendEmail(req, res) {
     let subject = "Xác thực tài khoản";
 
     // Tạo token với thời gian hết hạn là 60 giây
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: 5 });
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: 60 });
 
     // Sử dụng bcrypt để tạo hash của email, bạn có thể sử dụng cách khác nếu muốn
     const hashedEmail = bcrypt.hashSync(email, 3);

@@ -14,7 +14,6 @@ const accountController = require('./controllers/AccountController')
 const productController = require('./controllers/ProductController')
 const orderController = require('./controllers/OrderController')
 const orderDetailController = require('./controllers/OrderDetailController')
-const timeOutController = require('./controllers/TimeOutController')
 const customerController = require('./controllers/CustomerController')
 
 // Lấy dữ liệu từ file .env ra
@@ -187,11 +186,6 @@ app.get("/invoice", (req, res) => {
 
 app.post("/signup", (req, res) => {
     accountController.addAccount(req, res);
-})
-
-app.post("/timeout", (req, res) => {
-    timeOutController.resendEmail(req, res);
-    res.end();
 })
 
 app.post("/profile", (req, res) => {
