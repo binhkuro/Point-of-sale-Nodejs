@@ -26,6 +26,11 @@
             <table class="table table-borderless">
                 <tbody>
                     <tr>
+                        <td>Mã hóa đơn:</td>
+                        <td id="orderId">{{orderId}}</td>
+                    </tr>
+
+                    <tr>
                         <td>Số điện thoại KH:</td>
                         <td><input autocomplete="off" type="text" id="phone" placeholder="Nhập số điện thoại" name="phone" maxlength="10" oninput="getCustomerInfo()"/></td>
                     </tr>
@@ -42,12 +47,12 @@
 
                     <tr>
                         <td>Tổng hóa đơn:</td>
-                        <td id="totalPrice">21.000.000đ</td>
+                        <td id="totalPrice">{{formatPrice totalPrice}}đ</td>
                     </tr>
 
                     <tr>
                         <td>Khách đưa:</td>
-                        <td><input autocomplete="off" type="text" id="priceGivenByCustomer" placeholder="Nhập số tiền khách đưa" name="priceGivenByCustomer"  oninput="calculateExcessPrice()"/></td>
+                        <td><input autocomplete="off" type="text" id="priceGivenByCustomer" placeholder="Nhập số tiền khách đưa" name="priceGivenByCustomer" oninput="calculateExcessPrice()"/></td>
                     </tr>
 
                     <tr>

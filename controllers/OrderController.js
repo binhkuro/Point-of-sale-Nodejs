@@ -96,9 +96,27 @@ async function addOrder(req, res) {
     });
 }
 
+// Cập nhật lại priceGivenByCustomer và excessPrice
+async function updateOrder(req, res) {
+    let orderId = req.body.orderId;
+    let priceGivenByCustomer = req.body.priceGivenByCustomer;
+    let excessPrice = req.body.excessPrice;
+
+    let order = await Order.findOne({orderId: orderId});
+    if(order === null)
+        return res.json({code: 1, error: "Hóa đơn không tồn tại"});
+
+    order.priceGivenByCustomer = priceGivenByCustomer;
+    order.excessPrice = excessPrice;
+    await order.save();
+    
+    res.json({code: 0, success: "In hóa đơn bán hàng thành công!"});
+}
+
 module.exports = {
     getOrderHistory,
     getOrderHistoryByPhone,
     initData,
-    addOrder
+    addOrder,
+    updateOrder
 };

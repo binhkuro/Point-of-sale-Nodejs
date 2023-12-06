@@ -299,7 +299,8 @@ async function handlePayment(req, res) {
         let counter = 1;
 
         for (const product of parsedProductTable) {
-            const uniqueFormattedOrderId = `${formattedOrderId}${counter.toString().padStart(3, '0')}`;
+            let uniqueFormattedOrderId = `${formattedOrderId}${counter.toString().padStart(3, '0')}`;
+            let totalPrice = product.total;
 
             const orderDetail = new OrderDetail({
                 orderId: uniqueFormattedOrderId,
@@ -314,7 +315,7 @@ async function handlePayment(req, res) {
         }
 
         await OrderDetail.insertMany(orderDetails);
-        res.redirect("invoice");
+        res.redirect(`invoice/${formattedOrderId}/${req.body.totalAmountInput}`);
     } catch (error) {
         req.flash("error", "Không thể thanh toán hóa đơn");
         res.render("product-payment", { error: req.flash("error") });

@@ -168,7 +168,7 @@ app.get("/login", (req, res) => {
         }
 
         // Token và xác thực thành công, tiếp tục xử lý đăng nhập
-        res.render('login', { token });
+        res.render('login', { token, hashedEmail});
     });
 });
 
@@ -180,8 +180,11 @@ app.get("/payment", (req, res) => {
     res.render('payment');
 })
 
-app.get("/invoice", (req, res) => {
-    res.render('invoice', {layout: null});
+app.get("/invoice/:orderId/:totalPrice", (req, res) => {
+    let orderId = req.params.orderId;
+    let totalPrice = req.params.totalPrice - 0;
+
+    res.render('invoice', {layout: null, orderId: orderId, totalPrice: totalPrice});
 })
 
 app.post("/signup", (req, res) => {
@@ -219,6 +222,10 @@ app.get("/customer/:phone", (req, res) => {
 
 app.get("/payment-history", (req, res) => {
     orderController.getOrderHistory(req, res);
+})
+
+app.put("/payment-history", (req, res) => {
+    orderController.updateOrder(req, res);
 })
 
 // app.get("/payment-history/:phone", (req, res) => {

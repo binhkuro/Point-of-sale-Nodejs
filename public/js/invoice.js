@@ -22,6 +22,7 @@ function getCustomerInfo() {
 let priceGivenByCustomer = document.getElementById("priceGivenByCustomer");
 let totalPrice = document.getElementById("totalPrice").innerText.replace(/[^\d]/g, ""); // xóa "." và "đ" trong tổng hóa đơn
 let excessPrice = document.getElementById("excessPrice");
+let orderId = document.getElementById("orderId");
 
 function calculateExcessPrice() {
     priceGivenByCustomer.value = priceGivenByCustomer.value.replace(/\D/g, '');
@@ -38,18 +39,37 @@ function printInvoice() {
         excessPrice.innerText === "" || parseInt(excessPrice.innerText.replace(/[^\d-]/g, '')) < 0)
         return alert("Thông tin hóa đơn không hợp lệ!");
 
-    // TODO: Cập nhật 2 thuộc tính của Order: priceGivenByCustomer và excessPrice
-
-    // Ẩn button in hóa đơn
-    let printInvoice = document.getElementById("printInvoice");
-    printInvoice.style.display = "none"
-
-    html2pdf(document.body, {
-        // TODO: tên hóa đơn sẽ là mã hóa đơn (order_id)
-        //filename: 'downloaded-document.pdf',
+    // Cập nhật 2 thuộc tính của Order: priceGivenByCustomer và excessPrice
+    fetch("/payment-history", {
+        method: "put",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            orderId: orderId.innerText,
+            priceGivenByCustomer: priceGivenByCustomer.value - 0,
+            excessPrice: parseInt(excessPrice.innerText.replace(/[^\d-]/g, ''))
+        })
     })
+    .then(response => response.json())
+    .then(json => {
+        if(json.code === 1) 
+            return alert(json.error);
+        
+        // Ẩn button in hóa đơn
+        let printInvoice = document.getElementById("printInvoice");
+        printInvoice.style.display = "none"
 
-    // Hiện lại button in hóa đơn
-    printInvoice.style.display = ""
-    alert("In hóa đơn bán hàng thành công!");
+        html2pdf(document.body, {
+            // Tên file pdf sẽ là mã hóa đơn
+            filename: `${orderId.innerText}.pdf`,
+        })
+
+        setTimeout(() => {
+            // Hiện lại button in hóa đơn
+            printInvoice.style.display = ""
+            alert(json.success);
+            window.location.href = "/payment-history";
+        }, 1000)
+    })
 }

@@ -83,7 +83,7 @@ function findAccount(req, res) {
         // User chưa kích hoạt tài khoản
         if(account.activateStatus === 0) {
             // Người dùng KHÔNG truy cập trang login thông qua đường link trong email
-            if(!req.body.token || !bcrypt.compareSync(email, req.body.token)) {
+            if(!req.body.token || !bcrypt.compareSync(email, req.body.hashedEmail)) {
                 req.flash("error", "Vui lòng nhấn vào đường link được gửi đến email của bạn.")
                 return res.render("login", {error: req.flash("error")})
             }
@@ -256,7 +256,7 @@ async function initData() {
         fullname: "asd1",
         profilePicture: "default-avatar.png",
         activateStatus: 1,
-        isNewUser: 1,
+        isNewUser: 0,
         lockedStatus: 0
     });
 
@@ -317,7 +317,7 @@ function resendEmail(req, res) {
     // Tạo token với thời gian hết hạn là 60 giây
     const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: 60 });
 
-    // Sử dụng bcrypt để tạo hash của email, bạn có thể sử dụng cách khác nếu muốn
+    // Sử dụng bcrypt để tạo hash của email
     const hashedEmail = bcrypt.hashSync(email, 3);
 
     // Tạo đường link với token và hash của email

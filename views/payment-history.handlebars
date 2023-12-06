@@ -1,5 +1,5 @@
 <form method="POST" action="/payment-history"></form>
-    <div class="container">
+    <div class="container-fluid">
         <h2>Quản lý lịch sử đơn hàng</h2>
         <table class="table table-striped">
             <thead>
@@ -23,7 +23,7 @@
                     <td>{{dateOfPurchase}}</td>
                     <td>{{totalAmount}}</td>
                     <td>
-                        <button class="btn btn-success"><a href="/detail-order" style="color: white; text-decoration: none;">Chi tiết</a></button>
+                        <button class="btn btn-success"><a href="/detail-order" style="color: white; text-decoration: none;"><i class="fa-solid fa-circle-info"></i></a></button>
                     </td>
                 </tr>
             {{/each}}
