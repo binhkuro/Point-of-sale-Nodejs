@@ -48,3 +48,15 @@ function handleChangePassword(json) {
         confirmPassword.value = json.confirmPassword;
     }
 }
+
+function showPassword() {
+    let currentPassword = document.getElementById('currentPassword');
+    let newPassword = document.getElementById('newPassword');
+    let confirmPassword = document.getElementById('confirmPassword');
+    let showPasswordCheckbox = document.getElementById('showPassword');
+    let isShowPassword = showPasswordCheckbox.checked;
+
+    currentPassword.type = isShowPassword ? 'text' : 'password';
+    newPassword.type = isShowPassword ? 'text' : 'password';
+    confirmPassword.type = isShowPassword ? 'text' : 'password';
+}

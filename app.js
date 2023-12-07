@@ -101,7 +101,7 @@ app.get("/change-password", (req, res) => {
     if(!req.session.email)
         return res.redirect("/login");
 
-    res.render('changepassword');
+    res.render('changepassword', {email: req.session.email});
 })
 
 app.get("/changepwd_logout", (req, res) => {
