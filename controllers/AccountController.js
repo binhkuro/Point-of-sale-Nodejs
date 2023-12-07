@@ -256,7 +256,7 @@ async function initData() {
         fullname: "asd1",
         profilePicture: "default-avatar.png",
         activateStatus: 1,
-        isNewUser: 0,
+        isNewUser: 1,
         lockedStatus: 0
     });
 
@@ -331,7 +331,7 @@ function getChangePwdLogPage(req, res) {
     })
     .then(account => {
         if(account.isNewUser === 1)
-            res.render('changepwd_logout');
+            res.render('changepwd_logout', {layout: null, email: req.session.email});
         else
             res.redirect('/login');
     })

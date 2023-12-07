@@ -5,3 +5,10 @@
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before{
     background-color:rgb(40, 167, 69);
 }
+
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

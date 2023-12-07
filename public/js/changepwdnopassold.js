@@ -1,4 +1,3 @@
-let currentPassword = document.getElementById("currentPassword")
 let newPassword = document.getElementById("newPassword")
 let confirmPassword = document.getElementById("confirmPassword")
 let error = document.getElementById("error")
@@ -6,7 +5,6 @@ let success = document.getElementById("success")
 
 function changePwdNoPassOld() {
     let body = {
-        currentPassword: currentPassword.value,
         newPassword: newPassword.value,
         confirmPassword: confirmPassword.value
     }
@@ -29,7 +27,6 @@ function handleChangePassword(json) {
 
         error.classList.add("d-none");
 
-        currentPassword.value = "";
         newPassword.value = "";
         confirmPassword.value = "";
 
@@ -43,8 +40,17 @@ function handleChangePassword(json) {
 
         success.classList.add("d-none");
 
-        currentPassword.value = json.currentPassword;
         newPassword.value = json.newPassword;
         confirmPassword.value = json.confirmPassword;
     }
+}
+
+function showPassword() {
+    let newPassword = document.getElementById('newPassword');
+    let confirmPassword = document.getElementById('confirmPassword');
+    let showPasswordCheckbox = document.getElementById('showPassword');
+    let isShowPassword = showPasswordCheckbox.checked;
+
+    newPassword.type = isShowPassword ? 'text' : 'password';
+    confirmPassword.type = isShowPassword ? 'text' : 'password';
 }
