@@ -13,7 +13,7 @@ async function getProductManagementPage(req, res) {
 
 async function getHomePage(req, res) {
     let products = await getProducts();
-    res.render('index', { products });
+    res.render('index', { products: products, email: req.session.email});
 }
 
 // Khởi tạo 1 số dữ liệu mẫu để chạy chương trình
