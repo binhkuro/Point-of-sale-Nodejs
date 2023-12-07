@@ -13,7 +13,7 @@ function getAccountManagementPage(req, res) {
     .then(accounts => {
         // Lọc ra các account mà không phải là admin
         let accountsNotAdmin = accounts.filter(a => a.email !== "admin@gmail.com");
-        res.render('accountManagement', {accounts: accountsNotAdmin});
+        res.render('accountManagement', {layout: "admin", accounts: accountsNotAdmin});
     })
 }
 
@@ -256,7 +256,7 @@ async function initData() {
         fullname: "asd1",
         profilePicture: "default-avatar.png",
         activateStatus: 1,
-        isNewUser: 1,
+        isNewUser: 0,
         lockedStatus: 0
     });
 
@@ -270,6 +270,7 @@ function getProfileByEmail(req, res) {
     })
     .then(account => {
         let options = {
+            layout: "admin",
             email: account.email, 
             fullname: account.fullname, 
             profilePicture: account.profilePicture, 

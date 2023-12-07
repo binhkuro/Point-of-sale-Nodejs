@@ -8,7 +8,7 @@ const path = require('path');
 
 async function getProductManagementPage(req, res) {
     let products = await getProducts();
-    res.render('product-management', { products, success: req.flash("success"), error: req.flash("error") });
+    res.render('product-management', { layout: "admin", products, success: req.flash("success"), error: req.flash("error") });
 }
 
 async function getHomePage(req, res) {

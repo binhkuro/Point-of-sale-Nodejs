@@ -57,6 +57,14 @@ app.engine('handlebars', hbs.engine({
 
         formatPrice: (price) => {
             return price.toLocaleString('vi-VN'); 
+        },
+        
+        // Những account nào chưa activate tài khoản thông qua email sẽ có background màu vàng tại trang quản lý account
+        isActivateAccount: (activateStatus) => {
+            if(activateStatus === 0)
+                return 'class="bg-warning"';
+            else
+                return "";
         }
     }                   
 }))
@@ -102,6 +110,13 @@ app.get("/change-password", (req, res) => {
         return res.redirect("/login");
 
     res.render('changepassword', {email: req.session.email});
+})
+
+app.get("/admin-change-password", (req, res) => {
+    if(!req.session.email || req.session.email !== "admin@gmail.com")
+        return res.redirect("/login");
+
+    res.render('changepassword', {layout: "admin"});
 })
 
 app.get("/changepwd_logout", (req, res) => {

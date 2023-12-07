@@ -13,8 +13,8 @@
             </thead>
             <tbody>
                 {{#each accounts}}
-                    <tr>
-                        <td><img src="/uploads/avatars/{{profilePicture}}"></td>
+                    <tr {{{isActivateAccount activateStatus}}}>
+                        <td><img src="/uploads/avatars/{{profilePicture}}" class="old"></td>
                         <td>{{fullname}}</td>
                         <td>
                             {{#getLockedStatus email lockedStatus}}{{/getLockedStatus}}
