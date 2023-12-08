@@ -19,16 +19,13 @@ async function getOrderDetailById(req, res) {
 
     try {
         let orderDetails = await OrderDetail.find({ orderId: { $regex: `^${orderId.slice(0, -3)}` } }).lean();
+        let email = req.session.email;
 
-        let options = {
-            orderDetails,
-            success: req.flash("success"),
-            error: req.flash("error"),
-            layout: req.session.email === "admin@gmail.com" ? "admin" : "main",
-            email: req.session.email
-        };
-
-        res.render("detail-order", options);
+        if(email === "admin@gmail.com")
+            res.render("detail-order", {layout: "admin", orderDetails: orderDetails, success: req.flash("success"), error: req.flash("error")});
+        else
+            res.render("detail-order", {email: email, orderDetails: orderDetails, success: req.flash("success"), error: req.flash("error")});
+            
     } catch (error) {
         console.error('Error fetching order details by order id:', error);
         res.status(500).send('Internal Server Error');

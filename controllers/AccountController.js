@@ -80,6 +80,11 @@ function findAccount(req, res) {
             return res.render("login", {error: req.flash("error"), username: username, password: password, token: req.body.token})
         }
 
+        if(account.lockedStatus === 1) {
+            req.flash("error", "Tài khoản của bạn đã bị khóa.")
+            return res.render("login", {error: req.flash("error")})
+        }
+
         // User chưa kích hoạt tài khoản
         if(account.activateStatus === 0) {
             // Người dùng KHÔNG truy cập trang login thông qua đường link trong email
@@ -94,11 +99,11 @@ function findAccount(req, res) {
             return res.redirect("changepwd_logout")
         }
 
-        req.session.email = email;
-
         // user mới
         if(account.isNewUser === 1)
             return res.redirect("changepwd_logout")
+
+        req.session.email = email;
         
         if(email === "admin@gmail.com")
             res.redirect("/product-management")

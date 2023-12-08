@@ -72,6 +72,9 @@ app.set('view engine', 'handlebars')
 
 // Điều hướng navigation
 app.get("/", (req, res) => {
+    if(!req.session.email || req.session.email === "admin@gmail.com")
+        return res.redirect("/login");
+
     productController.getHomePage(req, res);
 })
 
@@ -80,10 +83,16 @@ app.post('/search-product', (req, res) => {
 })
 
 app.get("/product-payment", (req, res) => {
+    if(!req.session.email || req.session.email === "admin@gmail.com")
+        return res.redirect("/login");
+
     res.render('product-payment', {email: req.session.email});
 })
 
 app.get("/staff-payment", (req, res) => {
+    if(!req.session.email || req.session.email === "admin@gmail.com")
+        return res.redirect("/login");
+        
     customerController.getStaffPaymentPage(req, res);
 })
 
@@ -92,7 +101,7 @@ app.post("/product-payment", (req, res) => {
 })
 
 app.get("/profile", (req, res) => {
-    if(!req.session.email)
+    if(!req.session.email || req.session.email === "admin@gmail.com")
         return res.redirect("/login");
 
     accountController.getProfilePage(req, res);
@@ -106,7 +115,7 @@ app.get("/profileid/:email", (req, res) => {
 })
 
 app.get("/change-password", (req, res) => {
-    if(!req.session.email)
+    if(!req.session.email || req.session.email === "admin@gmail.com")
         return res.redirect("/login");
 
     res.render('changepassword', {email: req.session.email});
@@ -120,22 +129,22 @@ app.get("/admin-change-password", (req, res) => {
 })
 
 app.get("/changepwd_logout", (req, res) => {
-    if(!req.session.email)
+    if(!req.session.email || req.session.email === "admin@gmail.com")
         return res.redirect("/login");
 
     accountController.getChangePwdLogPage(req, res);
 })
 
 app.get("/account-management", (req, res) => {
-    // if(!req.session.email || req.session.email !== "admin@gmail.com")
-    //     return res.redirect("/login");
+    if(!req.session.email || req.session.email !== "admin@gmail.com")
+        return res.redirect("/login");
 
     accountController.getAccountManagementPage(req, res);
 })
 
 app.get("/product-management", (req, res) => {
-    // if(!req.session.email || req.session.email !== "admin@gmail.com")
-    //     return res.redirect("/login");
+    if(!req.session.email || req.session.email !== "admin@gmail.com")
+        return res.redirect("/login");
 
     productController.getProductManagementPage(req, res);
 })
@@ -188,14 +197,21 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
+    if (req.session.email) {
+        delete req.session.email;
+    }
+
     res.render('signup');
 })
 
-app.get("/payment", (req, res) => {
-    res.render('payment');
-})
+// app.get("/payment", (req, res) => {
+//     res.render('payment');
+// })
 
 app.get("/invoice/:orderId/:totalPrice", (req, res) => {
+    if(!req.session.email || req.session.email === "admin@gmail.com")
+        return res.redirect("/login");
+
     let orderId = req.params.orderId;
     let totalPrice = req.params.totalPrice - 0;
 
@@ -232,10 +248,16 @@ app.post("/resend-email", (req, res) => {
 })
 
 app.get("/customer/:phone", (req, res) => {
+    if(!req.session.email || req.session.email === "admin@gmail.com")
+        return res.redirect("/login");
+
     customerController.findCustomer(req, res);
 })
 
 app.get("/payment-history", (req, res) => {
+    if(!req.session.email || req.session.email === "admin@gmail.com")
+        return res.redirect("/login");
+
     orderController.getOrderHistory(req, res);
 })
 
@@ -244,6 +266,9 @@ app.put("/payment-history", (req, res) => {
 })
 
 app.get("/payment-history/:customerPhone", (req, res) => {
+    if(!req.session.email || req.session.email === "admin@gmail.com")
+        return res.redirect("/login");
+
     orderController.getOrderHistoryByPhone(req, res);
 })
 
@@ -252,6 +277,9 @@ app.get("/payment-history/:customerPhone", (req, res) => {
 // })
 
 app.get("/detail-order/:orderId", (req, res) => {
+    if(!req.session.email)
+        return res.redirect("/login");
+
     orderDetailController.getOrderDetailById(req, res);
 })
 

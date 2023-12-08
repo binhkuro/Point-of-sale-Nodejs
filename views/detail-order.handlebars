@@ -1,7 +1,16 @@
 <div class="container">
-    <h2 id="title" class="text-success text-center"></h2>
+    {{#if email}}
+        <h2 id="title" class="text-success text-center"></h2>
+    {{else}}
+        <h2 id="title" class="text-primary text-center"></h2>
+    {{/if}}
+
     <table class="table text-center">
+    {{#if email}}
         <thead class="thead-dark">
+    {{else}}
+        <thead>
+    {{/if}}
             <tr>
                 <th>Barcode</th>
                 <th>Sản phẩm</th>
@@ -11,15 +20,28 @@
             </tr>
         </thead>
         <tbody>
-        {{#each orderDetails}}
-            <tr class="table-success">
-                <th>{{barcode}}</th>
-                <td>{{productName}}</td>
-                <td>{{formatPrice price}}đ</td>
-                <td>{{amount}}</td>
-                <td>{{formatPrice totalPrice}}đ</td>
-            </tr>
-        {{/each}}
+        {{#if email}}
+            {{#each orderDetails}}
+                <tr class="table-success">
+                    <th>{{barcode}}</th>
+                    <td>{{productName}}</td>
+                    <td>{{formatPrice price}}đ</td>
+                    <td>{{amount}}</td>
+                    <td>{{formatPrice totalPrice}}đ</td>
+                </tr>
+            {{/each}}
+        {{else}}
+            {{#each orderDetails}}
+                <tr>
+                    <th>{{barcode}}</th>
+                    <td>{{productName}}</td>
+                    <td>{{formatPrice price}}đ</td>
+                    <td>{{amount}}</td>
+                    <td>{{formatPrice totalPrice}}đ</td>
+                </tr>
+            {{/each}}
+        {{/if}}
+
         </tbody>
     </table>
 </div>
