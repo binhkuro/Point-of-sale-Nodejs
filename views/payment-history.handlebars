@@ -1,36 +1,38 @@
-<form method="POST" action="/payment-history"></form>
-    <div class="container-fluid">
-        <h2>Quản lý lịch sử đơn hàng</h2>
-        <table class="table table-striped">
-            <thead>
+<div class="container-fluid">
+    <h2>Quản lý lịch sử đơn hàng</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <th>Tổng tiền</th>
+                <th>Số tiền đã trả</th>
+                <th>Số tiền được hoàn</th>
+                <th>Ngày mua</th>
+                <th>Số lượng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
                 <tr>
-                    <th>Mã đơn hàng</th>
-                    <th>Tổng tiền</th>
-                    <th>Số tiền đã trả</th>
-                    <th>Số tiền được hoàn</th>
-                    <th>Ngày mua</th>
-                    <th>Số lượng</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-            {{!-- {{#each orders}} --}}
-                <tr>
-                    <td>{{orderId}}</td>
-                    <td>{{totalPrice}}</td>
-                    <td>{{priceGivenByCustomer}}</td>
-                    <td>{{excessPrice}}</td>
-                    <td>{{dateOfPurchase}}</td>
-                    <td>{{totalAmount}}</td>
+                    <td>{{this.orderId}}</td>
+                    <td>{{this.totalPrice}}</td>
+                    <td>{{this.priceGivenByCustomer}}</td>
+                    <td>{{this.excessPrice}}</td>
+                    <td>{{this.dateOfPurchase}}</td>
+                    <td>{{this.totalAmount}}</td>
                     <td>
-                        <button class="btn btn-success"><a href="/detail-order/{{orderId}}" style="color: white; text-decoration: none;"><i class="fa-solid fa-circle-info"></i></a></button>
+                        <button class="btn btn-success">
+                            <a href="/detail-order/{{this.orderId}}" style="color: white; text-decoration: none;">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </a>
+                        </button>
                     </td>
                 </tr>
-            {{!-- {{/each}} --}}
-            </tbody>
-        </table>
-    </div>
-</form>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 
 {{!-- <!-- Modal cập nhật -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">

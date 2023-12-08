@@ -15,27 +15,23 @@ async function getOrders() {
     }
 }
 
-function getOrderHistoryByPhone(req, res) {
+async function getOrderHistoryByPhone(req, res) {
     let phone = req.params.customerPhone;
 
-    Order.findOne({
-        phone: phone
-    })
-    .then(orders => {
+    try {
+        let orders = await Order.find({ customerPhone: phone }).lean();
+
         let options = {
-            orderId: orders.orderId, 
-            customerPhone: orders.customerPhone,
-            totalPrice: orders.totalPrice, 
-            priceGivenByCustomer: orders.priceGivenByCustomer, 
-            excessPrice: orders.excessPrice, 
-            dateOfPurchase: orders.dateOfPurchase,
-            totalAmount: orders.totalAmount,  
-            success: req.flash("success"), 
+            orders,
+            success: req.flash("success"),
             error: req.flash("error")
         };
 
-        res.render("payment-history", options)
-    })
+        res.render("payment-history", options);
+    } catch (error) {
+        console.error('Error fetching order history by phone:', error);
+        res.status(500).send('Internal Server Error');
+    }
 }
 
 // Khởi tạo 1 số dữ liệu mẫu để chạy chương trình
@@ -71,8 +67,8 @@ async function initData() {
 async function addOrder(req, res) {
     let currentDate = new Date();
     let phone = req.body.phone;
-    let formattedDate = `${currentDate.getDate()}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-    let formattedOrderId = `${currentDate.getDate()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${(currentDate.getHours()).toString().padStart(2, '0')}${(currentDate.getMinutes()).toString().padStart(2, '0')}${(currentDate.getSeconds()).toString().padStart(2, '0')}${phone}`;
+    let formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+    let formattedOrderId = `${currentDate.getDate().toString().padStart(2, '0')}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear()}${(currentDate.getHours()).toString().padStart(2, '0')}${(currentDate.getMinutes()).toString().padStart(2, '0')}${(currentDate.getSeconds()).toString().padStart(2, '0')}${phone}`;
 
     if(req.body.phone === "" || req.body.fullname === "Không tìm thấy khách hàng" || req.body.address === "Không tìm thấy khách hàng" || req.body.fullname === "" || req.body.address === "") {
         req.flash("error", "Thông tin khách hàng không hợp lệ");

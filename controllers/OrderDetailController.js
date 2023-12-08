@@ -14,26 +14,23 @@ async function getOrderDetails() {
     }
 }
 
-function getOrderDetailById(req, res) {
-    let id = req.body.orderId;
+async function getOrderDetailById(req, res) {
+    let orderId = req.params.orderId;
 
-    OrderDetail.findOne({
-        id: id
-    })
-    .then(orderdetails => {
+    try {
+        let orderDetails = await OrderDetail.find({ orderId: { $regex: `^${orderId.slice(0, -3)}` } }).lean();
+
         let options = {
-            orderId: orderdetails.orderId, 
-            barcode: orderdetails.barcode,
-            productName: orderdetails.productName, 
-            price: orderdetails.price, 
-            amount: orderdetails.amount, 
-            totalPrice: orderdetails.totalPrice,
-            success: req.flash("success"), 
+            orderDetails,
+            success: req.flash("success"),
             error: req.flash("error")
         };
 
-        res.render("detail-order", options)
-    })
+        res.render("detail-order", options);
+    } catch (error) {
+        console.error('Error fetching order details by order id:', error);
+        res.status(500).send('Internal Server Error');
+    }
 }
 
 // Khởi tạo 1 số dữ liệu mẫu để chạy chương trình

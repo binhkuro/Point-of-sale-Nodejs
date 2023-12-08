@@ -243,7 +243,7 @@ app.put("/payment-history", (req, res) => {
     orderController.updateOrder(req, res);
 })
 
-app.get("/payment-history/:phone", (req, res) => {
+app.get("/payment-history/:customerPhone", (req, res) => {
     orderController.getOrderHistoryByPhone(req, res);
 })
 
