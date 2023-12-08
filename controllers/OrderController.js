@@ -1,4 +1,5 @@
 let Order = require("../models/order");
+let Customer = require("../models/customer");
 
 async function getOrderHistory(req, res) {
     let orders = await getOrders();
@@ -14,25 +15,23 @@ async function getOrders() {
     }
 }
 
-function getOrderHistoryByPhone(req, res) {
-    Order.findOne({
-        customerPhone: req.params.customerPhone,
-    })
-        .then(order => {
-            let options = {
-                orderId: order.orderId,
-                customerPhone: order.customerPhone,
-                totalPrice: order.totalPrice,
-                priceGivenByCustomer: order.priceGivenByCustomer,
-                excessPrice: order.excessPrice,
-                dateOfPurchase: order.dateOfPurchase,
-                totalAmount: order.totalAmount,
-                success: req.flash("success"),
-                error: req.flash("error")
-            };
+async function getOrderHistoryByPhone(req, res) {
+    let phone = req.params.customerPhone;
 
-            res.render("payment-history", options)
-        })
+    try {
+        let orders = await Order.find({ customerPhone: phone }).lean();
+
+        let options = {
+            orders,
+            success: req.flash("success"),
+            error: req.flash("error")
+        };
+
+        res.render("payment-history", options);
+    } catch (error) {
+        console.error('Error fetching order history by phone:', error);
+        res.status(500).send('Internal Server Error');
+    }
 }
 
 // Khởi tạo 1 số dữ liệu mẫu để chạy chương trình
@@ -53,13 +52,13 @@ async function initData() {
     await order.save()
 
     let order2 = new Order({
-        orderId: "13112023000000",
-        customerPhone: "0123456788",
-        totalPrice: 50000000,
-        priceGivenByCustomer: 100000000,
-        excessPrice: 50000000,
-        dateOfPurchase: "05/12/2023",
-        totalAmount: 5
+        orderId: "13112023000000", 
+        customerPhone: "0223456789",
+        totalPrice: 50000000, 
+        priceGivenByCustomer: 100000000, 
+        excessPrice: 50000000, 
+        dateOfPurchase: "13/11/2023",
+        totalAmount: 5 
     });
 
     await order2.save()

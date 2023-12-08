@@ -13,19 +13,23 @@
             </tr>
         </thead>
         <tbody>
-        {{#each orders}}
-            <tr>
-                <td>{{orderId}}</td>
-                <td>{{totalPrice}}</td>
-                <td>{{priceGivenByCustomer}}</td>
-                <td>{{excessPrice}}</td>
-                <td>{{dateOfPurchase}}</td>
-                <td>{{totalAmount}}</td>
-                <td>
-                    <button class="btn btn-success"><a href="/detail-order" style="color: white; text-decoration: none;"><i class="fa-solid fa-circle-info"></i></a></button>
-                </td>
-            </tr>
-        {{/each}}
+            {{#each orders}}
+                <tr>
+                    <td>{{this.orderId}}</td>
+                    <td>{{this.totalPrice}}</td>
+                    <td>{{this.priceGivenByCustomer}}</td>
+                    <td>{{this.excessPrice}}</td>
+                    <td>{{this.dateOfPurchase}}</td>
+                    <td>{{this.totalAmount}}</td>
+                    <td>
+                        <button class="btn btn-success">
+                            <a href="/detail-order/{{this.orderId}}" style="color: white; text-decoration: none;">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </a>
+                        </button>
+                    </td>
+                </tr>
+            {{/each}}
         </tbody>
     </table>
 </div>

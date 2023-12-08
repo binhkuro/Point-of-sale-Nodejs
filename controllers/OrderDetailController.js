@@ -14,6 +14,25 @@ async function getOrderDetails() {
     }
 }
 
+async function getOrderDetailById(req, res) {
+    let orderId = req.params.orderId;
+
+    try {
+        let orderDetails = await OrderDetail.find({ orderId: { $regex: `^${orderId.slice(0, -3)}` } }).lean();
+
+        let options = {
+            orderDetails,
+            success: req.flash("success"),
+            error: req.flash("error")
+        };
+
+        res.render("detail-order", options);
+    } catch (error) {
+        console.error('Error fetching order details by order id:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 // Khởi tạo 1 số dữ liệu mẫu để chạy chương trình
 async function initData() {
     // Trước khi khởi tạo dữ liệu mẫu thì ta cần xóa các dữ liệu hiện có
@@ -43,6 +62,7 @@ async function initData() {
 }
 
 module.exports = {
+    getOrderDetailById,
     getOrderDetail,
     initData
 };
