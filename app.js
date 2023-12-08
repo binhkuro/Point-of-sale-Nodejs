@@ -251,6 +251,17 @@ app.get("/detail-order", (req, res) => {
     orderDetailController.getOrderDetail(req, res);
 })
 
+app.get("/report-analytic", (req, res) => {
+    if(!req.session.email)
+        return res.redirect("/login");
+
+    orderController.getReportAndAnalyticPage(req, res);
+})
+
+app.post("/report-analytic", (req, res) => {
+    orderController.reportAndAnalytic(req, res);
+})
+
 // Middle ware 404 error
 app.use((req, res) => {
     res.status(404) 
