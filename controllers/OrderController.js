@@ -3,7 +3,7 @@ let Customer = require("../models/customer");
 
 async function getOrderHistory(req, res) {
     let orders = await getOrders();
-    res.render('payment-history', { orders, success: req.flash("success"), error: req.flash("error") });
+    res.render('payment-history', { orders, success: req.flash("success"), error: req.flash("error"), email: req.session.email });
 }
 
 async function getOrders() {
@@ -24,7 +24,8 @@ async function getOrderHistoryByPhone(req, res) {
         let options = {
             orders,
             success: req.flash("success"),
-            error: req.flash("error")
+            error: req.flash("error"),
+            email: req.session.email
         };
 
         res.render("payment-history", options);
@@ -113,13 +114,12 @@ async function updateOrder(req, res) {
 }
 
 async function getReportAndAnalyticPage(req, res) {
-    let orders = await Order.find().lean();
     let email = req.session.email;
 
     if(email === "admin@gmail.com")
-        res.render('report-analytic', { layout: "admin", orders });
+        res.render('report-analytic', { layout: "admin" });
     else
-        res.render('report-analytic', { email, orders });
+        res.render('report-analytic', { email });
 }
 
 async function reportAndAnalytic(req, res) {

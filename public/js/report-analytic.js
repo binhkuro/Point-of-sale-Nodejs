@@ -160,7 +160,7 @@ function handleResult(json) {
                     <td>${o.dateOfPurchase}</td>
                     <td>${o.totalAmount}</td>
                     <td>
-                        <button class="btn btn-secondary"><a href="/detail-order" style="color: white; text-decoration: none;"><i class="fa-solid fa-circle-info"></i></a></button>
+                        <button class="btn btn-secondary"><a href="/detail-order/${o.orderId}" style="color: white; text-decoration: none;"><i class="fa-solid fa-circle-info"></i></a></button>
                     </td>
                 </tr>
                 `;

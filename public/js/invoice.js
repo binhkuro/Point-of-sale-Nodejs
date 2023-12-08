@@ -69,7 +69,7 @@ function printInvoice() {
             // Hiện lại button in hóa đơn
             printInvoice.style.display = ""
             alert(json.success);
-            window.location.href = "/payment-history";
+            window.location.href = "/product-payment";
         }, 1000)
     })
 }

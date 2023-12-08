@@ -1,22 +1,22 @@
 <div class="container">
-    <h2>Quản lý khách hàng</h2>
-    <table class="table table-striped">
-        <thead>
+    <h2 class="text-center text-success">Danh sách khách hàng</h2>
+    <table class="table text-center">
+        <thead class="thead-dark">
             <tr>
                 <th>Họ và tên</th>
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
-                <th>Thao tác</th>
+                <th>Lịch sử mua hàng</th>
             </tr>
         </thead>
         <tbody>
         {{#each customers}}
-            <tr>
+            <tr class="table-success">
                 <td>{{fullname}}</td>
                 <td>{{phone}}</td>
                 <td>{{address}}</td>
                 <td>
-                    <button class="btn btn-success"><a href="/payment-history/{{phone}}" style="color: white; text-decoration: none;">Xem lịch sử mua hàng</a></button>
+                    <button class="btn btn-success"><a href="/payment-history/{{phone}}" style="color: white; text-decoration: none;"><i class="fa-solid fa-eye"></i> Xem</a></button>
                 </td>
             </tr>
         {{/each}}

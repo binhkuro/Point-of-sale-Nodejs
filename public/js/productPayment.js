@@ -66,7 +66,7 @@ function displaySearchResults(results) {
             var infoContainer = $('<div class="info-container"></div>');
             infoContainer.append('<p><strong>Barcode:</strong> ' + product.barcode + '</p>');
             infoContainer.append('<p><strong>Tên sản phẩm:</strong> ' + product.productName + '</p>');
-            infoContainer.append('<p><strong>Đơn giá bán:</strong> ' + product.retailPrice + '</p>');
+            infoContainer.append('<p><strong>Đơn giá bán:</strong> ' + formatPrice(product.retailPrice) + "đ" + '</p>');
             productInfo.append(infoContainer);
 
             listItem.append(productInfo);
@@ -124,13 +124,13 @@ function addProductToTable(product) {
         inputField.val(newQuantity);
         updateProductTable(inputField);
     } else {
-        var newRow = $('<tr></tr>');
+        var newRow = $('<tr class="table-success"></tr>');
         newRow.append('<td>' + barcode + '</td>');
         newRow.append('<td><img src="/uploads/products/' + product.image + '"></td>');
         newRow.append('<td>' + product.productName + '</td>');
         newRow.append('<td><input type="number" min="1" value="1" oninput="updateProductTable(this)"; onchange="updateTotalAmount()" onkeydown="preventNegativeInput(event)"></td>');
-        newRow.append('<td>' + product.retailPrice + '</td>');
-        newRow.append('<td>'  + product.retailPrice + '</td>');
+        newRow.append('<td class="priceRow">' + product.retailPrice + '</td>');
+        newRow.append('<td class="totalPriceRow">'  + product.retailPrice + '</td>');
         newRow.append('<td><button type="button" onclick="confirmDeleteProduct(this)" class="btn btn-danger"><i class="fas fa-trash"></i></button></td>');
 
         $('#productTableBody').append(newRow);
@@ -187,7 +187,7 @@ function updateTotalAmount() {
         }
     });
 
-    $('p#totalAmount').text('Tổng tiền: ' + totalAmount);
+    $('p#totalAmount').html('<b>Tổng tiền: </b>' + formatPrice(totalAmount) + "đ");
 
     $('#totalAmountInput').val(totalAmount);
 
@@ -213,4 +213,8 @@ function updateTotalAmount() {
     });
 
     $('#productTable').val(JSON.stringify(productTable));
+}
+
+function formatPrice(price) {
+    return price.toLocaleString('vi-VN'); 
 }

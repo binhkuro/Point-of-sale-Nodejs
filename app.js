@@ -80,7 +80,7 @@ app.post('/search-product', (req, res) => {
 })
 
 app.get("/product-payment", (req, res) => {
-    res.render('product-payment');
+    res.render('product-payment', {email: req.session.email});
 })
 
 app.get("/staff-payment", (req, res) => {

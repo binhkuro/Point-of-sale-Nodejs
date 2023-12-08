@@ -1,7 +1,7 @@
 <div class="container">
-    <h2>Danh sách sản phẩm trong lịch sử giao dịch</h2>
-    <table class="table table-striped">
-        <thead>
+    <h2 id="title" class="text-success text-center"></h2>
+    <table class="table text-center">
+        <thead class="thead-dark">
             <tr>
                 <th>Barcode</th>
                 <th>Sản phẩm</th>
@@ -12,14 +12,16 @@
         </thead>
         <tbody>
         {{#each orderDetails}}
-            <tr>
+            <tr class="table-success">
                 <th>{{barcode}}</th>
                 <td>{{productName}}</td>
-                <td>{{price}}</td>
+                <td>{{formatPrice price}}đ</td>
                 <td>{{amount}}</td>
-                <td>{{totalPrice}}</td>
+                <td>{{formatPrice totalPrice}}đ</td>
             </tr>
         {{/each}}
         </tbody>
     </table>
 </div>
+
+<script src="/js/detail-order.js"></script>

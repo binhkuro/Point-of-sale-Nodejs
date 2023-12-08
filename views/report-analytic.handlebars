@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-hover text-center">
         <thead>
             <tr>
                 <th>Mã đơn hàng</th>
@@ -58,20 +58,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-        {{#each orders}}
-            <tr>
-                <td>{{orderId}}</td>
-                <td>{{customerPhone}}</td>
-                <td>{{formatPrice totalPrice}}đ</td>
-                <td>{{formatPrice priceGivenByCustomer}}đ</td>
-                <td>{{formatPrice excessPrice}}đ</td>
-                <td>{{dateOfPurchase}}</td>
-                <td>{{totalAmount}}</td>
-                <td>
-                    <button class="btn btn-secondary"><a href="/detail-order" style="color: white; text-decoration: none;"><i class="fa-solid fa-circle-info"></i></a></button>
-                </td>
-            </tr>
-        {{/each}}
+        
         </tbody>
     </table>
 </div>

@@ -47,7 +47,7 @@ function findCustomer(req, res) {
 
 async function getStaffPaymentPage(req, res) {
     let customers = await getCustomers();
-    res.render('staff-payment', { customers, success: req.flash("success"), error: req.flash("error") });
+    res.render('staff-payment', { customers, success: req.flash("success"), error: req.flash("error"), email: req.session.email });
 }
 
 async function getCustomers() {

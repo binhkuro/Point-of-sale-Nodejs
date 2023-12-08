@@ -2,7 +2,7 @@ let OrderDetail = require("../models/orderdetail");
 
 async function getOrderDetail(req, res) {
     let orderdetails = await getOrderDetails();
-    res.render('detail-order', { orderdetails, success: req.flash("success"), error: req.flash("error") });
+    res.render('detail-order', { orderdetails, success: req.flash("success"), error: req.flash("error"), email: req.session.email });
 }
 
 async function getOrderDetails() {
@@ -23,7 +23,9 @@ async function getOrderDetailById(req, res) {
         let options = {
             orderDetails,
             success: req.flash("success"),
-            error: req.flash("error")
+            error: req.flash("error"),
+            layout: req.session.email === "admin@gmail.com" ? "admin" : "main",
+            email: req.session.email
         };
 
         res.render("detail-order", options);
