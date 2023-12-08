@@ -243,12 +243,16 @@ app.put("/payment-history", (req, res) => {
     orderController.updateOrder(req, res);
 })
 
-// app.get("/payment-history/:phone", (req, res) => {
-//     orderController.getOrderHistoryByPhone(req, res);
-// })
+app.get("/payment-history/:phone", (req, res) => {
+    orderController.getOrderHistoryByPhone(req, res);
+})
 
 app.get("/detail-order", (req, res) => {
     orderDetailController.getOrderDetail(req, res);
+})
+
+app.get("/detail-order/:orderId", (req, res) => {
+    orderDetailController.getOrderDetailById(req, res);
 })
 
 // Middle ware 404 error

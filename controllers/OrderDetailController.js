@@ -14,6 +14,28 @@ async function getOrderDetails() {
     }
 }
 
+function getOrderDetailById(req, res) {
+    let id = req.body.orderId;
+
+    OrderDetail.findOne({
+        id: id
+    })
+    .then(orderdetails => {
+        let options = {
+            orderId: orderdetails.orderId, 
+            barcode: orderdetails.barcode,
+            productName: orderdetails.productName, 
+            price: orderdetails.price, 
+            amount: orderdetails.amount, 
+            totalPrice: orderdetails.totalPrice,
+            success: req.flash("success"), 
+            error: req.flash("error")
+        };
+
+        res.render("detail-order", options)
+    })
+}
+
 // Khởi tạo 1 số dữ liệu mẫu để chạy chương trình
 async function initData() {
     // Trước khi khởi tạo dữ liệu mẫu thì ta cần xóa các dữ liệu hiện có
@@ -43,6 +65,7 @@ async function initData() {
 }
 
 module.exports = {
+    getOrderDetailById,
     getOrderDetail,
     initData
 };

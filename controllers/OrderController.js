@@ -1,4 +1,5 @@
 let Order = require("../models/order");
+let Customer = require("../models/customer");
 
 async function getOrderHistory(req, res) {
     let orders = await getOrders();
@@ -15,18 +16,20 @@ async function getOrders() {
 }
 
 function getOrderHistoryByPhone(req, res) {
+    let phone = req.params.customerPhone;
+
     Order.findOne({
-        customerPhone: req.params.customerPhone,
+        phone: phone
     })
-    .then(order => {
+    .then(orders => {
         let options = {
-            orderId: order.orderId, 
-            customerPhone: order.customerPhone,
-            totalPrice: order.totalPrice, 
-            priceGivenByCustomer: order.priceGivenByCustomer, 
-            excessPrice: order.excessPrice, 
-            dateOfPurchase: order.dateOfPurchase,
-            totalAmount: order.totalAmount,  
+            orderId: orders.orderId, 
+            customerPhone: orders.customerPhone,
+            totalPrice: orders.totalPrice, 
+            priceGivenByCustomer: orders.priceGivenByCustomer, 
+            excessPrice: orders.excessPrice, 
+            dateOfPurchase: orders.dateOfPurchase,
+            totalAmount: orders.totalAmount,  
             success: req.flash("success"), 
             error: req.flash("error")
         };
@@ -54,7 +57,7 @@ async function initData() {
 
     let order2 = new Order({
         orderId: "13112023000000", 
-        customerPhone: "0123456788",
+        customerPhone: "0223456789",
         totalPrice: 50000000, 
         priceGivenByCustomer: 100000000, 
         excessPrice: 50000000, 
