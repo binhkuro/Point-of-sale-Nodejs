@@ -22,11 +22,11 @@
                     <td>{{this.dateOfPurchase}}</td>
                     <td>{{this.totalAmount}}</td>
                     <td>
-                        <button class="btn btn-success">
-                            <a href="/detail-order/{{this.orderId}}" style="color: white; text-decoration: none;">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </a>
-                        </button>
+                        <a href="/detail-order/{{this.orderId}}" style="text-decoration: none;">
+                            <button class="btn btn-success">
+                                <i class="fa-solid fa-circle-info" style="color: white;"></i>
+                            </button>
+                        </a>
                     </td>
                 </tr>
             {{/each}}

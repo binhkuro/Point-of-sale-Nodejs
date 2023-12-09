@@ -16,7 +16,9 @@
                 <td>{{phone}}</td>
                 <td>{{address}}</td>
                 <td>
-                    <button class="btn btn-success"><a href="/payment-history/{{phone}}" style="color: white; text-decoration: none;"><i class="fa-solid fa-eye"></i> Xem</a></button>
+                    <a href="/payment-history/{{phone}}" class="btn btn-success" style="text-decoration: none; color: white;">
+                        <i class="fa-solid fa-eye"></i> Xem
+                    </a>
                 </td>
             </tr>
         {{/each}}
