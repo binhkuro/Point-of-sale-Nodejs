@@ -39,7 +39,7 @@ async function getProductManagementPage(req, res) {
 }
 
 async function getHomePage(req, res) {
-    const ITEMS_PER_PAGE = 8; // Số lượng item mỗi trang
+    const ITEMS_PER_PAGE = 12; // Số lượng item mỗi trang
     const page = parseInt(req.query.page) || 1; // Lấy số trang hiện tại
     const nextPage = page + 1;
     const prevPage = page - 1;
@@ -76,10 +76,10 @@ async function initData() {
     let product = new Product({
         barcode: "00000000", 
         productName: "Iphone 15 Pro Max 256Gb",
-        importPrice: 20000000,
-        retailPrice: 30000000,
+        importPrice: 35000000,
+        retailPrice: 40990000,
         category: "Điện thoại",
-        creationDate: "03/08/2023",
+        creationDate: "03/08/2022",
         image: "iphone15.png"
     });
 
@@ -88,8 +88,8 @@ async function initData() {
     let product2 = new Product({
         barcode: "11111111", 
         productName: "Ipad Air 7",
-        importPrice: 15000000,
-        retailPrice: 22000000,
+        importPrice: 20380000,
+        retailPrice: 25590000,
         category: "Máy tính bảng",
         creationDate: "15/12/2022",
         image: "ipadair7.png"
@@ -98,10 +98,10 @@ async function initData() {
     await product2.save()
 
     let product3 = new Product({
-        barcode: "33333333", 
+        barcode: "22222222", 
         productName: "Iphone 14 Pro 128Gb",
-        importPrice: 15000000,
-        retailPrice: 22000000,
+        importPrice: 28500000,
+        retailPrice: 33570000,
         category: "Điện thoại",
         creationDate: "15/12/2022",
         image: "iphone14.png"
@@ -110,28 +110,401 @@ async function initData() {
     await product3.save()
 
     let product4 = new Product({
-        barcode: "44444444", 
-        productName: "Iphone 15 Pro 64Gb",
-        importPrice: 15000000,
-        retailPrice: 22000000,
+        barcode: "33333333", 
+        productName: "Galaxy Z Fold4 5G 128Gb",
+        importPrice: 25000000,
+        retailPrice: 27990000,
         category: "Điện thoại",
         creationDate: "15/12/2022",
-        image: "iphone15.png"
+        image: "galaxyzfold.jpg"
     });
 
     await product4.save()
 
     let product5 = new Product({
-        barcode: "55555555", 
-        productName: "Iphone 14 Pro 1Tb",
-        importPrice: 15000000,
+        barcode: "44444444", 
+        productName: "Galaxy Z Flip4 5G 256Gb",
+        importPrice: 20000000,
         retailPrice: 22000000,
         category: "Điện thoại",
         creationDate: "15/12/2022",
-        image: "iphone14.png"
+        image: "galaxyzflip.jpg"
     });
 
     await product5.save()
+
+    let product6 = new Product({
+        barcode: "55555555", 
+        productName: "Xiaomi 13T 5G 8Gb",
+        importPrice: 8000000,
+        retailPrice: 9560000,
+        category: "Điện thoại",
+        creationDate: "16/12/2022",
+        image: "xiaomi.jpg"
+    });
+
+    await product6.save()
+
+    let product7 = new Product({
+        barcode: "66666666", 
+        productName: "Oppo A58 8Gb",
+        importPrice: 5000000,
+        retailPrice: 5490000,
+        category: "Điện thoại",
+        creationDate: "16/12/2022",
+        image: "oppoa58.jpg"
+    });
+
+    await product7.save()
+
+    let product8 = new Product({
+        barcode: "77777777", 
+        productName: "Oppo Find N3 5G",
+        importPrice: 40000000,
+        retailPrice: 44990000,
+        category: "Điện thoại",
+        creationDate: "16/12/2022",
+        image: "oppofind.jpg"
+    });
+
+    await product8.save()
+
+    let product9 = new Product({
+        barcode: "88888888", 
+        productName: "Samsung Galaxy S23 5G 128Gb",
+        importPrice: 13000000,
+        retailPrice: 16890000,
+        category: "Điện thoại",
+        creationDate: "16/12/2022",
+        image: "s235g.jpg"
+    });
+
+    await product9.save()
+
+    let product10 = new Product({
+        barcode: "99999999", 
+        productName: "Realme C53",
+        importPrice: 2000000,
+        retailPrice: 3800000,
+        category: "Điện thoại",
+        creationDate: "16/12/2022",
+        image: "realmec53.jpg"
+    });
+
+    await product10.save()
+
+    let product11 = new Product({
+        barcode: "00112233", 
+        productName: "Xiaomi Redmi Note 12 4G",
+        importPrice: 5000000,
+        retailPrice: 5590000,
+        category: "Điện thoại",
+        creationDate: "17/12/2022",
+        image: "redmi.jpg"
+    });
+
+    await product11.save()
+
+    
+    let product12 = new Product({
+        barcode: "11223344", 
+        productName: "Iphone 15 Plus 256Gb",
+        importPrice: 15000000,
+        retailPrice: 22000000,
+        category: "Điện thoại",
+        creationDate: "17/12/2022",
+        image: "15plus.jpg"
+    });
+
+    await product12.save()
+
+    let product13 = new Product({
+        barcode: "22334455", 
+        productName: "Iphone 13 128Gb",
+        importPrice: 14500000,
+        retailPrice: 16490000,
+        category: "Điện thoại",
+        creationDate: "17/12/2022",
+        image: "iphone13.jpg"
+    });
+
+    await product13.save()
+
+    let product14 = new Product({
+        barcode: "33445566", 
+        productName: "Galaxy Tab A8",
+        importPrice: 4650000,
+        retailPrice: 5790000,
+        category: "Điện thoại",
+        creationDate: "18/12/2022",
+        image: "taba8.jpg"
+    });
+
+    await product14.save()
+
+    let product15 = new Product({
+        barcode: "44556677", 
+        productName: "Oppo Pad Air 64Gb",
+        importPrice: 4500000,
+        retailPrice: 5890000,
+        category: "Điện thoại",
+        creationDate: "18/12/2022",
+        image: "padair.jpg"
+    });
+
+    await product15.save()
+
+    let product16 = new Product({
+        barcode: "55667788", 
+        productName: "Vivo v29e 5G",
+        importPrice: 7455000,
+        retailPrice: 9490000,
+        category: "Điện thoại",
+        creationDate: "18/12/2022",
+        image: "v29e.jpg"
+    });
+
+    await product16.save()
+
+    let product33 = new Product({
+        barcode: "23456789", 
+        productName: "Lenovo Tab M8 (Gen 4)",
+        importPrice: 2000000,
+        retailPrice: 2990000,
+        category: "Điện thoại",
+        creationDate: "19/12/2022",
+        image: "lenovo.jpg"
+    });
+
+    await product33.save()
+
+    let product34 = new Product({
+        barcode: "34567890", 
+        productName: "Samsung Galaxy Tab S9+ 5G",
+        importPrice: 22000000,
+        retailPrice: 23890000,
+        category: "Điện thoại",
+        creationDate: "19/12/2022",
+        image: "galaxytab.jpg"
+    });
+
+    await product34.save()
+
+    let product35 = new Product({
+        barcode: "45678901", 
+        productName: "Xiaomi Redmi Pad SE 6GB",
+        importPrice: 3800000,
+        retailPrice: 4990000,
+        category: "Điện thoại",
+        creationDate: "19/12/2022",
+        image: "galaxytab.jpg"
+    });
+
+    await product35.save()
+
+    let product36 = new Product({
+        barcode: "56789012", 
+        productName: "iPad Air 5 M1 WiFi 64GB",
+        importPrice: 13500000,
+        retailPrice: 14590000,
+        category: "Điện thoại",
+        creationDate: "19/12/2022",
+        image: "m1.jpg"
+    });
+
+    await product36.save()
+
+    let product17 = new Product({
+        barcode: "66778899", 
+        productName: "Mazer 20W MagAir16",
+        importPrice: 1000000,
+        retailPrice: 1520000,
+        category: "Phụ kiện",
+        creationDate: "19/12/2022",
+        image: "mazer.jpg"
+    });
+
+    await product17.save()
+
+    let product18 = new Product({
+        barcode: "77889900", 
+        productName: "Baseus 220V/450W ioTa BPE45A",
+        importPrice: 6000000,
+        retailPrice: 6590000,
+        category: "Phụ kiện",
+        creationDate: "19/12/2022",
+        image: "baseus.jpg"
+    });
+
+    await product18.save()
+
+    let product19 = new Product({
+        barcode: "88990011", 
+        productName: "Xmobile 20W Y73",
+        importPrice: 400000,
+        retailPrice: 560000,
+        category: "Phụ kiện",
+        creationDate: "19/12/2022",
+        image: "xmobile.jpg"
+    });
+
+    await product19.save()
+
+    let product20 = new Product({
+        barcode: "99001122", 
+        productName: "LAUT Handy 20W E33A",
+        importPrice: 600000,
+        retailPrice: 765000,
+        category: "Phụ kiện",
+        creationDate: "20/12/2022",
+        image: "laut.jpg"
+    });
+
+    await product20.save()
+
+    let product21 = new Product({
+        barcode: "00001111", 
+        productName: "Sạc Samsung EP-T2510N",
+        importPrice: 300000,
+        retailPrice: 495000,
+        category: "Phụ kiện",
+        creationDate: "21/12/2022",
+        image: "sacsamsung.jpg"
+    });
+
+    await product21.save()
+
+    let product22 = new Product({
+        barcode: "11112222", 
+        productName: "Sạc Xmobile DS636",
+        importPrice: 700000,
+        retailPrice: 880000,
+        category: "Phụ kiện",
+        creationDate: "21/12/2022",
+        image: "sacxmobile.jpg"
+    });
+
+    await product22.save()
+
+    let product23 = new Product({
+        barcode: "22223333", 
+        productName: "Cáp Lightning 1m Xmobile L2205",
+        importPrice: 80000,
+        retailPrice: 195000,
+        category: "Phụ kiện",
+        creationDate: "22/12/2022",
+        image: "lightning.jpg"
+    });
+
+    await product23.save()
+
+    let product24 = new Product({
+        barcode: "33334444", 
+        productName: "Cáp Type C 2m AVA+ DS08C",
+        importPrice: 50000,
+        retailPrice: 120000,
+        category: "Phụ kiện",
+        creationDate: "22/12/2022",
+        image: "typec.jpg"
+    });
+
+    await product24.save()
+
+    let product25 = new Product({
+        barcode: "44445555", 
+        productName: "Ốp lưng Galaxy A05 Silicone JM Candy",
+        importPrice: 50000,
+        retailPrice: 100000,
+        category: "Phụ kiện",
+        creationDate: "22/12/2022",
+        image: "opa05.jpg"
+    });
+
+    await product25.save()
+
+    let product26 = new Product({
+        barcode: "55556666", 
+        productName: "Ốp lưng MagSafe iPhone 14",
+        importPrice: 250000,
+        retailPrice: 315000,
+        category: "Phụ kiện",
+        creationDate: "22/12/2022",
+        image: "opiphone14.jpg"
+    });
+
+    await product26.save()
+
+    let product27 = new Product({
+        barcode: "66667777", 
+        productName: "Ốp lưng Magsafe Galaxy Z Fold5",
+        importPrice: 650000,
+        retailPrice: 750000,
+        category: "Phụ kiện",
+        creationDate: "22/12/2022",
+        image: "opgalaxy.jpg"
+    });
+
+    await product27.save()
+
+    let product28 = new Product({
+        barcode: "77778888", 
+        productName: "Ốp lưng Magsafe iPhone 15",
+        importPrice: 550000,
+        retailPrice: 621000,
+        category: "Phụ kiện",
+        creationDate: "22/12/2022",
+        image: "opiphone15.jpg"
+    });
+
+    await product28.save()
+
+    let product29 = new Product({
+        barcode: "88889999", 
+        productName: "Tai nghe Có Dây Mozard DS510-WB",
+        importPrice: 70000,
+        retailPrice: 135000,
+        category: "Phụ kiện",
+        creationDate: "23/12/2022",
+        image: "mozard.jpg"
+    });
+
+    await product29.save()
+
+    let product30 = new Product({
+        barcode: "99990000", 
+        productName: "Tai nghe Có Dây JBL C200 SIU",
+        importPrice: 150000,
+        retailPrice: 290000,
+        category: "Phụ kiện",
+        creationDate: "22/12/2022",
+        image: "jbl.jpg"
+    });
+
+    await product30.save()
+
+    let product31 = new Product({
+        barcode: "01234567", 
+        productName: "Tai nghe Bluetooth AirPods Gen 2",
+        importPrice: 4500000,
+        retailPrice: 5990000,
+        category: "Phụ kiện",
+        creationDate: "23/12/2022",
+        image: "airpod.jpg"
+    });
+
+    await product31.save()
+
+    let product32 = new Product({
+        barcode: "12345678", 
+        productName: "Tai nghe Soundpeats Engine4",
+        importPrice: 700000,
+        retailPrice: 980000,
+        category: "Phụ kiện",
+        creationDate: "23/12/2022",
+        image: "engine4.jpg"
+    });
+
+    await product32.save()
 }
 
 async function addProduct(req, res) {
