@@ -7,8 +7,35 @@ let fsx = require('fs-extra'); // upload file
 const path = require('path');
 
 async function getProductManagementPage(req, res) {
-    let products = await getProducts();
-    res.render('product-management', { layout: "admin", products, success: req.flash("success"), error: req.flash("error") });
+    const ITEMS_PER_PAGE = 10; // Số lượng item mỗi trang
+    const page = parseInt(req.query.page) || 1; // Lấy số trang hiện tại
+    const nextPage = page + 1;
+    const prevPage = page - 1;
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+
+    try {
+        let products = await getProducts();
+        const totalProducts = products.length;
+        const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+        const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+        const paginatedProducts = products.slice(skip, skip + ITEMS_PER_PAGE);
+
+        res.render('product-management', { 
+            layout: "admin", 
+            products: paginatedProducts, 
+            success: req.flash("success"), 
+            error: req.flash("error"),
+            currentPage: page,
+            nextPage: nextPage,
+            prevPage: prevPage,
+            totalPages: totalPages,
+            pages: pages
+        });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Internal Server Error');
+    }
 }
 
 async function getHomePage(req, res) {

@@ -1,8 +1,36 @@
 let OrderDetail = require("../models/orderdetail");
 
 async function getOrderDetail(req, res) {
-    let orderdetails = await getOrderDetails();
-    res.render('detail-order', { orderdetails, success: req.flash("success"), error: req.flash("error"), email: req.session.email });
+    const ITEMS_PER_PAGE = 10; // Số lượng item mỗi trang
+    const page = parseInt(req.query.page) || 1; // Lấy số trang hiện tại
+    const nextPage = page + 1;
+    const prevPage = page - 1;
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+
+    try {
+        const orderdetails = await getOrderDetails();
+
+        const totalOrderDetails = orderdetails.length;
+        const totalPages = Math.ceil(totalOrderDetails / ITEMS_PER_PAGE);
+        const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+        const paginatedOrderDetails = orderdetails.slice(skip, skip + ITEMS_PER_PAGE);
+
+        res.render('detail-order', { 
+            orderdetails: paginatedOrderDetails, 
+            success: req.flash("success"), 
+            error: req.flash("error"), 
+            email: req.session.email,
+            currentPage: page,
+            nextPage: nextPage,
+            prevPage: prevPage,
+            totalPages: totalPages,
+            pages: pages,
+        });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Internal Server Error');
+    }
 }
 
 async function getOrderDetails() {
@@ -17,14 +45,46 @@ async function getOrderDetails() {
 async function getOrderDetailById(req, res) {
     let orderId = req.params.orderId;
 
+    const ITEMS_PER_PAGE = 10; // Số lượng item mỗi trang
+    const page = parseInt(req.query.page) || 1; // Lấy số trang hiện tại
+    const nextPage = page + 1;
+    const prevPage = page - 1;
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+
     try {
-        let orderDetails = await OrderDetail.find({ orderId: { $regex: `^${orderId.slice(0, -3)}` } }).lean();
+        const orderDetails = await OrderDetail.find({ orderId: { $regex: `^${orderId.slice(0, -3)}` } }).lean();
         let email = req.session.email;
 
+        const totalOrderDetails = orderDetails.length;
+        const totalPages = Math.ceil(totalOrderDetails / ITEMS_PER_PAGE);
+        const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+        const paginatedOrderDetails = orderDetails.slice(skip, skip + ITEMS_PER_PAGE);
+
         if(email === "admin@gmail.com")
-            res.render("detail-order", {layout: "admin", orderDetails: orderDetails, success: req.flash("success"), error: req.flash("error")});
+            res.render("detail-order", {
+                layout: "admin", 
+                orderDetails: paginatedOrderDetails, 
+                success: req.flash("success"), 
+                error: req.flash("error"),
+                currentPage: page,
+                nextPage: nextPage,
+                prevPage: prevPage,
+                totalPages: totalPages,
+                pages: pages,
+            });
         else
-            res.render("detail-order", {email: email, orderDetails: orderDetails, success: req.flash("success"), error: req.flash("error")});
+            res.render("detail-order", {
+                email: email, 
+                orderDetails: paginatedOrderDetails, 
+                success: req.flash("success"), 
+                error: req.flash("error"),
+                currentPage: page,
+                nextPage: nextPage,
+                prevPage: prevPage,
+                totalPages: totalPages,
+                pages: pages,
+            });
             
     } catch (error) {
         console.error('Error fetching order details by order id:', error);

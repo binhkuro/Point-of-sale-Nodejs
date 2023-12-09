@@ -11,9 +11,29 @@ function getAccountManagementPage(req, res) {
     Account.find()
     .lean() // convert Mongoose Object Array thành Javascript Object Array
     .then(accounts => {
+        const ITEMS_PER_PAGE = 8; // Số lượng item mỗi trang
+        const page = parseInt(req.query.page) || 1; // Lấy số trang hiện tại
+        const nextPage = page + 1;
+        const prevPage = page - 1;
+        const skip = (page - 1) * ITEMS_PER_PAGE;
+
         // Lọc ra các account mà không phải là admin
-        let accountsNotAdmin = accounts.filter(a => a.email !== "admin@gmail.com");
-        res.render('accountManagement', {layout: "admin", accounts: accountsNotAdmin});
+        const accountsNotAdmin = accounts.filter(a => a.email !== "admin@gmail.com");
+        const totalAccountsNotAdmin  = accountsNotAdmin.length;
+        const totalPages = Math.ceil(totalAccountsNotAdmin / ITEMS_PER_PAGE);
+        const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+        const paginatedAccountsNotAdmin = accountsNotAdmin.slice(skip, skip + ITEMS_PER_PAGE);
+
+        res.render('accountManagement', {
+            layout: "admin", 
+            accounts: paginatedAccountsNotAdmin,
+            currentPage: page,
+            nextPage: nextPage,
+            prevPage: prevPage,
+            totalPages: totalPages,
+            pages: pages
+        });
     })
 }
 

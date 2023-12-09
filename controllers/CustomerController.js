@@ -46,8 +46,35 @@ function findCustomer(req, res) {
 }
 
 async function getStaffPaymentPage(req, res) {
-    let customers = await getCustomers();
-    res.render('staff-payment', { customers, success: req.flash("success"), error: req.flash("error"), email: req.session.email });
+    const ITEMS_PER_PAGE = 10; // Số lượng item mỗi trang
+    const page = parseInt(req.query.page) || 1; // Lấy số trang hiện tại
+    const nextPage = page + 1;
+    const prevPage = page - 1;
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+
+    try {
+        const customers = await getCustomers();
+        const totalCustomers = customers.length;
+        const totalPages = Math.ceil(totalCustomers / ITEMS_PER_PAGE);
+        const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+        const paginatedCustomers = customers.slice(skip, skip + ITEMS_PER_PAGE);
+
+        res.render('staff-payment', { 
+            customers: paginatedCustomers, 
+            success: req.flash("success"), 
+            error: req.flash("error"), 
+            email: req.session.email,
+            currentPage: page,
+            nextPage: nextPage,
+            prevPage: prevPage,
+            totalPages: totalPages,
+            pages: pages
+        });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Internal Server Error');
+    }
 }
 
 async function getCustomers() {
