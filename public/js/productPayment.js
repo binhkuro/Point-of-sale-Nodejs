@@ -33,12 +33,12 @@ var totalAmount = 0;
 
 $(document).ready(function () {
     $('#mySearch').on('input', function () {
-        var barcode = $(this).val();
+        var keyword = $(this).val();
 
         $.ajax({
             type: 'POST',
             url: '/search-product',
-            data: { barcode: barcode },
+            data: { keyword: keyword },
             success: function (data) {
                 displaySearchResults(data);
             },

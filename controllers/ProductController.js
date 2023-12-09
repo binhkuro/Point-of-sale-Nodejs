@@ -235,13 +235,19 @@ async function getProducts() {
 
 async function searchProduct(req, res) {
     try {
-        const barcode = req.body.barcode;
+        const keyword = req.body.keyword;
         let results;
 
-        if (!barcode || barcode.trim() === '') {
+        if (!keyword || keyword.trim() === '') {
             return res.json([]);
         } else {
-            results = await Product.find({ barcode: { $regex: barcode, $options: 'i' } }).lean();
+            // Tìm kiếm theo cả barcode và tên sản phẩm
+            results = await Product.find({
+                $or: [
+                    { barcode: { $regex: keyword, $options: 'i' } },
+                    { productName: { $regex: keyword, $options: 'i' } }
+                ]
+            }).lean();
         }
         res.json(results);
     } catch (error) {
