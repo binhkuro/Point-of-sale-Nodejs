@@ -17,4 +17,3 @@ function detailProduct(item) {
 
     $("#modalDetail").modal("show");
 }
-
