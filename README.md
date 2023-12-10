@@ -1,5 +1,22 @@
-- Dùng lệnh "yarn install" để tải lại các package trước đó sau mỗi lần pull code về (vì có thể ai đó đã download 1 package mới)
-- **Không** push thư mục node_modules
-- thay vì "node app.js" để chạy thì ta có thể "yarn nodemon app.js". Câu lệnh này sẽ chạy project 1 lần duy nhất và **tự động update** website mỗi khi chúng ta sửa code (giống Live Server). Tiết kiệm nhiều thời gian thay vì cứ "node app.js" liên tục
-- File css, js viết riêng dành cho giao diện (nếu có) cần đặt tên file giống với tên file handlebars
-VD: home.css, home.js sẽ áp dụng cho file home.handlebars
+# WEBSITE ĐIỂM BÁN HÀNG ĐIỆN THOẠI VÀ PHỤ KIỆN
+
+## Thông tin nhóm
+1. 520H0557 - Nguyễn Khắc Nghiêm
+2. 52000185 - Cao Nguyên Bình
+3. 52000153 - Lê Phạm Anh Trí
+
+## Hướng dẫn chạy website
+1. Clone project trên GitLab về máy tính
+2. Mở cmd gõ lệnh `yarn install` để tải các module trong file package.json
+3. Mở cmd gõ lệnh `node app.js`
+4. Mở trình duyệt và truy cập vào địa chỉ http://localhost:8080
+
+## Một số tài khoản mẫu dùng để test chương trình
+1. Tài khoản admin
+- Tài khoản: admin
+- Mật khẩu: admin
+2. Tài khoản nhân viên
+- Tài khoản: nghiem7755
+- Mật khẩu: nghiem7755
+
+> Video demo: https://youtu.be/bJZ9QppnX20
