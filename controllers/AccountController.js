@@ -263,22 +263,22 @@ async function initData() {
 
     await account.save()
 
-    // let account2 = new Account({
-    //     email: "nghiem7755@gmail.com", 
-    //     password: "nghiem7755",
-    //     fullname: "asd",
-    //     profilePicture: "default-avatar.png",
-    //     activateStatus: 0,
-    //     isNewUser: 1,
-    //     lockedStatus: 0
-    // });
+    let account2 = new Account({
+        email: "nghiem7755@gmail.com", 
+        password: "nghiem7755",
+        fullname: "Nguyễn Khắc Nghiêm",
+        profilePicture: "default-avatar.png",
+        activateStatus: 1,
+        isNewUser: 1,
+        lockedStatus: 0
+    });
 
-    // await account2.save()
+    await account2.save()
 
     let account3 = new Account({
         email: "anhtri000@gmail.com", 
-        password: "asd1",
-        fullname: "asd1",
+        password: "anhtri000",
+        fullname: "Lê Phạm Anh Trí",
         profilePicture: "default-avatar.png",
         activateStatus: 1,
         isNewUser: 0,
@@ -286,6 +286,18 @@ async function initData() {
     });
 
     await account3.save()
+
+    let account4 = new Account({
+        email: "caonguyenbinh12@gmail.com", 
+        password: "caonguyenbinh12",
+        fullname: "Cao Nguyên Bình",
+        profilePicture: "default-avatar.png",
+        activateStatus: 0,
+        isNewUser: 1,
+        lockedStatus: 0
+    });
+
+    await account4.save()
 }
 
 // Load profile user theo email tại trang quản lí

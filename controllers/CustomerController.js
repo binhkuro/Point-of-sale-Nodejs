@@ -92,20 +92,44 @@ async function initData() {
     await Customer.deleteMany()
 
     let customer = new Customer({
-        phone: "0123456789", 
+        phone: "0909000000", 
         fullname: "Nguyễn Văn A",
-        address: "A"
+        address: "Cà Mau"
     });
 
     await customer.save()
 
     let customer2 = new Customer({
-        phone: "0223456789", 
+        phone: "0909111111", 
         fullname: "Nguyễn Văn B",
-        address: "B"
+        address: "Yên Bái"
     });
 
     await customer2.save()
+
+    let customer3 = new Customer({
+        phone: "0909222222", 
+        fullname: "Nguyễn Văn C",
+        address: "Hà Nội"
+    });
+
+    await customer3.save()
+
+    let customer4 = new Customer({
+        phone: "0909333333", 
+        fullname: "Nguyễn Văn D",
+        address: "Hà Nội"
+    });
+
+    await customer4.save()
+
+    let customer5 = new Customer({
+        phone: "0909444444", 
+        fullname: "Nguyễn Văn E",
+        address: "Hà Nội"
+    });
+
+    await customer5.save()
 }
 
 module.exports = {

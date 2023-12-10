@@ -83,28 +83,64 @@ async function initData() {
     await Order.deleteMany()
 
     let order = new Order({
-        orderId: "12112023000000",
-        customerPhone: "0123456789",
-        totalPrice: 100000000,
-        priceGivenByCustomer: 120000000,
-        excessPrice: 20000000,
-        dateOfPurchase: "08/12/2023",
-        totalAmount: 10
+        orderId: "101220230940410909000000",
+        customerPhone: "0909000000",
+        totalPrice: 46580000,
+        priceGivenByCustomer: 50000000,
+        excessPrice: 3420000,
+        dateOfPurchase: "10/12/2023",
+        totalAmount: 2,
     });
 
     await order.save()
 
     let order2 = new Order({
-        orderId: "13112023000000", 
-        customerPhone: "0223456789",
-        totalPrice: 50000000, 
-        priceGivenByCustomer: 100000000, 
-        excessPrice: 50000000, 
-        dateOfPurchase: "13/11/2023",
-        totalAmount: 5 
+        orderId: "091220230941030909000000",
+        customerPhone: "0909000000",
+        totalPrice: 25590000,
+        priceGivenByCustomer: 26000000,
+        excessPrice: 410000,
+        dateOfPurchase: "09/12/2023",
+        totalAmount: 1,
     });
 
     await order2.save()
+
+    let order3 = new Order({
+        orderId: "021220230941200909111111",
+        customerPhone: "0909111111",
+        totalPrice: 315000,
+        priceGivenByCustomer: 320000,
+        excessPrice: 5000,
+        dateOfPurchase: "02/12/2023",
+        totalAmount: 1,
+    });
+
+    await order3.save()
+
+    let order4 = new Order({
+        orderId: "041220230942120909222222",
+        customerPhone: "0909222222",
+        totalPrice: 22000000,
+        priceGivenByCustomer: 23000000,
+        excessPrice: 1000000,
+        dateOfPurchase: "04/12/2023",
+        totalAmount: 1,
+    });
+
+    await order4.save()
+
+    let order5 = new Order({
+        orderId: "251120230942340909111111",
+        customerPhone: "0909111111",
+        totalPrice: 621000,
+        priceGivenByCustomer: 621000,
+        excessPrice: 0,
+        dateOfPurchase: "25/11/2023",
+        totalAmount: 1,
+    });
+
+    await order5.save()
 }
 
 async function addOrder(req, res) {

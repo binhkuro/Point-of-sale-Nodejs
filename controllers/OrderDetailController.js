@@ -97,27 +97,71 @@ async function initData() {
     // Trước khi khởi tạo dữ liệu mẫu thì ta cần xóa các dữ liệu hiện có
     await OrderDetail.deleteMany()
 
-    let orderdetail = new OrderDetail({
-        orderId: "12112023000000",
-        barcode: "00000000", 
+    let orderdetail3 = new OrderDetail({
+        orderId: "101220230940410909000000001",
+        barcode: "00000000",
         productName: "Iphone 15 Pro Max 256Gb",
-        price: 10000000,
-        amount: 5,
-        totalPrice: 50000000
+        price: 40990000,
+        amount: 1,
+        totalPrice: 40990000,
     });
 
-    await orderdetail.save()
+    await orderdetail3.save()
 
-    let orderdetail2 = new OrderDetail({
-        orderId: "13112023000000",
-        barcode: "11111111", 
+    let orderdetail4 = new OrderDetail({
+        orderId: "101220230940410909000000002",
+        barcode: "00112233",
+        productName: "Xiaomi Redmi Note 12 4G",
+        price: 5590000,
+        amount: 1,
+        totalPrice: 5590000,
+    });
+
+    await orderdetail4.save()
+
+    let orderdetail5 = new OrderDetail({
+        orderId: "091220230941030909000000001",
+        barcode: "11111111",
         productName: "Ipad Air 7",
-        price: 20000000,
-        amount: 10,
-        totalPrice: 200000000 
+        price: 25590000,
+        amount: 1,
+        totalPrice: 25590000,
     });
 
-    await orderdetail2.save()
+    await orderdetail5.save()
+
+    let orderdetail6 = new OrderDetail({
+        orderId: "021220230941200909111111001",
+        barcode: "55556666",
+        productName: "Ốp lưng MagSafe iPhone 14",
+        price: 315000,
+        amount: 1,
+        totalPrice: 315000,
+    });
+
+    await orderdetail6.save()
+
+    let orderdetail7 = new OrderDetail({
+        orderId: "041220230942120909222222001",
+        barcode: "11223344",
+        productName: "Iphone 15 Plus 256Gb",
+        price: 22000000,
+        amount: 1,
+        totalPrice: 22000000,
+    });
+
+    await orderdetail7.save()
+
+    let orderdetail8 = new OrderDetail({
+        orderId: "251120230942340909111111001",
+        barcode: "77778888",
+        productName: "Ốp lưng Magsafe iPhone 15",
+        price: 621000,
+        amount: 1,
+        totalPrice: 621000,
+    });
+
+    await orderdetail8.save()
 }
 
 module.exports = {
